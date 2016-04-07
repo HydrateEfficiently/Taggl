@@ -1,0 +1,60 @@
+{
+  "jspm": {
+    "name": "app",
+    "dependencies": {
+      "angular": "github:angular/bower-angular@^1.5.3",
+      "bootstrap": "github:twbs/bootstrap@^3.3.6",
+      "less.js": "github:less/less.js@^2.6.1"
+    },
+    "devDependencies": {
+      "plugin-babel": "npm:systemjs-plugin-babel@^0.0.9"
+    },
+    "overrides": {
+      "github:angular/bower-angular@1.5.3": {
+        "main": "angular",
+        "meta": {
+          "angular.js": {
+            "exports": "angular",
+            "format": "global"
+          }
+        }
+      },
+      "github:components/jquery@2.2.1": {
+        "main": "jquery"
+      },
+      "github:twbs/bootstrap@3.3.6": {
+        "shim": {
+          "js/bootstrap": {
+            "deps": [
+              "jquery"
+            ],
+            "exports": "$"
+          }
+        },
+        "dependencies": {
+          "jquery": "github:components/jquery"
+        },
+        "files": [
+          "dist",
+          "fonts",
+          "js",
+          "css",
+          "less",
+          "grunt",
+          "LICENSE"
+        ],
+        "systemjs": {
+          "main": "dist/js/bootstrap.js",
+          "modules": {
+            "dist/js/bootstrap.js": {
+              "deps": [
+                "jquery"
+              ],
+              "exports": "$"
+            }
+          }
+        }
+      }
+    }
+  }
+}
