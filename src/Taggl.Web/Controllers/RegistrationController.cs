@@ -57,7 +57,7 @@ namespace Taggl.Web.Controllers
         [Route("resend-confirmation/{userId}")]
         public async Task<IActionResult> ResendConfirmation(string userId)
         {
-            await _registrationService.SendConfirmationEmail(userId);
+            await _registrationService.SendConfirmationEmailAsync(userId);
             return RedirectToAction(nameof(Success), new { userId = userId });
         }
 

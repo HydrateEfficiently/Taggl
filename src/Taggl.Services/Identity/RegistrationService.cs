@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Data.Entity;
+using Taggl.Framework.Utility;
 
 namespace Taggl.Services.Identity
 {
@@ -14,25 +16,31 @@ namespace Taggl.Services.Identity
     {
         Task<ApplicationUser> RegisterAsync(RegistrationRequest request);
 
-        Task SendConfirmationEmail(string userId);
+        Task SendConfirmationEmailAsync(string userId);
 
         Task ConfirmEmailAsync(string userId, string code);
     }
 
     public class RegistrationService : IRegistrationService
     {
+        private readonly ApplicationDbContext _dbContext;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUrlResolver _urlResolver;
         private readonly IEmailService _emailService;
+        private readonly IIdentityResolver _identityResolver;
 
         public RegistrationService(
+            ApplicationDbContext dbContext,
             UserManager<ApplicationUser> userManager,
             IUrlResolver urlResolver,
-            IEmailService emailService)
+            IEmailService emailService,
+            IIdentityResolver identityResolver)
         {
+            _dbContext = dbContext;
             _userManager = userManager;
             _urlResolver = urlResolver;
             _emailService = emailService;
+            _identityResolver = identityResolver;
         }
 
         public async Task<ApplicationUser> RegisterAsync(RegistrationRequest request)
@@ -44,6 +52,12 @@ namespace Taggl.Services.Identity
             {
                 throw new IdentityErrorException(createResult);
             }
+
+            _dbContext.ApplicationUserStatuses.Add(new ApplicationUserStatus()
+            {
+                ApplicationUserId = user.Id
+            });
+            await _dbContext.SaveChangesAsync();
 
             await SendConfirmationEmail(user);
 
@@ -70,7 +84,7 @@ namespace Taggl.Services.Identity
             }
         }
 
-        public async Task SendConfirmationEmail(string userId)
+        public async Task SendConfirmationEmailAsync(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
             await SendConfirmationEmail(user);
@@ -89,5 +103,15 @@ namespace Taggl.Services.Identity
         }
 
         #endregion
+    }
+
+    public static class RegistrationQueryExtensions
+    {
+        public async static Task<ApplicationUserStatus> GetAsync(
+            this IQueryable<ApplicationUserStatus> statuses,
+            string userId)
+        {
+            return await statuses.FirstAsync(s => s.ApplicationUserId == userId);
+        }
     }
 }

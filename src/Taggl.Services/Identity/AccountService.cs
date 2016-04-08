@@ -18,13 +18,16 @@ namespace Taggl.Services.Identity
 
     public class AccountService : IAccountService
     {
+        private readonly ApplicationDbContext _dbContext;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
         public AccountService(
+            ApplicationDbContext dbContext,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager)
         {
+            _dbContext = dbContext;
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -41,6 +44,12 @@ namespace Taggl.Services.Identity
             if (!isEmailConfirmed)
             {
                 throw new IdentityErrorException("You must have a confirmed email to log in.");
+            }
+
+            var status = await _dbContext.ApplicationUserStatuses.GetAsync(user.Id);
+            if (!status.Approved.HasValue)
+            {
+                throw new IdentityErrorException("Your account has not yet been approved");
             }
 
             var result = await _signInManager.PasswordSignInAsync(

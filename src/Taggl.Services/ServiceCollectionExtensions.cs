@@ -8,12 +8,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Taggl.Services.Administrator;
 
 namespace Taggl.Services
 {
     public static class ServiceCollectionExtensions
     {
-
         public static void AddServices(
             this IServiceCollection services,
             string connectionString,
@@ -33,6 +33,9 @@ namespace Taggl.Services
             })
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
+
+            // Administration
+            services.AddTransient<IAdministrationService, AdministrationService>();
 
             // Identity
             services.AddScoped<SignInManager<ApplicationUser>, ApplicationSignInManager>();

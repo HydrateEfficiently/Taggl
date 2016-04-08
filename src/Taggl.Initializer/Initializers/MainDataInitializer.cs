@@ -10,18 +10,20 @@ namespace Taggl.Initializer.Initializers
 {
     public class MainDataInitializer : IDataInitializer
     {
-
         private readonly ApplicationDbContext _dbContext;
         private readonly SystemUserInitializer _systemUserInitializer;
+        private readonly AdministratorsInitializer _administratorsInitializer;
         private readonly IEnvironmentInitializer _environmentInitializer;
 
         public MainDataInitializer(
             ApplicationDbContext dbContext,
             SystemUserInitializer systemUserInitializer,
+            AdministratorsInitializer administratorsInitializer,
             IEnvironmentInitializer environmentInitializer)
         {
             _dbContext = dbContext;
             _systemUserInitializer = systemUserInitializer;
+            _administratorsInitializer = administratorsInitializer;
             _environmentInitializer = environmentInitializer;
         }
 
@@ -31,6 +33,7 @@ namespace Taggl.Initializer.Initializers
 
             // Identity
             _systemUserInitializer.Run();
+            _administratorsInitializer.Run();
 
             _environmentInitializer.Run();
         }

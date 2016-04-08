@@ -20,8 +20,7 @@ namespace Taggl.Web.Services.Framework
 
         public string ResolveConfirmationEmailUrl(string userId, string code)
         {
-            throw new NotImplementedException();
-            //return GetUrl("ConfirmEmail", "Home", new { userId = userId, code = code });
+            return GetUrl("ConfirmEmail", "Registration", new { userId = userId, code = code });
         }
 
         #region Helpers

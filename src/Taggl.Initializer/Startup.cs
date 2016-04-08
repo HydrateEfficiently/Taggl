@@ -14,6 +14,7 @@ using Taggl.Framework.Services;
 using Taggl.Initializer.Initializers;
 using Taggl.Initializer.Initializers.Identity;
 using Taggl.Initializer.Services.DataImportServices;
+using Taggl.Initializer.Services.Framework;
 
 namespace Taggl.Initializer
 {
@@ -38,6 +39,7 @@ namespace Taggl.Initializer
             // Framework Services
             services.AddTransient<IEmailService, StubbedEmailService>();
             services.AddTransient<IIdentityResolver, SystemUserIdentityResolver>();
+            services.AddTransient<IUrlResolver, StubbedUrlResolver>();
 
             // Services
             services.AddTransient<JsonDataImportService>();
@@ -50,12 +52,14 @@ namespace Taggl.Initializer
 
             // Components
             services.AddTransient<SystemUserInitializer>();
+            services.AddTransient<AdministratorsInitializer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, MainDataInitializer dataInitializer)
+        public void Configure(IServiceProvider serviceProvider)
         {
-            dataInitializer.Run();
+            var initializer = serviceProvider.GetRequiredService<MainDataInitializer>();
+            initializer.Run();
             Environment.Exit(0);
         }
 

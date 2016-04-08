@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 using Taggl.Framework.Services;
 using Taggl.Web.Services.Framework;
 using Azn.RiskApp.Web.Services.Framework._Dev;
+using Taggl.Web.Services;
 
 namespace Taggl.Web
 {
@@ -69,6 +70,8 @@ namespace Taggl.Web
             services.AddTransient<IIdentityResolver, IdentityResolver>();
             services.AddTransient<IEmailService, DevCsvEmailService>();
             services.AddTransient<IUrlResolver, UrlResolver>();
+
+            services.AddTransient<ServerDataBuilder>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

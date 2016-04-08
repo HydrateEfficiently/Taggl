@@ -7,7 +7,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Taggl.Initializer.Services
+namespace Taggl.Initializer.Services.Framework
 {
     public class SystemUserIdentityResolver : IIdentityResolver
     {

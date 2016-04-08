@@ -1,0 +1,57 @@
+﻿@{
+    Layout = "";
+}
+
+@inject ServerDataBuilder ServerDataBuilder;
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Taggl</title>
+
+    @*TODO: Import site.less file in development*@
+    <link rel="stylesheet" href="~/assets/css/site.css" />
+</head>
+<body ng-controller="MainController as ctrl">
+    <div>
+        <nav class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                        <img class="tgl-brand-logo" src="~/assets/images/logo-white-horizontal.png" />
+                    </a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav"></ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a>UserName</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="container">
+        <ui-view></ui-view>
+        {{ ctrl.message }}
+    </div>
+    
+    <script src="~/jspm_packages/system.js"></script>
+    <script src="~/jspm.browser.js"></script>
+    <script src="~/jspm.config.js"></script>
+    <script src="~/jspm_packages/github/angular/bower-angular@1.5.3/angular.js"></script>
+    <script src="~/jspm_packages/github/angular-ui/ui-router@0.2.18/angular-ui-router.js"></script>
+    <script type="text/javascript">
+        System.import("/src/apps/main/main.js").then(function (m) {
+            m.run(@(await ServerDataBuilder
+                .IncludeCurrentUser()
+                .IncludeUrls(typeof(HomeController))
+                .IncludeUrls(typeof(AdministrationApiController))
+                .SerializeAsync()));
+        });
+    </script>
+</body>
+</html>

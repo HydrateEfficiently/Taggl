@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Taggl.Initializer.Services
+namespace Taggl.Initializer.Services.Framework
 {
     public class StubbedEmailService : IEmailService
     {
