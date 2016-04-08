@@ -5,7 +5,11 @@ export function config($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('profile', {
             url: '/profile',
-            template: '<profile></profile>'
+            template: '<tgl-profile></tgl-profile>'
+        })
+        .state('administration', {
+            url: '/administration',
+            template: '<tgl-administration></tgl-administration>'
         });
 
 

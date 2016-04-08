@@ -13,10 +13,10 @@ namespace Taggl.Web.Controllers.Api
     [Route("api/administration")]
     public class AdministrationApiController : Controller
     {
-        private readonly AdministrationService _administrationService;
+        private readonly IAdministrationService _administrationService;
 
         public AdministrationApiController(
-            AdministrationService administrationService)
+            IAdministrationService administrationService)
         {
             _administrationService = administrationService;
         }

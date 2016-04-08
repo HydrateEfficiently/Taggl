@@ -1,12 +1,13 @@
 import { Injectable } from './../../utility/injectable';
 
-class ProfileController extends Injectable {
+export class ProfileController extends Injectable {
     static get $inject() {
-        return [];
+        return ['TglLoggingService'];
     }
 
     constructor(...deps) {
         super(...deps);
 
+        this.TglLoggingService.logInitialized(this);
     }
 }

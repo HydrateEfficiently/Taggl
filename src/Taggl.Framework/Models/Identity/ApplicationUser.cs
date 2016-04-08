@@ -12,5 +12,7 @@ namespace Taggl.Framework.Models.Identity
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+
+        public DateTime Registered { get; set; }
     }
 }

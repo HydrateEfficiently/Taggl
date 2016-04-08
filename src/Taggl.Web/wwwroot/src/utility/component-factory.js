@@ -5,6 +5,14 @@ function camelCaseToDashed(str) {
 }
 
 export function componentFactory(name, controller, deps = [], directiveOptions = {}) {
+    if (!angular.isString(name)) {
+        throw new Error('Tried to create component without name');
+    }
+
+    if (!angular.isFunction(controller)) {
+        throw new Error(`Component ${name} needs a controller`);
+    }
+
     let prefixedName = `tgl${name.charAt(0).toUpperCase()}${name.substring(1)}`; 
     let dashedName = camelCaseToDashed(name);
     let moduleName = `tgl.components.${dashedName}`;

@@ -26,6 +26,8 @@ namespace Taggl.Services.Identity.Models
 
         public string UserName { get; set; }
 
+        public DateTime Registered { get; set; }
+
         public UserSummary(ApplicationUser user)
         {
             __mappingEngine.Map(user, this);

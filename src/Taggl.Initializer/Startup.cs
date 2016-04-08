@@ -52,6 +52,7 @@ namespace Taggl.Initializer
 
             // Components
             services.AddTransient<SystemUserInitializer>();
+            services.AddTransient<RoleInitializer>();
             services.AddTransient<AdministratorsInitializer>();
         }
 

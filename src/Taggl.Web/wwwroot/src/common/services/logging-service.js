@@ -22,23 +22,51 @@ class Logger {
         this._log('warn', ...args);
     }
 
+    logInitialized(item) {
+        this.debug(`${item.constructor.name} initialized`);
+    }
+
     _log(logFuncName, ...args) {
-        args.splice(0, 0, this.categoryName);
+        if (this.categoryName) {
+            args.splice(0, 0, this.categoryName);
+        }
         args.splice(0, 0, logFuncName.toUpperCase());
         this.$log[logFuncName](...args);
     }
 }
 
-export class LoggerFactory extends Injectable {
+export class LoggingService extends Injectable {
     static get $inject() {
         return ['$log'];
     }
 
     constructor(...deps) {
         super(...deps);
+
+        this.logger = this.createLogger();
     }
 
     createLogger(categoryName) {
         return new Logger(this.$log, categoryName);
+    }
+
+    info(...args) {
+        this.logger.info(...args);
+    }
+
+    debug(...args) {
+        this.logger.debug(...args);
+    }
+
+    error(...args) {
+        this.logger.erro(...args);
+    }
+
+    warn(...args) {
+        this.logger.warn(...args);
+    }
+
+    logInitialized(item) {
+        this.logger.logInitialized(item);
     }
 }

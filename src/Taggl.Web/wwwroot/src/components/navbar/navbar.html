@@ -1,0 +1,17 @@
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                <img class="tgl-brand-logo" src="/assets/images/logo-white-horizontal.png" />
+            </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav"></ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a>{{ ctrl.userName }}</a></li>
+                <li><a href="javascript:void(0)" ng-click="ctrl.logout()">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
