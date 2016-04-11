@@ -39,11 +39,11 @@
     <script type="text/javascript">
         System.import("/src/apps/main/main.js").then(function (m) {
             m.run(@(await ServerDataBuilder
-                .IncludeCurrentUser()
-                .IncludeUrls(typeof(HomeController))
-                .IncludeUrls(typeof(AccountApiController))
-                .IncludeUrls(typeof(AdministrationApiController))
-                .IncludeUrls(typeof(SearchApiController))
+                .AddCurrentUser()
+                .AddUrls(typeof(HomeController))
+                .AddUrls(typeof(AccountApiController))
+                .AddUrls(typeof(AdministrationApiController))
+                .AddUrls(typeof(SearchApiController))
                 .SerializeAsync()));
         });
     </script>

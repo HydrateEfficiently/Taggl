@@ -13,6 +13,7 @@ namespace Taggl.Web.Services
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ICurrentUserProvider _currentUserProvider;
+        private readonly ActionEnumerator _actionEnumerated;
 
         private Dictionary<string, object> _data = new Dictionary<string, object>();
         private bool _includeCurrentUser = false;
@@ -20,25 +21,27 @@ namespace Taggl.Web.Services
 
         public ServerDataBuilder(
             IHttpContextAccessor httpContextAccessor,
-            ICurrentUserProvider currentUserProvider)
+            ICurrentUserProvider currentUserProvider,
+            ActionEnumerator actionEnumerated)
         {
             _httpContextAccessor = httpContextAccessor;
             _currentUserProvider = currentUserProvider;
+            _actionEnumerated = actionEnumerated;
         }
 
-        public ServerDataBuilder IncludeData(string key, object value)
+        public ServerDataBuilder AddData(string key, object value)
         {
             _data.Add(key, value);
             return this;
         }
 
-        public ServerDataBuilder IncludeCurrentUser()
+        public ServerDataBuilder AddCurrentUser()
         {
             _includeCurrentUser = true;
             return this;
         }
 
-        public ServerDataBuilder IncludeUrls(Type controllerType)
+        public ServerDataBuilder AddUrls(Type controllerType)
         {
             _controllers.Add(controllerType);
             return this;
@@ -52,8 +55,8 @@ namespace Taggl.Web.Services
         // TODO: Make all tasks concurrent
         public async Task<Dictionary<string, object>> BuildAsync()
         {
-            await TryIncludeCurrentUserAsync();
-            TryIncludeUrls();
+            await TryAddCurrentUserAsync();
+            TryAddUrls();
             return _data;
         }
 
@@ -70,7 +73,7 @@ namespace Taggl.Web.Services
 
         #region Helpers
 
-        private async Task TryIncludeCurrentUserAsync()
+        private async Task TryAddCurrentUserAsync()
         {
             if (_includeCurrentUser)
             {
@@ -82,11 +85,11 @@ namespace Taggl.Web.Services
             }
         }
 
-        private void TryIncludeUrls()
+        private void TryAddUrls()
         {
             if (_controllers.Count > 0)
             {
-                _data.Add("Urls", _httpContextAccessor.GetUrlHelper().EnumerateUrls(_controllers.ToArray()));
+                _data.Add("Actions", _actionEnumerated.Enumerate(_controllers.ToArray()));
             }
         }
 

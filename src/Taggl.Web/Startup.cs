@@ -72,6 +72,7 @@ namespace Taggl.Web
             services.AddTransient<IUrlResolver, UrlResolver>();
 
             services.AddTransient<ServerDataBuilder>();
+            services.AddTransient<ActionEnumerator>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

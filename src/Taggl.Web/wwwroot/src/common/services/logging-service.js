@@ -47,7 +47,9 @@ export class LoggingService extends Injectable {
     }
 
     createLogger(categoryName) {
-        return new Logger(this.$log, categoryName);
+        let logger = new Logger(this.$log, categoryName);
+        logger.debug('initialized');
+        return logger;
     }
 
     info(...args) {

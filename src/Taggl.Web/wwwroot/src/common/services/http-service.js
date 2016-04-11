@@ -8,16 +8,29 @@ export class HttpService extends Injectable {
     constructor(...deps) {
         super(...deps);
 
-        this.logger = this.TglLoggingService.createLogger('HttpService');
+        this.logger = this.TglLoggingService.createLogger(this.constructor.name);
         this.getCache = {};
     }
 
-    get(url, maxAge = 0) {
+    get(url, options) {
         let logger = this.logger;
-        return this._getGetRequest(url).then(result => {
-            logger.debug(result);
-            return result.data;
-        });
+        return this._getGetRequest(url, options.maxAge)
+            .then(result => {
+                logger.debug(result);
+
+                let data = result.data;
+                let model = options.model;
+                if (model) {
+                    if (angular.isArray(model)) {
+                        model.length = 0;
+                        model.push(...data);
+                    } else if (angular.isObject(model)) {
+                        angular.merge(model, data);
+                    }
+                }
+
+                return data;
+            });
     }
 
     getModel(url, model, maxAge = 0) {
@@ -39,7 +52,7 @@ export class HttpService extends Injectable {
         });
     }
 
-    _getGetRequest(url, maxAge) {
+    _getGetRequest(url, maxAge = 0) {
         let requestTime = new Date().getTime();
         let responseFromCache = this.getCache[url];
         if (!responseFromCache || responseFromCache.requestTime < (requestTime - maxAge)) {

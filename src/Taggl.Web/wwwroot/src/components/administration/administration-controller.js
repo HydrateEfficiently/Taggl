@@ -3,7 +3,7 @@ import * as ArrayUtility from './../../utility/array-utility';
 
 export class AdministrationController extends Injectable {
     static get $inject() {
-        return ['TglLoggingService', 'TglHttpService', 'TglUrlService'];
+        return ['TglLoggingService', 'TglHttpService', 'TglUrlService', 'TglApiInterfaceFactory'];
     }
 
     constructor(...deps) {
@@ -11,6 +11,8 @@ export class AdministrationController extends Injectable {
 
         this.logger = this.TglLoggingService.createLogger(this.constructor.name);
         this.logger.debug('initialized');
+        this.administrationApi = this.TglApiInterfaceFactory.createApiInterface('administration');
+        this.searchApi = this.TglApiInterfaceFactory.createApiInterface('search');
 
         this.pendingUsers = [];
         this.userSearchResults = [];
@@ -19,18 +21,21 @@ export class AdministrationController extends Injectable {
     }
 
     listPendingUsers() {
-        let url = this.TglUrlService.getUrl('api.administration.listPendingUsers');
-        this.TglHttpService.getModel(url, this.pendingUsers);
+        let model = this.pendingUsers;
+        this.administrationApi.listPendingUsers({ model });
     }
 
     approveUser(user) {
-        let url = this.TglUrlService.getUrl('api.administration.approveUser', user.id);
-        this.TglHttpService.post(url).then(result => ArrayUtility.remove(this.pendingUsers, user));
+        let pendingUsers = this.pendingUsers;
+        this.administrationApi.approveUser(user.id)
+            .then(() => ArrayUtility.remove(this.pendingUsers, user));
     }
 
     searchUsers() {
-        debugger;
-        let url = this.TglUrlService.getUrl('api.search.users', this.userSearchPattern);
-        this.TglHttpService.getModel(url, this.userSearchResults);
+        if (this.userSearchPattern) {
+            const maxAge = 5000;
+            let model = this.userSearchResults;
+            this.searchApi.users(this.userSearchPattern, { model, maxAge });
+        }
     }
 }

@@ -18,6 +18,7 @@ namespace Taggl.Web.Controllers.Api
             _userSearchService = userSearchService;
         }
 
+        [HttpGet]
         [Route("users/{pattern}")]
         public async Task<IActionResult> Users(string pattern)
         {
