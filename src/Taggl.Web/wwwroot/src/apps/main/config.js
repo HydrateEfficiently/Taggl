@@ -10,6 +10,10 @@ export function config($stateProvider, $urlRouterProvider) {
         .state('administration', {
             url: '/administration',
             template: '<tgl-administration></tgl-administration>'
+        })
+        .state('settings', {
+            url: '/settings',
+            template: '<tgl-settings></tgl-settings>'
         });
 
 

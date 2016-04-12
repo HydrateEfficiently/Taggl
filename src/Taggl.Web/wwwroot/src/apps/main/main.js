@@ -7,6 +7,7 @@ import { commonFilters } from './../../common/common-filters';
 import { navbar } from './../../components/navbar/navbar';
 import { profile } from './../../components/profile/profile';
 import { administration } from './../../components/administration/administration';
+import { settings } from './../../components/settings/settings';
 
 let app = angular.module('tgl.main.app', [
     'ui.router',
@@ -16,7 +17,8 @@ let app = angular.module('tgl.main.app', [
 
     navbar,
     profile,
-    administration
+    administration,
+    settings
 ])
 .controller('MainController', MainController);
 

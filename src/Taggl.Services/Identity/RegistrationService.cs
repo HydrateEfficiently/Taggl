@@ -46,7 +46,6 @@ namespace Taggl.Services.Identity
         public async Task<ApplicationUser> RegisterAsync(RegistrationRequest request)
         {
             var user = request.ToApplicationUser();
-            user.Registered = DateTime.UtcNow;
 
             var createResult = await _userManager.CreateAsync(user, request.Password);
             if (!createResult.Succeeded)
@@ -77,6 +76,9 @@ namespace Taggl.Services.Identity
             {
                 throw new EmailConfirmationFailedException();
             }
+
+            user.PersonalInformation = new PersonalInformation() { };
+            _dbContext.Add(user.PersonalInformation);
 
             _dbContext.ApplicationUserStatuses.Add(new ApplicationUserStatus()
             {

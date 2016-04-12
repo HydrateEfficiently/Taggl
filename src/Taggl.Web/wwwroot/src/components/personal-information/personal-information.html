@@ -1,0 +1,35 @@
+<div>
+    <div class="mb-md">
+        <h5 class="mb-xs">Personal</h5>
+        <div>
+            <a ng-show="!ctrl.isEditing" ng-click="ctrl.edit()" href="javascript:void(0)">Edit</a>
+            <a ng-show="ctrl.isEditing" ng-click="ctrl.save()" href="javascript:void(0)">Save</a>
+            <a ng-show="ctrl.isEditing && ctrl.isMasterValid" ng-click="ctrl.cancel()" href="javascript:void(0)">Cancel</a>
+        </div>
+    </div>
+
+    <form name="ctrl.form" class="form-horizontal" role="form" novalidate>
+        <div class="row">
+            <div class="col-sm-6 mb-md">
+                <div>
+                    <label>First Name</label>
+                    <div>
+                        <input ng-show="ctrl.isEditing" type="text" class="form-control"
+                               ng-model="ctrl.personalInformation.firstName" name="firstName" required />
+                        <div class="false-input-text" ng-show="!ctrl.isEditing">{{ ctrl.personalInformation.firstName }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 mb-md">
+                <div>
+                    <label>Last Name</label>
+                    <div>
+                        <input ng-show="ctrl.isEditing" type="text" class="form-control"
+                               ng-model="ctrl.personalInformation.lastName" name="lastName" required />
+                        <div class="false-input-text" ng-show="!ctrl.isEditing">{{ ctrl.personalInformation.lastName }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

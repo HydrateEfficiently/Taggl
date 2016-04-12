@@ -1,0 +1,5 @@
+<input type="text" class="input form-control" 
+       ng-model="ctrl.selectedUser"
+       ng-blur="ctrl.validateSelection()"
+       uib-typeahead="(user.email + ' (' + user.email + ')') for user in ctrl.getResults($viewValue)"
+       typeahead-on-select="ctrl.selectUser($item, $model)">

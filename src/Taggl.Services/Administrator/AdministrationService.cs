@@ -12,7 +12,7 @@ namespace Taggl.Services.Administrator
 {
     public interface IAdministrationService
     {
-        Task<IEnumerable<UserSummary>> ListPendingUsersAsync();
+        Task<IEnumerable<UserResult>> ListPendingUsersAsync();
 
         Task ApproveUserAsync(string userId);
     }
@@ -30,12 +30,12 @@ namespace Taggl.Services.Administrator
             _identityResolver = identityResolver;
         }
 
-        public async Task<IEnumerable<UserSummary>> ListPendingUsersAsync()
+        public async Task<IEnumerable<UserResult>> ListPendingUsersAsync()
         {
             return (await _dbContext.ApplicationUserStatuses
                 .Where(s => !s.Approved.HasValue)
                 .Select(s => s.ApplicationUser)
-                .ToListAsync()).Select(u => new UserSummary(u));
+                .ToListAsync()).Select(u => new UserResult(u));
         }
 
         public async Task ApproveUserAsync(string userId)

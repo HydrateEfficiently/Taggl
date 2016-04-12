@@ -9,9 +9,11 @@ namespace Taggl.Framework.Models.Identity
     {
         public static string GetDisplayName(this ApplicationUser user)
         {
-            if (!string.IsNullOrEmpty(user.FirstName) && !string.IsNullOrEmpty(user.LastName))
+            var personalInformation = user.PersonalInformation;
+            if (!string.IsNullOrEmpty(personalInformation.FirstName) &&
+                !string.IsNullOrEmpty(personalInformation.LastName))
             {
-                return $"{user.FirstName} {user.LastName}";
+                return $"{personalInformation.FirstName} {personalInformation.LastName}";
             }
             return user.Email;
         }

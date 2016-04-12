@@ -7,32 +7,33 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Taggl.Services.Identity.Queries;
 
 namespace Taggl.Services.Identity
 {
     public interface ICurrentUserProvider
     {
-        Task<UserSummary> GetAsync();
+        Task<UserResult> GetAsync();
     }
 
     public class CurrentUserProvider : ICurrentUserProvider
     {
         private readonly IIdentityResolver _identityResolver;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ApplicationDbContext _dbContext;
 
         public CurrentUserProvider(
             IIdentityResolver identityResolver,
-            UserManager<ApplicationUser> userManager)
+            ApplicationDbContext dbContext)
         {
             _identityResolver = identityResolver;
-            _userManager = userManager;
+            _dbContext = dbContext;
         }
 
-        public async Task<UserSummary> GetAsync()
+        public async Task<UserResult> GetAsync()
         {
             var identity = _identityResolver.Resolve();
-            var user = await _userManager.FindByIdAsync(identity.GetId());
-            return new UserSummary(user);
+            var user = await _dbContext.Users.GetAsync(identity.GetId());
+            return new UserResult(user);
         }
     }
 }

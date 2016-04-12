@@ -34,7 +34,7 @@ namespace Taggl.Services.Utility
             return self.ForMember(
                 destinationMember,
                 options => options.MapFrom(src =>
-                    source(src) == null ? null : new UserSummary(source(src))
+                    source(src) == null ? null : new UserResult(source(src))
                 ));
         }
     }

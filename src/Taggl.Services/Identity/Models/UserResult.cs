@@ -5,18 +5,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Taggl.Services.Utility;
 
 namespace Taggl.Services.Identity.Models
 {
-    public class UserSummary
+    public class UserResult
     {
         private static MappingEngine __mappingEngine;
 
-        static UserSummary()
+        static UserResult()
         {
             var configuration = new ConfigurationStore(new TypeMapFactory(), MapperRegistry.Mappers);
             var mappingEngine = new MappingEngine(configuration);
-            configuration.CreateMap<ApplicationUser, UserSummary>();
+            configuration.CreateMap<ApplicationUser, UserResult>()
+                .ForMemberResolveUsing(
+                    dest => dest.PersonalInformation,
+                    src => new PersonalInformationResult(src.PersonalInformation));
             __mappingEngine = mappingEngine;
         }
 
@@ -26,9 +30,9 @@ namespace Taggl.Services.Identity.Models
 
         public string UserName { get; set; }
 
-        public DateTime Registered { get; set; }
+        public PersonalInformationResult PersonalInformation { get; set; }
 
-        public UserSummary(ApplicationUser user)
+        public UserResult(ApplicationUser user)
         {
             __mappingEngine.Map(user, this);
         }

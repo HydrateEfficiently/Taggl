@@ -1,16 +1,36 @@
 <nav class="navbar navbar-default">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-                <img class="tgl-brand-logo" src="/assets/images/logo-white-horizontal.png" />
+            <a class="navbar-brand" style="padding: 10px;" asp-controller="Home" asp-action="Index">
+                <img style="height: 100%;" class="tgl-brand-logo" src="/assets/images/logo-white-horizontal.png" />
             </a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav"></ul>
+            <ul class="nav navbar-nav">
+            </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a>{{ ctrl.userName }}</a></li>
-                <li><a href="javascript:void(0)" ng-click="ctrl.logout()">Logout</a></li>
+                <li uib-dropdown>
+                    <a href="javascript:void(0)" id="simple-dropdown" uib-dropdown-toggle>
+                        {{ ctrl.userName }}
+                    </a>
+                    <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                        <li>
+                            <a href="javascript:void(0)" ui-sref="profile">Profile</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" ui-sref="settings">Settings</a>
+                        </li>
+                        <li ng-if="ctrl.isAdministrator()">
+                            <a href="javascript:void(0)" ui-sref="administration">Administration</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="javascript:void(0)" ng-click="ctrl.logout()">Logout</a>
+                        </li>
+                    </ul>
+                </li>
+                
             </ul>
         </div>
     </div>

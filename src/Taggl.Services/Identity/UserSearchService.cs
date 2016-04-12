@@ -10,7 +10,7 @@ namespace Taggl.Services.Identity
 {
     public interface IUserSearchService
     {
-        Task<IEnumerable<UserSummary>> Search(string pattern);
+        Task<IEnumerable<UserResult>> Search(string pattern);
     }
 
     public class UserSearchService : IUserSearchService
@@ -26,11 +26,11 @@ namespace Taggl.Services.Identity
             _userStatusResolver = userStatusResolver;
         }
 
-        public async Task<IEnumerable<UserSummary>> Search(string pattern)
+        public async Task<IEnumerable<UserResult>> Search(string pattern)
         {
             var patternLower = pattern.ToLowerInvariant();
             var matchingStatuses = await _dbContext.ApplicationUserStatuses
-                .Include(s => s.ApplicationUser)
+                .Include(s => s.ApplicationUser).ThenInclude(u => u.PersonalInformation)
                 .Where(s =>
                     s.ApplicationUser.Email.ToLowerInvariant().Contains(patternLower) ||
                     s.ApplicationUser.GetDisplayName().ToLowerInvariant().Contains(patternLower))
@@ -38,7 +38,7 @@ namespace Taggl.Services.Identity
 
             return matchingStatuses
                 .Where(s => IsStatusSearchable(s))
-                .Select(s => new UserSummary(s.ApplicationUser));
+                .Select(s => new UserResult(s.ApplicationUser));
         }
 
         #region Helpers

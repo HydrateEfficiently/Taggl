@@ -42,5 +42,3 @@ let commonFilters = angular.module('rr.common.filters', [])
     .name;
 
 export { commonFilters };
-
-

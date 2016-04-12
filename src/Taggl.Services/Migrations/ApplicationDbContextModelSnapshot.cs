@@ -112,10 +112,6 @@ namespace Taggl.Services.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<string>("FirstName");
-
-                    b.Property<string>("LastName");
-
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
@@ -128,11 +124,11 @@ namespace Taggl.Services.Migrations
 
                     b.Property<string>("PasswordHash");
 
+                    b.Property<Guid?>("PersonalInformationId");
+
                     b.Property<string>("PhoneNumber");
 
                     b.Property<bool>("PhoneNumberConfirmed");
-
-                    b.Property<DateTime>("Registered");
 
                     b.Property<string>("SecurityStamp");
 
@@ -168,6 +164,24 @@ namespace Taggl.Services.Migrations
                     b.HasAnnotation("Relational:TableName", "ApplicationUserStatuses");
                 });
 
+            modelBuilder.Entity("Taggl.Framework.Models.Identity.PersonalInformation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("LastName");
+
+                    b.Property<string>("UpdateById");
+
+                    b.Property<DateTime?>("Updated");
+
+                    b.HasKey("Id");
+
+                    b.HasAnnotation("Relational:TableName", "PersonalInformation");
+                });
+
             modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNet.Identity.EntityFramework.IdentityRole")
@@ -198,6 +212,13 @@ namespace Taggl.Services.Migrations
                     b.HasOne("Taggl.Framework.Models.Identity.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Taggl.Framework.Models.Identity.ApplicationUser", b =>
+                {
+                    b.HasOne("Taggl.Framework.Models.Identity.PersonalInformation")
+                        .WithOne()
+                        .HasForeignKey("Taggl.Framework.Models.Identity.ApplicationUser", "PersonalInformationId");
                 });
 
             modelBuilder.Entity("Taggl.Framework.Models.Identity.ApplicationUserStatus", b =>
