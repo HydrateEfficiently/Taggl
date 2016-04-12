@@ -13,23 +13,21 @@ using Microsoft.Data.Entity;
 
 namespace Taggl.Services.Identity
 {
-    public interface IAccountService
+    public interface ISessionService
     {
         Task Login(LoginRequest request);
 
         Task Logout();
-
-        Task<PersonalInformationResult> UpdatePersonalInformationAsync(PersonalInformationUpdate update);
     }
 
-    public class AccountService : IAccountService
+    public class SessionService : ISessionService
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IIdentityResolver _identityResolver;
 
-        public AccountService(
+        public SessionService(
             ApplicationDbContext dbContext,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
@@ -55,7 +53,7 @@ namespace Taggl.Services.Identity
                 throw new IdentityErrorException("You must have a confirmed email to log in.");
             }
 
-            var status = await _dbContext.ApplicationUserStatuses.GetAsync(user.Id);
+            var status = await _dbContext.UserRelationships.GetStatusAsync(user.Id);
             if (!status.Approved.HasValue)
             {
                 throw new IdentityErrorException("Your account has not yet been approved");
@@ -79,17 +77,5 @@ namespace Taggl.Services.Identity
             await _signInManager.SignOutAsync();
         }
 
-        // TODO: Authorize is self or admin
-        public async Task<PersonalInformationResult> UpdatePersonalInformationAsync(PersonalInformationUpdate update)
-        {
-            var personalInformation = await _dbContext.PersonalInformation.GetAsync(update.Id);
-            update.Map(personalInformation);
-
-            personalInformation.Updated = DateTime.UtcNow;
-            personalInformation.UpdateById = _identityResolver.Resolve().GetId();
-
-            await _dbContext.SaveChangesAsync();
-            return new PersonalInformationResult(personalInformation);
-        }
     }
 }

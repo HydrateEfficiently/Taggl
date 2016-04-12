@@ -13,8 +13,9 @@ namespace Taggl.Services
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<PersonalInformation> PersonalInformation { get; set; }
-        public DbSet<ApplicationUserStatus> ApplicationUserStatuses { get; set; }
+        public DbSet<ApplicationUserRelationships> UserRelationships { get; set; }
+
+        public DbSet<ApplicationUserStatus> UserStatuses { get; set; }
 
         public DbSet<JobTag> JobTags { get; set; }
 
@@ -25,9 +26,8 @@ namespace Taggl.Services
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
-            builder.Entity<PersonalInformation>().HasTableName(nameof(PersonalInformation));
-            builder.Entity<ApplicationUserStatus>().HasTableName(nameof(ApplicationUserStatuses));
+            
+            builder.Entity<ApplicationUserStatus>().HasTableName(nameof(UserStatuses));
 
             builder.Entity<JobTag>().HasTableName(nameof(JobTags));
 

@@ -9,18 +9,19 @@ namespace Taggl.Services.Identity
 {
     public interface IUserStatusResolver
     {
-        ResolvedUserStatus Resolve(ApplicationUserStatus status);
+        ResolvedUserStatus Resolve(ApplicationUserRelationships userRelationships);
     }
 
     public class UserStatusResolver : IUserStatusResolver
     {
-        public ResolvedUserStatus Resolve(ApplicationUserStatus status)
+        public ResolvedUserStatus Resolve(ApplicationUserRelationships userRelationships)
         {
-            if (!status.ApplicationUser.EmailConfirmed)
+            if (!userRelationships.User.EmailConfirmed)
             {
                 return ResolvedUserStatus.Registered;
             }
-            
+
+            var status = userRelationships.Status;
             if (!status.Approved.HasValue)
             {
                 return ResolvedUserStatus.Pending;

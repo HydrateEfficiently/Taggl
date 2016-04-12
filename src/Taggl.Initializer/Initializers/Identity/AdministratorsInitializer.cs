@@ -11,6 +11,7 @@ using Taggl.Services;
 using Taggl.Services.Administrator;
 using Taggl.Services.Identity;
 using Taggl.Services.Identity.Models;
+using Taggl.Services.Identity.Queries;
 
 namespace Taggl.Initializer.Initializers.Identity
 {
@@ -53,7 +54,7 @@ namespace Taggl.Initializer.Initializers.Identity
                         _registrationService.ConfirmEmailAsync(user.Id, token).Wait();
                     }
 
-                    var status = _dbContext.ApplicationUserStatuses.GetAsync(user.Id).Result;
+                    var status = _dbContext.UserRelationships.GetStatusAsync(user.Id).Result;
                     if (!status.Approved.HasValue)
                     {
                         _administrationService.ApproveUserAsync(user.Id).Wait();

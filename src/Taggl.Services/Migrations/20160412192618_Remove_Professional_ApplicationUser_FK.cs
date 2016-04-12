@@ -4,7 +4,7 @@ using Microsoft.Data.Entity.Migrations;
 
 namespace Taggl.Services.Migrations
 {
-    public partial class Add_ApplicationUser_PersonalInformation : Migration
+    public partial class Remove_Professional_ApplicationUser_FK : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,26 +13,12 @@ namespace Taggl.Services.Migrations
             migrationBuilder.DropForeignKey(name: "FK_IdentityUserLogin<string>_ApplicationUser_UserId", table: "AspNetUserLogins");
             migrationBuilder.DropForeignKey(name: "FK_IdentityUserRole<string>_IdentityRole_RoleId", table: "AspNetUserRoles");
             migrationBuilder.DropForeignKey(name: "FK_IdentityUserRole<string>_ApplicationUser_UserId", table: "AspNetUserRoles");
-            migrationBuilder.DropColumn(name: "FirstName", table: "AspNetUsers");
-            migrationBuilder.DropColumn(name: "LastName", table: "AspNetUsers");
-            migrationBuilder.DropColumn(name: "Registered", table: "AspNetUsers");
-            migrationBuilder.CreateTable(
-                name: "PersonalInformation",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PersonalInformation", x => x.Id);
-                });
-            migrationBuilder.AddColumn<Guid>(
-                name: "PersonalInformationId",
-                table: "AspNetUsers",
-                nullable: false,
-                defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
+            migrationBuilder.DropForeignKey(name: "FK_ApplicationUserRelationships_Professional_ProfessionalId", table: "ApplicationUserRelationships");
+            migrationBuilder.DropForeignKey(name: "FK_ApplicationUserRelationships_ApplicationUserStatus_StatusId", table: "ApplicationUserRelationships");
+            migrationBuilder.DropForeignKey(name: "FK_Professional_ApplicationUser_UserId", table: "Professionals");
+            migrationBuilder.DropForeignKey(name: "FK_ProfessionalExpertise_JobTag_JobTagId", table: "ProfessionalExpertise");
+            migrationBuilder.DropForeignKey(name: "FK_ProfessionalExpertise_Professional_ProfessionalId", table: "ProfessionalExpertise");
+            migrationBuilder.DropColumn(name: "UserId", table: "Professionals");
             migrationBuilder.AddForeignKey(
                 name: "FK_IdentityRoleClaim<string>_IdentityRole_RoleId",
                 table: "AspNetRoleClaims",
@@ -69,10 +55,31 @@ namespace Taggl.Services.Migrations
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
             migrationBuilder.AddForeignKey(
-                name: "FK_ApplicationUser_PersonalInformation_PersonalInformationId",
-                table: "AspNetUsers",
-                column: "PersonalInformationId",
-                principalTable: "PersonalInformation",
+                name: "FK_ApplicationUserRelationships_Professional_ProfessionalId",
+                table: "ApplicationUserRelationships",
+                column: "ProfessionalId",
+                principalTable: "Professionals",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+            migrationBuilder.AddForeignKey(
+                name: "FK_ApplicationUserRelationships_ApplicationUserStatus_StatusId",
+                table: "ApplicationUserRelationships",
+                column: "StatusId",
+                principalTable: "UserStatuses",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+            migrationBuilder.AddForeignKey(
+                name: "FK_ProfessionalExpertise_JobTag_JobTagId",
+                table: "ProfessionalExpertise",
+                column: "JobTagId",
+                principalTable: "JobTags",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+            migrationBuilder.AddForeignKey(
+                name: "FK_ProfessionalExpertise_Professional_ProfessionalId",
+                table: "ProfessionalExpertise",
+                column: "ProfessionalId",
+                principalTable: "Professionals",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
         }
@@ -84,22 +91,14 @@ namespace Taggl.Services.Migrations
             migrationBuilder.DropForeignKey(name: "FK_IdentityUserLogin<string>_ApplicationUser_UserId", table: "AspNetUserLogins");
             migrationBuilder.DropForeignKey(name: "FK_IdentityUserRole<string>_IdentityRole_RoleId", table: "AspNetUserRoles");
             migrationBuilder.DropForeignKey(name: "FK_IdentityUserRole<string>_ApplicationUser_UserId", table: "AspNetUserRoles");
-            migrationBuilder.DropForeignKey(name: "FK_ApplicationUser_PersonalInformation_PersonalInformationId", table: "AspNetUsers");
-            migrationBuilder.DropColumn(name: "PersonalInformationId", table: "AspNetUsers");
-            migrationBuilder.DropTable("PersonalInformation");
+            migrationBuilder.DropForeignKey(name: "FK_ApplicationUserRelationships_Professional_ProfessionalId", table: "ApplicationUserRelationships");
+            migrationBuilder.DropForeignKey(name: "FK_ApplicationUserRelationships_ApplicationUserStatus_StatusId", table: "ApplicationUserRelationships");
+            migrationBuilder.DropForeignKey(name: "FK_ProfessionalExpertise_JobTag_JobTagId", table: "ProfessionalExpertise");
+            migrationBuilder.DropForeignKey(name: "FK_ProfessionalExpertise_Professional_ProfessionalId", table: "ProfessionalExpertise");
             migrationBuilder.AddColumn<string>(
-                name: "FirstName",
-                table: "AspNetUsers",
+                name: "UserId",
+                table: "Professionals",
                 nullable: true);
-            migrationBuilder.AddColumn<string>(
-                name: "LastName",
-                table: "AspNetUsers",
-                nullable: true);
-            migrationBuilder.AddColumn<DateTime>(
-                name: "Registered",
-                table: "AspNetUsers",
-                nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
             migrationBuilder.AddForeignKey(
                 name: "FK_IdentityRoleClaim<string>_IdentityRole_RoleId",
                 table: "AspNetRoleClaims",
@@ -133,6 +132,41 @@ namespace Taggl.Services.Migrations
                 table: "AspNetUserRoles",
                 column: "UserId",
                 principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+            migrationBuilder.AddForeignKey(
+                name: "FK_ApplicationUserRelationships_Professional_ProfessionalId",
+                table: "ApplicationUserRelationships",
+                column: "ProfessionalId",
+                principalTable: "Professionals",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+            migrationBuilder.AddForeignKey(
+                name: "FK_ApplicationUserRelationships_ApplicationUserStatus_StatusId",
+                table: "ApplicationUserRelationships",
+                column: "StatusId",
+                principalTable: "UserStatuses",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+            migrationBuilder.AddForeignKey(
+                name: "FK_Professional_ApplicationUser_UserId",
+                table: "Professionals",
+                column: "UserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+            migrationBuilder.AddForeignKey(
+                name: "FK_ProfessionalExpertise_JobTag_JobTagId",
+                table: "ProfessionalExpertise",
+                column: "JobTagId",
+                principalTable: "JobTags",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+            migrationBuilder.AddForeignKey(
+                name: "FK_ProfessionalExpertise_Professional_ProfessionalId",
+                table: "ProfessionalExpertise",
+                column: "ProfessionalId",
+                principalTable: "Professionals",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
         }

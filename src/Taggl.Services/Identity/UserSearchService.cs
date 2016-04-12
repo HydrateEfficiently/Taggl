@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Taggl.Framework.Models.Identity;
 using Taggl.Services.Identity.Models;
+using Taggl.Services.Identity.Queries;
 
 namespace Taggl.Services.Identity
 {
@@ -28,24 +29,18 @@ namespace Taggl.Services.Identity
 
         public async Task<IEnumerable<UserResult>> Search(string pattern)
         {
-            var patternLower = pattern.ToLowerInvariant();
-            var matchingStatuses = await _dbContext.ApplicationUserStatuses
-                .Include(s => s.ApplicationUser).ThenInclude(u => u.PersonalInformation)
-                .Where(s =>
-                    s.ApplicationUser.Email.ToLowerInvariant().Contains(patternLower) ||
-                    s.ApplicationUser.GetDisplayName().ToLowerInvariant().Contains(patternLower))
-                .ToListAsync();
-
-            return matchingStatuses
-                .Where(s => IsStatusSearchable(s))
-                .Select(s => new UserResult(s.ApplicationUser));
+            return (await _dbContext.UserRelationships
+                .WherePatternMatched(pattern)
+                .Where(r => IsStatusSearchable(r))
+                .IncludeForUserResult()
+                .ToListAsync()).Select(r => new UserResult(r.User));
         }
 
         #region Helpers
 
-        private bool IsStatusSearchable(ApplicationUserStatus status)
+        private bool IsStatusSearchable(ApplicationUserRelationships userRelationships)
         {
-            var resolvedStatus = _userStatusResolver.Resolve(status);
+            var resolvedStatus = _userStatusResolver.Resolve(userRelationships);
             return resolvedStatus == ResolvedUserStatus.Active ||
                 resolvedStatus == ResolvedUserStatus.Deactived ||
                 resolvedStatus == ResolvedUserStatus.Pending;

@@ -15,7 +15,8 @@ namespace Taggl.Services.Identity.Queries
         {
             return await queryable
                 .Where(u => u.Id == id)
-                .Include(u => u.PersonalInformation)
+                .Include(u => u.Relationships).ThenInclude(u => u.Professional)
+                .Include(u => u.Relationships).ThenInclude(u => u.Status)
                 .FirstAsync();
         }
     }

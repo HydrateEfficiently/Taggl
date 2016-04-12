@@ -40,6 +40,7 @@ namespace Taggl.Services.Migrations
                     PasswordHash = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    RelationshipsId = table.Column<Guid>(nullable: true),
                     SecurityStamp = table.Column<string>(nullable: true),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     UserName = table.Column<string>(nullable: true)
@@ -47,6 +48,18 @@ namespace Taggl.Services.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ApplicationUser", x => x.Id);
+                });
+            migrationBuilder.CreateTable(
+                name: "JobTags",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    NormalizedName = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_JobTag", x => x.Id);
                 });
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
@@ -131,11 +144,10 @@ namespace Taggl.Services.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
             migrationBuilder.CreateTable(
-                name: "ApplicationUserStatuses",
+                name: "UserStatuses",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    ApplicationUserId = table.Column<string>(nullable: true),
                     Approved = table.Column<DateTime>(nullable: true),
                     ApprovedById = table.Column<string>(nullable: true)
                 },
@@ -143,17 +155,83 @@ namespace Taggl.Services.Migrations
                 {
                     table.PrimaryKey("PK_ApplicationUserStatus", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ApplicationUserStatus_ApplicationUser_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_ApplicationUserStatus_ApplicationUser_ApprovedById",
                         column: x => x.ApprovedById,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+            migrationBuilder.CreateTable(
+                name: "Professionals",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Professional", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Professional_ApplicationUser_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+            migrationBuilder.CreateTable(
+                name: "ApplicationUserRelationships",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ProfessionalId = table.Column<Guid>(nullable: false),
+                    StatusId = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ApplicationUserRelationships", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ApplicationUserRelationships_Professional_ProfessionalId",
+                        column: x => x.ProfessionalId,
+                        principalTable: "Professionals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ApplicationUserRelationships_ApplicationUserStatus_StatusId",
+                        column: x => x.StatusId,
+                        principalTable: "UserStatuses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ApplicationUserRelationships_ApplicationUser_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+            migrationBuilder.CreateTable(
+                name: "ProfessionalExpertise",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    JobTagId = table.Column<Guid>(nullable: false),
+                    ProfessionalId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProfessionalExpertise", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProfessionalExpertise_JobTag_JobTagId",
+                        column: x => x.JobTagId,
+                        principalTable: "JobTags",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProfessionalExpertise_Professional_ProfessionalId",
+                        column: x => x.ProfessionalId,
+                        principalTable: "Professionals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
@@ -175,8 +253,12 @@ namespace Taggl.Services.Migrations
             migrationBuilder.DropTable("AspNetUserClaims");
             migrationBuilder.DropTable("AspNetUserLogins");
             migrationBuilder.DropTable("AspNetUserRoles");
-            migrationBuilder.DropTable("ApplicationUserStatuses");
+            migrationBuilder.DropTable("ApplicationUserRelationships");
+            migrationBuilder.DropTable("ProfessionalExpertise");
             migrationBuilder.DropTable("AspNetRoles");
+            migrationBuilder.DropTable("UserStatuses");
+            migrationBuilder.DropTable("JobTags");
+            migrationBuilder.DropTable("Professionals");
             migrationBuilder.DropTable("AspNetUsers");
         }
     }

@@ -39,7 +39,7 @@ namespace Taggl.Services.Jobs
         public async Task<IEnumerable<JobTagResult>> SearchAsync(string pattern)
         {
             var normalizedPattern = GetNormalizedName(pattern);
-
+            return null;
         }
 
         private string GetNormalizedName(string name)

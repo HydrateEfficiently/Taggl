@@ -17,10 +17,7 @@ namespace Taggl.Services.Identity.Models
         {
             var configuration = new ConfigurationStore(new TypeMapFactory(), MapperRegistry.Mappers);
             var mappingEngine = new MappingEngine(configuration);
-            configuration.CreateMap<ApplicationUser, UserResult>()
-                .ForMemberResolveUsing(
-                    dest => dest.PersonalInformation,
-                    src => new PersonalInformationResult(src.PersonalInformation));
+            configuration.CreateMap<ApplicationUser, UserResult>();
             __mappingEngine = mappingEngine;
         }
 
@@ -30,7 +27,9 @@ namespace Taggl.Services.Identity.Models
 
         public string UserName { get; set; }
 
-        public PersonalInformationResult PersonalInformation { get; set; }
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
 
         public UserResult(ApplicationUser user)
         {

@@ -11,10 +11,6 @@ namespace Taggl.Framework.Models.Professionals
     {
         public Guid Id { get; set; }
 
-        public string UserId { get; set; }
-        
-        public virtual ApplicationUser User { get; set; } 
-
         [InverseProperty(nameof(ProfessionalExpertise.Professional))]
         public virtual ICollection<ProfessionalExpertise> Expertise { get; set; }
     }

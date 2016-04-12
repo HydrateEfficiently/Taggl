@@ -13,12 +13,12 @@ namespace Taggl.Web.Controllers
     [Route("account")]
     public class AccountController : Controller
     {
-        private readonly IAccountService _accountService;
+        private readonly ISessionService _sessionService;
 
         public AccountController(
-            IAccountService accountService)
+            ISessionService sessionService)
         {
-            _accountService = accountService;
+            _sessionService = sessionService;
         }
 
         [Route("login")]
@@ -38,7 +38,7 @@ namespace Taggl.Web.Controllers
             {
                 try
                 {
-                    await _accountService.Login(model.Map());
+                    await _sessionService.Login(model.Map());
                     if (string.IsNullOrEmpty(returnUrl))
                     {
                         return RedirectToAction("Index", "Home");
@@ -61,7 +61,7 @@ namespace Taggl.Web.Controllers
         [Route("log-out")]
         public async Task<IActionResult> Logout()
         {
-            await _accountService.Logout();
+            await _sessionService.Logout();
             return RedirectToAction("Index", "Home");
         }
     }

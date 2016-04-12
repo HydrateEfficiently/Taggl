@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Data.Entity;
 using Taggl.Framework.Utility;
+using Taggl.Framework.Models.Professionals;
 
 namespace Taggl.Services.Identity
 {
@@ -77,13 +78,16 @@ namespace Taggl.Services.Identity
                 throw new EmailConfirmationFailedException();
             }
 
-            user.PersonalInformation = new PersonalInformation() { };
-            _dbContext.Add(user.PersonalInformation);
-
-            _dbContext.ApplicationUserStatuses.Add(new ApplicationUserStatus()
+            var userRelationships = new ApplicationUserRelationships()
             {
-                ApplicationUserId = user.Id
-            });
+                UserId = user.Id,
+                Status = new ApplicationUserStatus(),
+                Professional = new Professional()
+            };
+            _dbContext.UserRelationships.Add(userRelationships);
+            _dbContext.UserStatuses.Add(userRelationships.Status);
+            _dbContext.Professionals.Add(userRelationships.Professional);
+
             await _dbContext.SaveChangesAsync();
         }
 
@@ -106,15 +110,5 @@ namespace Taggl.Services.Identity
         }
 
         #endregion
-    }
-
-    public static class RegistrationQueryExtensions
-    {
-        public async static Task<ApplicationUserStatus> GetAsync(
-            this IQueryable<ApplicationUserStatus> statuses,
-            string userId)
-        {
-            return await statuses.FirstAsync(s => s.ApplicationUserId == userId);
-        }
     }
 }

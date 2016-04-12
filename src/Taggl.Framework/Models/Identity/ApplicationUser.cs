@@ -10,12 +10,12 @@ namespace Taggl.Framework.Models.Identity
 {
     public class ApplicationUser : IdentityUser
     {
-        public Guid? PersonalInformationId { get; set; }
+        public string FirstName { get; set; }
 
-        public virtual PersonalInformation PersonalInformation { get; set; }
+        public string LastName { get; set; }
 
-        public Guid? ProfessionalId { get; set; }
+        public Guid? RelationshipsId { get; set; }
 
-        public virtual Professional Professional { get; set; }
+        public virtual ApplicationUserRelationships Relationships { get; set; }
     }
 }

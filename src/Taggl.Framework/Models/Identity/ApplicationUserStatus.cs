@@ -9,10 +9,6 @@ namespace Taggl.Framework.Models.Identity
     {
         public Guid Id { get; set; }
 
-        public string ApplicationUserId { get; set; }
-
-        public virtual ApplicationUser ApplicationUser { get; set; }
-
         public DateTime? Approved { get; set; }
 
         public string ApprovedById { get; set; }

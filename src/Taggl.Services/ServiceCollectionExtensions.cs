@@ -40,7 +40,7 @@ namespace Taggl.Services
             // Identity
             services.AddScoped<SignInManager<ApplicationUser>, ApplicationSignInManager>();
             services.AddTransient<IRegistrationService, RegistrationService>();
-            services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<ISessionService, SessionService>();
             services.AddTransient<ICurrentUserProvider, CurrentUserProvider>();
             services.AddTransient<IUserStatusResolver, UserStatusResolver>();
             services.AddTransient<IUserSearchService, UserSearchService>();

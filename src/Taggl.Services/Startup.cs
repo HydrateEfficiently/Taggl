@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Taggl.Services.Utility;
 
 namespace Taggl.Services
 {
@@ -26,6 +27,7 @@ namespace Taggl.Services
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddServices(connectionString: Configuration["Data:DefaultConnection:ConnectionString"]);
+            ServiceLocator.Current = services.BuildServiceProvider();
         }
 
         public void Configure(IApplicationBuilder app)

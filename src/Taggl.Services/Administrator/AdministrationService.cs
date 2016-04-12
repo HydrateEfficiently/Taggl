@@ -7,6 +7,7 @@ using Taggl.Framework.Services;
 using Taggl.Framework.Utility;
 using Taggl.Services.Identity;
 using Taggl.Services.Identity.Models;
+using Taggl.Services.Identity.Queries;
 
 namespace Taggl.Services.Administrator
 {
@@ -32,15 +33,15 @@ namespace Taggl.Services.Administrator
 
         public async Task<IEnumerable<UserResult>> ListPendingUsersAsync()
         {
-            return (await _dbContext.ApplicationUserStatuses
-                .Where(s => !s.Approved.HasValue)
-                .Select(s => s.ApplicationUser)
+            return (await _dbContext.UserRelationships.IncludeAll()
+                .Where(r => !r.Status.Approved.HasValue)
+                .Select(r => r.User)
                 .ToListAsync()).Select(u => new UserResult(u));
         }
 
         public async Task ApproveUserAsync(string userId)
         {
-            var status = await _dbContext.ApplicationUserStatuses.GetAsync(userId);
+            var status = await _dbContext.UserRelationships.GetStatusAsync(userId);
             status.Approved = DateTime.UtcNow;
             status.ApprovedById = _identityResolver.Resolve().GetId();
             await _dbContext.SaveChangesAsync();
