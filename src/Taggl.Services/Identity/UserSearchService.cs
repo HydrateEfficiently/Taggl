@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.Entity;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,19 +19,22 @@ namespace Taggl.Services.Identity
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IUserStatusResolver _userStatusResolver;
+        private readonly ILookupNormalizer _lookupNormalizer;
 
         public UserSearchService(
             ApplicationDbContext dbContext,
-            IUserStatusResolver userStatusResolver)
+            IUserStatusResolver userStatusResolver,
+            ILookupNormalizer lookupNormalizer)
         {
             _dbContext = dbContext;
             _userStatusResolver = userStatusResolver;
+            _lookupNormalizer = lookupNormalizer;
         }
 
         public async Task<IEnumerable<UserResult>> Search(string pattern)
         {
             return (await _dbContext.UserRelationships
-                .WherePatternMatched(pattern)
+                .WherePatternMatched(_lookupNormalizer, pattern)
                 .Where(r => IsStatusSearchable(r))
                 .IncludeForUserResult()
                 .ToListAsync()).Select(r => new UserResult(r.User));

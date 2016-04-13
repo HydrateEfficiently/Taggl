@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Taggl.Initializer.Initializers
+namespace Taggl.Initializer.Initializers.Professionalities
 {
-    public interface IEnvironmentInitializer : IDataInitializer
+    public class ExpertiseInitializer
     {
     }
 }

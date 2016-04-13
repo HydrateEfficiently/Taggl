@@ -132,8 +132,6 @@ namespace Taggl.Services.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.Property<Guid?>("RelationshipsId");
-
                     b.Property<string>("SecurityStamp");
 
                     b.Property<bool>("TwoFactorEnabled");
@@ -185,26 +183,22 @@ namespace Taggl.Services.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("Created");
+
+                    b.Property<string>("CreatedById");
+
+                    b.Property<bool>("IsSearchable");
+
                     b.Property<string>("Name");
 
-                    b.Property<string>("NormalizedName");
+                    b.Property<string>("NameNormalized");
 
                     b.HasKey("Id");
 
                     b.HasAnnotation("Relational:TableName", "JobTags");
                 });
 
-            modelBuilder.Entity("Taggl.Framework.Models.Professionals.Professional", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.HasKey("Id");
-
-                    b.HasAnnotation("Relational:TableName", "Professionals");
-                });
-
-            modelBuilder.Entity("Taggl.Framework.Models.Professionals.ProfessionalExpertise", b =>
+            modelBuilder.Entity("Taggl.Framework.Models.Professionalities.ProfessionalExpertise", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -213,9 +207,21 @@ namespace Taggl.Services.Migrations
 
                     b.Property<Guid>("ProfessionalId");
 
+                    b.Property<Guid?>("ProfessionalityId");
+
                     b.HasKey("Id");
 
                     b.HasAnnotation("Relational:TableName", "ProfessionalExpertise");
+                });
+
+            modelBuilder.Entity("Taggl.Framework.Models.Professionalities.Professionality", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.HasKey("Id");
+
+                    b.HasAnnotation("Relational:TableName", "Professionalities");
                 });
 
             modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityRoleClaim<string>", b =>
@@ -252,7 +258,7 @@ namespace Taggl.Services.Migrations
 
             modelBuilder.Entity("Taggl.Framework.Models.Identity.ApplicationUserRelationships", b =>
                 {
-                    b.HasOne("Taggl.Framework.Models.Professionals.Professional")
+                    b.HasOne("Taggl.Framework.Models.Professionalities.Professionality")
                         .WithMany()
                         .HasForeignKey("ProfessionalId");
 
@@ -261,8 +267,8 @@ namespace Taggl.Services.Migrations
                         .HasForeignKey("StatusId");
 
                     b.HasOne("Taggl.Framework.Models.Identity.ApplicationUser")
-                        .WithOne()
-                        .HasForeignKey("Taggl.Framework.Models.Identity.ApplicationUserRelationships", "UserId");
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Taggl.Framework.Models.Identity.ApplicationUserStatus", b =>
@@ -272,15 +278,22 @@ namespace Taggl.Services.Migrations
                         .HasForeignKey("ApprovedById");
                 });
 
-            modelBuilder.Entity("Taggl.Framework.Models.Professionals.ProfessionalExpertise", b =>
+            modelBuilder.Entity("Taggl.Framework.Models.Jobs.JobTag", b =>
+                {
+                    b.HasOne("Taggl.Framework.Models.Identity.ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+                });
+
+            modelBuilder.Entity("Taggl.Framework.Models.Professionalities.ProfessionalExpertise", b =>
                 {
                     b.HasOne("Taggl.Framework.Models.Jobs.JobTag")
                         .WithMany()
                         .HasForeignKey("JobTagId");
 
-                    b.HasOne("Taggl.Framework.Models.Professionals.Professional")
+                    b.HasOne("Taggl.Framework.Models.Professionalities.Professionality")
                         .WithMany()
-                        .HasForeignKey("ProfessionalId");
+                        .HasForeignKey("ProfessionalityId");
                 });
         }
     }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Taggl.Framework.Models.Jobs;
+using Taggl.Framework.Services;
 using Taggl.Framework.Utility;
 using Taggl.Services.Jobs.Models;
 using Taggl.Services.Jobs.Queries;
@@ -18,19 +19,19 @@ namespace Taggl.Services.Jobs
     public class JobTagService : IJobTagService
     {
         private readonly ApplicationDbContext _dbContext;
-        private readonly ILookupNormalizer _lookupNormalizer;
+        private readonly IIdentityResolver _identityResolver;
 
         public JobTagService(
             ApplicationDbContext dbContext,
-            ILookupNormalizer lookupNormalizer)
+            IIdentityResolver identityResolver)
         {
             _dbContext = dbContext;
-            _lookupNormalizer = lookupNormalizer;
+            _identityResolver = identityResolver;
         }
 
         public async Task<JobTag> CreateAsync(JobTagCreate create)
         {
-            var jobTag = await _dbContext.CreateOrGetJobTagAsync(create);
+            var jobTag = await _dbContext.CreateOrGetJobTagAsync(_identityResolver, create);
             await _dbContext.SaveChangesAsync();
             return jobTag;
         }

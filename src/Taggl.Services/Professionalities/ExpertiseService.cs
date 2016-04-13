@@ -33,7 +33,7 @@ namespace Taggl.Services.Professionalities
         {
             var identityId = _identityResolver.Resolve().GetId();
             var professionality = await _dbContext.UserRelationships.GetProfessionalityByUser(identityId);
-            var jobTag = await _dbContext.CreateOrGetJobTagAsync(create);
+            var jobTag = await _dbContext.CreateOrGetJobTagAsync(_identityResolver, create);
 
             var expertise = new ProfessionalExpertise()
             {

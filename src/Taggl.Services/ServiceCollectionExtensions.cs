@@ -10,6 +10,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Taggl.Services.Administrator;
 using Taggl.Services.Jobs;
+using Taggl.Services.Professionalities;
+using Taggl.Services.Utility;
 
 namespace Taggl.Services
 {
@@ -51,6 +53,11 @@ namespace Taggl.Services
             services.AddTransient<IJobTagService, JobTagService>();
             services.AddTransient<IJobTagFormatter, JobTagFormatter>();
             services.AddTransient<IJobTagSearchService, JobTagSearchService>();
+
+            // Professionalities
+            services.AddTransient<IExpertiseService, ExpertiseService>();
+
+            ServiceLocator.Current = services.BuildServiceProvider();
         }
     }
 }

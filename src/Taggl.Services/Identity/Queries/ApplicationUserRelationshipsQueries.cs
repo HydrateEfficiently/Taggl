@@ -36,9 +36,9 @@ namespace Taggl.Services.Identity.Queries
 
         public static IQueryable<ApplicationUserRelationships> WherePatternMatched(
             this IQueryable<ApplicationUserRelationships> queryable,
+            ILookupNormalizer lookupNormalizer,
             string pattern)
         {
-            var lookupNormalizer = ServiceLocator.Current.GetRequiredService<ILookupNormalizer>();
             string patternNormalized = lookupNormalizer.Normalize(pattern);
             return queryable.Where(r =>
                 r.User.NormalizedEmail == patternNormalized ||

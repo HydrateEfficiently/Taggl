@@ -27,7 +27,6 @@ namespace Taggl.Services
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddServices(connectionString: Configuration["Data:DefaultConnection:ConnectionString"]);
-            ServiceLocator.Current = services.BuildServiceProvider();
         }
 
         public void Configure(IApplicationBuilder app)

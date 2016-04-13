@@ -10,6 +10,7 @@ using Taggl.Services.Identity.Models;
 
 namespace Taggl.Web.Controllers.Api
 {
+    [Route("account")]
     public class AccountApiController : Controller
     {
         private readonly ISessionService _sessionService;

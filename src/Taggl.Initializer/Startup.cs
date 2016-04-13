@@ -15,6 +15,9 @@ using Taggl.Initializer.Initializers;
 using Taggl.Initializer.Initializers.Identity;
 using Taggl.Initializer.Services.DataImportServices;
 using Taggl.Initializer.Services.Framework;
+using Taggl.Initializer.Initializers.Environments;
+using Taggl.Initializer.Initializers.Professionalities;
+using Taggl.Initializer.Initializers.Jobs;
 
 namespace Taggl.Initializer
 {
@@ -44,22 +47,20 @@ namespace Taggl.Initializer
             // Services
             services.AddTransient<JsonDataImportService>();
 
-            // Main
-            services.AddTransient<MainDataInitializer>();
+            services.AddInitializer<SystemUserInitializer>();
+            services.AddInitializer<RoleInitializer>();
+            services.AddInitializer<AdministratorsInitializer>();
+            services.AddInitializer<JobTagIntializer>();
+            //services.AddInitializer<ExpertiseInitializer>();
 
-            // Environments
             services.AddTransient<IEnvironmentInitializer, DebugEnvironmentInitializer>();
-
-            // Components
-            services.AddTransient<SystemUserInitializer>();
-            services.AddTransient<RoleInitializer>();
-            services.AddTransient<AdministratorsInitializer>();
+            services.AddTransient<RootDataInitializer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IServiceProvider serviceProvider)
         {
-            var initializer = serviceProvider.GetRequiredService<MainDataInitializer>();
+            var initializer = serviceProvider.GetRequiredService<RootDataInitializer>();
             initializer.Run();
             Environment.Exit(0);
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Taggl.Framework.Models.Identity;
 
 namespace Taggl.Framework.Models.Jobs
 {
@@ -14,5 +15,11 @@ namespace Taggl.Framework.Models.Jobs
         public string NameNormalized { get; set; }
 
         public bool IsSearchable { get; set; }
+
+        public DateTime Created { get; set; }
+
+        public string CreatedById { get; set; }
+
+        public virtual ApplicationUser CreatedBy { get; set; }
     }
 }

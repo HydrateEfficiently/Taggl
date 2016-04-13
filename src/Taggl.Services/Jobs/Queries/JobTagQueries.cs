@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Taggl.Framework.Models.Jobs;
+using Taggl.Framework.Services;
+using Taggl.Framework.Utility;
 using Taggl.Services.Jobs.Models;
 
 namespace Taggl.Services.Jobs.Queries
@@ -12,12 +14,15 @@ namespace Taggl.Services.Jobs.Queries
     {
         public static async Task<JobTag> CreateOrGetJobTagAsync(
             this ApplicationDbContext dbContext,
+            IIdentityResolver identityResolver,
             JobTagCreate create)
         {
             var jobTag = create.Map();
             var existingJobTag = await dbContext.JobTags.GetMatchAsync(jobTag);
             if (existingJobTag == null)
             {
+                jobTag.Created = DateTime.UtcNow;
+                jobTag.CreatedById = identityResolver.Resolve().GetId();
                 dbContext.JobTags.Add(jobTag);
                 return jobTag;
             }
