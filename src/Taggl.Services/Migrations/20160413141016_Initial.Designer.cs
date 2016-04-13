@@ -8,7 +8,7 @@ using Taggl.Services;
 namespace Taggl.Services.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160413111934_Initial")]
+    [Migration("20160413141016_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -158,6 +158,8 @@ namespace Taggl.Services.Migrations
 
                     b.Property<Guid>("ProfessionalId");
 
+                    b.Property<Guid?>("ProfessionalityId");
+
                     b.Property<Guid>("StatusId");
 
                     b.Property<string>("UserId");
@@ -261,7 +263,7 @@ namespace Taggl.Services.Migrations
                 {
                     b.HasOne("Taggl.Framework.Models.Professionalities.Professionality")
                         .WithMany()
-                        .HasForeignKey("ProfessionalId");
+                        .HasForeignKey("ProfessionalityId");
 
                     b.HasOne("Taggl.Framework.Models.Identity.ApplicationUserStatus")
                         .WithMany()

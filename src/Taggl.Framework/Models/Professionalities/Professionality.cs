@@ -13,5 +13,6 @@ namespace Taggl.Framework.Models.Professionalities
 
         [InverseProperty(nameof(ProfessionalExpertise.Professionality))]
         public virtual ICollection<ProfessionalExpertise> Expertise { get; set; }
+            = new List<ProfessionalExpertise>();
     }
 }

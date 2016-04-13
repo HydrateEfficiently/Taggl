@@ -10,9 +10,4 @@ export let userSearch = componentFactory(
     'userSearch',
     UserSearchController,
     [commonServices, typeahead],
-    {
-        bindToController: {
-            initialUser: '@',
-            onUserChanged: '&'
-        }
-    });
+    { initialUser: '@', onUserChanged: '&' });

@@ -8,7 +8,7 @@ using Taggl.Services.Professionalities;
 
 namespace Taggl.Web.Controllers.Api.Professionalities
 {
-    [Route("api/professions/expertise")]
+    [Route(ApiControllerRouteTemplates.ExpertiseRouteTemplate)]
     public class ExpertiseApiController : Controller
     {
         private readonly IExpertiseService _expertiseService;
@@ -21,7 +21,7 @@ namespace Taggl.Web.Controllers.Api.Professionalities
 
         public async Task<IActionResult> Create(JobTagCreate create)
         {
-            var result = _expertiseService.CreateAsync(create);
+            var result = await _expertiseService.CreateAsync(create);
             return new ObjectResult(result);
         }
     }

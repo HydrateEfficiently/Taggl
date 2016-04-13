@@ -9,7 +9,5 @@ export class SettingsController extends Injectable {
         super(...deps);
 
         this.logger = this.TglLoggingService.createLogger(this.constructor.name);
-
-        this.personalInformation = this.TglSessionService.getUser().personalInformation;
     }
 }

@@ -32,7 +32,7 @@ function momentFormatTodayOrDate() {
     };
 }
 
-let commonFilters = angular.module('rr.common.filters', [])
+let commonFilters = angular.module('tgl.common.filters', [])
     .filter('tglSanitizeHtml', sanitizeHtml)
     .filter('tglMomentFormat', momentFormat)
     .filter('tglMomentCommonDateFormat', momentCommonDateFormat)

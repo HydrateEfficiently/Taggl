@@ -8,9 +8,4 @@ export let personalInformation = componentFactory(
     'personalInformation',
     PersonalInformationController,
     [commonServices],
-    {
-        bindToController: {
-            'initialModelJson': '@',
-            'onModelChanged': '&'
-        }
-    });
+    { 'initialModelJson': '@', 'onModelChanged': '&' });

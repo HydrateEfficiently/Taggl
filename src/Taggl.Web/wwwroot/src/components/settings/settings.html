@@ -11,7 +11,7 @@
             <div class="col-md-9">
                 <div class="card">
                     <div class="card-content">
-                        <tgl-personal-information initial-model-json="{{ ctrl.personalInformation }}"></tgl-personal-information>
+                        <tgl-personal-information></tgl-personal-information>
                     </div>
                 </div>
             </div>
@@ -21,59 +21,7 @@
             <div class="col-md-9">
                 <div class="card">
                     <div class="card-content">
-                        <h5>Professional</h5>
-                        <div class="mb-md">
-                            <i>Update your professional information. Other users will be able to see these details on your profile.</i>
-                        </div>
-
-                        <div class="mb-lg">
-                            <div>
-                                <label>Expertise</label>
-                                <div>
-                                    <textarea placeholder="Enter some expertise, comma seperated" class="form-control" rows="3"></textarea>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mb-lg clearfix">
-                            <label>Qualifications</label>
-                            <table class="table table-hover">
-                                <tbody>
-                                    <tr>
-                                        <td>Master of Exercise Physiology</td>
-                                        <td>University of Canterbury, NZ</td>
-                                        <td>2001-2005</td>
-                                        <td>
-                                            <div>
-                                                <a class="pull-right" href="#">Delete</a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="text" class="form-control" placeholder="Name"
-                                                   ng-model="" name="firstName" required />
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control" placeholder="Issuer"
-                                                   ng-model="" name="firstName" required />
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control" placeholder="Years"
-                                                   ng-model="" name="firstName" required />
-                                        </td>
-                                        <td>
-                                            <div>
-                                                <a class="pull-right" href="#">Save</a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div>
-                                <span class="pull-right"><a href="javascript:void(0)">Add</a></span>
-                            </div>
-                        </div>
+                        <tgl-professionality-form></tgl-professionality-form>
                     </div>
                 </div>
             </div>

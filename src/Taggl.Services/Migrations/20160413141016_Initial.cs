@@ -185,6 +185,7 @@ namespace Taggl.Services.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     ProfessionalId = table.Column<Guid>(nullable: false),
+                    ProfessionalityId = table.Column<Guid>(nullable: true),
                     StatusId = table.Column<Guid>(nullable: false),
                     UserId = table.Column<string>(nullable: true)
                 },
@@ -192,11 +193,11 @@ namespace Taggl.Services.Migrations
                 {
                     table.PrimaryKey("PK_ApplicationUserRelationships", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ApplicationUserRelationships_Professionality_ProfessionalId",
-                        column: x => x.ProfessionalId,
+                        name: "FK_ApplicationUserRelationships_Professionality_ProfessionalityId",
+                        column: x => x.ProfessionalityId,
                         principalTable: "Professionalities",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ApplicationUserRelationships_ApplicationUserStatus_StatusId",
                         column: x => x.StatusId,

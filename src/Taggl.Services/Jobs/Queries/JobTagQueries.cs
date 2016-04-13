@@ -1,8 +1,11 @@
-﻿using Microsoft.Data.Entity;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Taggl.Framework.Constants;
+using Taggl.Framework.Models.Identity;
 using Taggl.Framework.Models.Jobs;
 using Taggl.Framework.Services;
 using Taggl.Framework.Utility;
@@ -15,21 +18,29 @@ namespace Taggl.Services.Jobs.Queries
         public static async Task<JobTag> CreateOrGetJobTagAsync(
             this ApplicationDbContext dbContext,
             IIdentityResolver identityResolver,
+            UserManager<ApplicationUser> userManager,
             JobTagCreate create)
         {
+            var identityId = identityResolver.Resolve().GetId();
             var jobTag = create.Map();
             var existingJobTag = await dbContext.JobTags.GetMatchAsync(jobTag);
+
             if (existingJobTag == null)
             {
                 jobTag.Created = DateTime.UtcNow;
-                jobTag.CreatedById = identityResolver.Resolve().GetId();
+                jobTag.CreatedById = identityId;
                 dbContext.JobTags.Add(jobTag);
-                return jobTag;
+                existingJobTag = jobTag;
             }
-            else
+
+            var user = await userManager.FindByIdAsync(identityId);
+            if (await userManager.IsInRoleAsync(user, ApplicationRoles.Administrator))
             {
-                return existingJobTag;
+                existingJobTag.IsSearchable = true;
             }
+
+            await dbContext.SaveChangesAsync();
+            return existingJobTag;
         }
 
         public static async Task<JobTag> GetMatchAsync(
@@ -37,6 +48,21 @@ namespace Taggl.Services.Jobs.Queries
             JobTag jobTag)
         {
             return await queryable.FirstOrDefaultAsync(j => j.NameNormalized == jobTag.NameNormalized);
+        }
+
+        public static IQueryable<JobTag> WherePatternMatched(
+            this IQueryable<JobTag> queryable,
+            IJobTagFormatter jobTagFormatter,
+            string pattern)
+        {
+            string patternNormalized = jobTagFormatter.NormalizeName(pattern);
+            return queryable.Where(j => j.NameNormalized.Contains(patternNormalized));
+        }
+
+        public static IQueryable<JobTag> WhereSearchable(
+            this IQueryable<JobTag> queryable)
+        {
+            return queryable.Where(j => j.IsSearchable);
         }
     }
 }

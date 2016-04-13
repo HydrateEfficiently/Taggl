@@ -157,6 +157,8 @@ namespace Taggl.Services.Migrations
 
                     b.Property<Guid>("ProfessionalId");
 
+                    b.Property<Guid?>("ProfessionalityId");
+
                     b.Property<Guid>("StatusId");
 
                     b.Property<string>("UserId");
@@ -260,7 +262,7 @@ namespace Taggl.Services.Migrations
                 {
                     b.HasOne("Taggl.Framework.Models.Professionalities.Professionality")
                         .WithMany()
-                        .HasForeignKey("ProfessionalId");
+                        .HasForeignKey("ProfessionalityId");
 
                     b.HasOne("Taggl.Framework.Models.Identity.ApplicationUserStatus")
                         .WithMany()

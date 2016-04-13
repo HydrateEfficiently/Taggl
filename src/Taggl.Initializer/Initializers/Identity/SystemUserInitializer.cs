@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Taggl.Framework.Constants;
 
 namespace Taggl.Initializer.Initializers.Identity
 {
@@ -36,6 +37,12 @@ namespace Taggl.Initializer.Initializers.Identity
                 }).Wait();
                 user = _userManager.FindByEmailAsync(SystemUserEmail).Result;
             }
+
+            if (!_userManager.IsInRoleAsync(user, ApplicationRoles.Administrator).Result)
+            {
+                _userManager.AddToRoleAsync(user, ApplicationRoles.Administrator).Wait();
+            }
+
             return user;
         }
     }

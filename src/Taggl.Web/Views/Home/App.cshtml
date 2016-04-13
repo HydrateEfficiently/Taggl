@@ -29,6 +29,10 @@
             margin-top: 0px;
         }
 
+        .mr {
+            margin-right: 15px;
+        }
+
         .mb-none {
             margin-bottom: 0px;
         }
@@ -70,6 +74,10 @@
         [contenteditable].form-control {
             box-shadow: inset 0 -2px 0 red;
         }
+
+        .clickable {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body ng-controller="MainController as ctrl">
@@ -95,6 +103,8 @@
                 .AddUrls(typeof(AccountApiController))
                 .AddUrls(typeof(AdministrationApiController))
                 .AddUrls(typeof(SearchApiController))
+                .AddUrls(typeof(ProfessionalityApiController))
+                .AddUrls(typeof(ExpertiseApiController))
                 .SerializeAsync()));
         });
     </script>

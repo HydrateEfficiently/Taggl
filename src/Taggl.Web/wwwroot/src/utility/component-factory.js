@@ -4,7 +4,7 @@ function camelCaseToDashed(str) {
     return str.replace(/(?:^|\.?)([A-Z])/g, (x, y) => `-${y.toLowerCase()}`).replace(/^_/, "");
 }
 
-export function componentFactory(name, controller, deps = [], directiveOptions = {}) {
+export function componentFactory(name, controller, deps = [], bindToController = {}) {
     if (!angular.isString(name)) {
         throw new Error('Tried to create component without name');
     }
@@ -18,20 +18,16 @@ export function componentFactory(name, controller, deps = [], directiveOptions =
     let moduleName = `tgl.components.${dashedName}`;
     let templateUrl = `/${paths.components}${dashedName}/${dashedName}.html`;
 
-    let options = {
-        controllerAs: 'ctrl'
-    };
-    angular.extend(options, directiveOptions);
-
     const componentOptions = {
-        controller,
-        templateUrl,
         restrict: 'E',
-        scope: {}
+        scope: {},
+        controller,
+        controllerAs: 'ctrl',
+        bindToController,
+        templateUrl
     };
-    angular.merge(options, componentOptions);
 
-    angular.module(moduleName, deps).directive(prefixedName, () => options);
+    angular.module(moduleName, deps).directive(prefixedName, () => componentOptions);
 
     return moduleName;
 }

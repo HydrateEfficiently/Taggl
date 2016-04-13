@@ -11,7 +11,7 @@ namespace Taggl.Framework.Models.Professionalities
         public Guid Id { get; set; }
 
         public Guid ProfessionalId { get; set; }
-
+        
         public virtual Professionality Professionality { get; set; }
 
         public Guid JobTagId { get; set; }

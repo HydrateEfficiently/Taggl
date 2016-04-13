@@ -82,11 +82,11 @@ namespace Taggl.Services.Identity
             {
                 UserId = user.Id,
                 Status = new ApplicationUserStatus(),
-                Professional = new Professionality()
+                Professionality = new Professionality()
             };
             _dbContext.UserRelationships.Add(userRelationships);
             _dbContext.UserStatuses.Add(userRelationships.Status);
-            _dbContext.Professionalities.Add(userRelationships.Professional);
+            _dbContext.Professionalities.Add(userRelationships.Professionality);
 
             await _dbContext.SaveChangesAsync();
         }

@@ -12,7 +12,7 @@ export class HttpService extends Injectable {
         this.getCache = {};
     }
 
-    get(url, options) {
+    get(url, options = {}) {
         let logger = this.logger;
         return this._getGetRequest(url, options.maxAge)
             .then(result => {
@@ -31,17 +31,6 @@ export class HttpService extends Injectable {
 
                 return data;
             });
-    }
-
-    getModel(url, model, maxAge = 0) {
-        return this.get(url, maxAge).then(data => {
-            if (angular.isArray(model)) {
-                model.length = 0;
-                model.push(...data);
-            } else if (angular.isObject(model)) {
-                angular.merge(model, data);
-            }
-        });
     }
 
     post(...args) {

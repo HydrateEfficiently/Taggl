@@ -1,0 +1,6 @@
+<input type="text" class="input form-control" 
+       ng-model="ctrl.selectedJobTag"
+       ng-blur="ctrl.preserveInput($event)"
+       uib-typeahead="jobTag.name for jobTag in ctrl.getResults($viewValue)"
+       typeahead-on-select="ctrl.selectJobTag($item, $model, $event)"
+       tgl-on-enter="ctrl.createJobTag(value)">

@@ -1,0 +1,73 @@
+<div>
+    <h5>Professional</h5>
+    <div class="mb-md">
+        <div class="mb-md">
+            <a ng-show="false" ng-click="ctrl.edit()" href="javascript:void(0)">Edit</a>
+            <a ng-show="true" ng-click="ctrl.save()" href="javascript:void(0)">Save</a>
+            <a ng-show="true" ng-click="ctrl.cancel()" href="javascript:void(0)">Cancel</a>
+        </div>
+    </div>
+
+    <div class="mb-lg">
+        <div class="row mb-xs">
+            <div class="col-md-6 col-sm-12">
+                <label>Expertise</label>
+                <div>
+                    <tgl-job-tag-search on-item-selected="ctrl.selectJobTag(item)"
+                                        on-item-created="ctrl.createJobTag(label)"
+                                        on-results-retrieved="ctrl.filterJobTagResults(results)"
+                                        clear-on-select="true"></tgl-job-tag-search>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <i ng-if="!ctrl.expertise.length" class="text-muted">(You haven't selected any expertise yet)</i>
+                <div class="pull-left mr" ng-repeat="exp in ctrl.expertise">
+                    <span ng-class="{ 'text-muted': !ctrl.isExpertiseSaved(exp) }">{{ exp.jobTagName }}</span>
+                    <span ng-click="ctrl.removeExpertise(exp)" class="fa fa-times clickable" style="color: red;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-lg clearfix">
+        <label>Qualifications</label>
+        <table class="table table-hover">
+            <tbody>
+                <tr>
+                    <td>Master of Exercise Physiology</td>
+                    <td>University of Canterbury, NZ</td>
+                    <td>2001-2005</td>
+                    <td>
+                        <div>
+                            <a class="pull-right" href="#">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" class="form-control" placeholder="Name"
+                               name="firstName" required />
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" placeholder="Issuer"
+                               name="firstName" required />
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" placeholder="Years"
+                               name="firstName" required />
+                    </td>
+                    <td>
+                        <div>
+                            <a class="pull-right" href="#">Save</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div>
+            <span class="pull-right"><a href="javascript:void(0)">Add</a></span>
+        </div>
+    </div>
+</div>

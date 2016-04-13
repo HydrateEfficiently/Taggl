@@ -11,13 +11,32 @@ namespace Taggl.Services.Professionalities.Queries
 {
     public static class ProfessionalityQueries
     {
+        public static IQueryable<Professionality> QueryProfessionalityByUser(
+            this IQueryable<ApplicationUserRelationships> queryable,
+            string userId)
+        {
+            return queryable
+                .QueryByUser(userId)
+                .Select(r => r.Professionality);
+        }
+
+        public static async Task<Professionality> GetForResultAsync(
+            this IQueryable<Professionality> queryable)
+        {
+            return await queryable
+                .Include(p => p.Expertise)
+                .ThenInclude(e => e.JobTag)
+                .FirstAsync();
+        }
+
+
         public static async Task<Professionality> GetProfessionalityByUser(
             this IQueryable<ApplicationUserRelationships> queryable,
             string userId)
         {
             return await queryable
                 .QueryByUser(userId)
-                .Select(r => r.Professional)
+                .Select(r => r.Professionality)
                 .FirstOrDefaultAsync();
         }
     }

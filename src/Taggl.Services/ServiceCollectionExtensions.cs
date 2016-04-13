@@ -56,6 +56,7 @@ namespace Taggl.Services
 
             // Professionalities
             services.AddTransient<IExpertiseService, ExpertiseService>();
+            services.AddTransient<IProfessionalityService, ProfessionalityService>();
 
             ServiceLocator.Current = services.BuildServiceProvider();
         }

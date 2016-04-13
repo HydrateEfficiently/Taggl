@@ -34,22 +34,10 @@ namespace Taggl.Services.Identity
         public async Task<IEnumerable<UserResult>> Search(string pattern)
         {
             return (await _dbContext.UserRelationships
-                .WherePatternMatched(_lookupNormalizer, pattern)
-                .Where(r => IsStatusSearchable(r))
-                .IncludeForUserResult()
-                .ToListAsync()).Select(r => new UserResult(r.User));
+                .WhereUserPatternMatched(_lookupNormalizer, pattern)
+                .WhereUserSearchable(_userStatusResolver)
+                .Select(r => r.User)
+                .ToListAsync()).Select(u => new UserResult(u));
         }
-
-        #region Helpers
-
-        private bool IsStatusSearchable(ApplicationUserRelationships userRelationships)
-        {
-            var resolvedStatus = _userStatusResolver.Resolve(userRelationships);
-            return resolvedStatus == ResolvedUserStatus.Active ||
-                resolvedStatus == ResolvedUserStatus.Deactived ||
-                resolvedStatus == ResolvedUserStatus.Pending;
-        }
-
-        #endregion
     }
 }

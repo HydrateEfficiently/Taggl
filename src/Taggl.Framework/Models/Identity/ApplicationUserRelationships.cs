@@ -20,6 +20,6 @@ namespace Taggl.Framework.Models.Identity
 
         public Guid ProfessionalId { get; set; }
 
-        public virtual Professionality Professional { get; set; }
+        public virtual Professionality Professionality { get; set; }
     }
 }
