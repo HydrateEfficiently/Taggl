@@ -15,6 +15,14 @@ export class SessionService extends Injectable {
         return this.user;
     }
 
+    updateUser(user) {
+        
+    }
+
+    onUserUpdated(listener) {
+
+    }
+
     isAdministrator() {
         return true; // TODO:
     }

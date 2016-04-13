@@ -32,7 +32,7 @@ namespace Taggl.Services.Identity
         public async Task<UserResult> GetAsync()
         {
             var identity = _identityResolver.Resolve();
-            var user = await _dbContext.Users.GetAsync(identity.GetId());
+            var user = await _dbContext.UserRelationships.GetUserAsync(identity.GetId());
             return new UserResult(user);
         }
     }

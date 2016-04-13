@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Data.Entity;
 using Taggl.Framework.Utility;
-using Taggl.Framework.Models.Professionals;
+using Taggl.Framework.Models.Professionalities;
 
 namespace Taggl.Services.Identity
 {
@@ -82,11 +82,11 @@ namespace Taggl.Services.Identity
             {
                 UserId = user.Id,
                 Status = new ApplicationUserStatus(),
-                Professional = new Professional()
+                Professional = new Professionality()
             };
             _dbContext.UserRelationships.Add(userRelationships);
             _dbContext.UserStatuses.Add(userRelationships.Status);
-            _dbContext.Professionals.Add(userRelationships.Professional);
+            _dbContext.Professionalities.Add(userRelationships.Professional);
 
             await _dbContext.SaveChangesAsync();
         }

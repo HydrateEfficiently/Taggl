@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Taggl.Services.Administrator;
+using Taggl.Services.Jobs;
 
 namespace Taggl.Services
 {
@@ -44,6 +45,12 @@ namespace Taggl.Services
             services.AddTransient<ICurrentUserProvider, CurrentUserProvider>();
             services.AddTransient<IUserStatusResolver, UserStatusResolver>();
             services.AddTransient<IUserSearchService, UserSearchService>();
+            services.AddTransient<IAccountService, AccountService>();
+
+            // Jobs
+            services.AddTransient<IJobTagService, JobTagService>();
+            services.AddTransient<IJobTagFormatter, JobTagFormatter>();
+            services.AddTransient<IJobTagSearchService, JobTagSearchService>();
         }
     }
 }

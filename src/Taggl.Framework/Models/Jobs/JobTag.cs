@@ -11,6 +11,8 @@ namespace Taggl.Framework.Models.Jobs
 
         public string Name { get; set; }
 
-        public string NormalizedName { get; set; }
+        public string NameNormalized { get; set; }
+
+        public bool IsSearchable { get; set; }
     }
 }

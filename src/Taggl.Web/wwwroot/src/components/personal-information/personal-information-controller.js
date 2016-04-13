@@ -2,7 +2,7 @@ import { Injectable } from './../../utility/injectable';
 
 export class PersonalInformationController extends Injectable {
     static get $inject() {
-        return ['$timeout', 'TglLoggingService', 'TglApiInterfaceFactory'];
+        return ['$timeout', 'TglLoggingService', 'TglApiInterfaceFactory', 'TglSessionService'];
     }
 
     constructor(...deps) {
@@ -14,11 +14,14 @@ export class PersonalInformationController extends Injectable {
         this.personalInformation = {};
         this.personalInformationMaster = {};
 
-        if (this.initialModelJson) {
-            this.personalInformationMaster = angular.copy(JSON.parse(this.initialModelJson));
-            this.personalInformation = angular.copy(this.personalInformationMaster);
-            this.logger.debug('initial model ', this.personalInformation);
-        }
+        let user = this.TglSessionService.getUser();
+        this.personalInformationMaster = {
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName
+        };
+        this.personalInformation = angular.copy(this.personalInformationMaster);
+        this.logger.debug('initial model ', this.personalInformation);
 
         let self = this;
         this.$timeout(() => {
@@ -42,10 +45,11 @@ export class PersonalInformationController extends Injectable {
         let self = this;
         if (this.form.$valid) {
             this.accountApi.updatePersonalInformation(this.personalInformation)
-                .then(() => {
+                .then(result => {
                     self.isEditing = false;
                     self.isMasterValid = true;
                     self.personalInformationMaster = angular.copy(self.personalInformation);
+                    self.TglSessionService.updateUser(result);
                 });
         } else {
             this.form.$error.forEach(field => {

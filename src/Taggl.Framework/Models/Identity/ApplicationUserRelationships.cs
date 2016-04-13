@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Taggl.Framework.Models.Professionals;
+using Taggl.Framework.Models.Professionalities;
 
 namespace Taggl.Framework.Models.Identity
 {
@@ -20,6 +20,6 @@ namespace Taggl.Framework.Models.Identity
 
         public Guid ProfessionalId { get; set; }
 
-        public virtual Professional Professional { get; set; }
+        public virtual Professionality Professional { get; set; }
     }
 }

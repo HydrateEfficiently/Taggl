@@ -12,6 +12,13 @@ namespace Taggl.Services.Identity.Queries
 {
     public static class ApplicationUserRelationshipsQueries
     {
+        public static IQueryable<ApplicationUserRelationships> QueryByUser(
+            this IQueryable<ApplicationUserRelationships> queryable,
+            string userId)
+        {
+            return queryable.Where(r => r.UserId == userId);
+        }
+
         public static IQueryable<ApplicationUserRelationships> IncludeAll(
             this IQueryable<ApplicationUserRelationships> queryable)
         {
@@ -24,9 +31,7 @@ namespace Taggl.Services.Identity.Queries
         public static IQueryable<ApplicationUserRelationships> IncludeForUserResult(
             this IQueryable<ApplicationUserRelationships> queryable)
         {
-            return queryable
-                .Include(r => r.User)
-                .Include(r => r.Status);
+            return queryable.Include(r => r.User);
         }
 
         public static IQueryable<ApplicationUserRelationships> WherePatternMatched(
@@ -38,16 +43,6 @@ namespace Taggl.Services.Identity.Queries
             return queryable.Where(r =>
                 r.User.NormalizedEmail == patternNormalized ||
                 lookupNormalizer.Normalize(r.User.GetDisplayName()) == patternNormalized);
-        }
-
-        public static async Task<ApplicationUserStatus> GetStatusAsync(
-            this IQueryable<ApplicationUserRelationships> queryable,
-            string userId)
-        {
-            return await queryable
-                .Where(r => r.UserId == userId)
-                .Select(r => r.Status)
-                .FirstAsync();
         }
     }
 }

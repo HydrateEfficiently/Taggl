@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Taggl.Framework.Models.Jobs;
 
-namespace Taggl.Framework.Models.Professionals
+namespace Taggl.Framework.Models.Professionalities
 {
     public class ProfessionalExpertise
     {
@@ -12,7 +12,7 @@ namespace Taggl.Framework.Models.Professionals
 
         public Guid ProfessionalId { get; set; }
 
-        public virtual Professional Professional { get; set; }
+        public virtual Professionality Professionality { get; set; }
 
         public Guid JobTagId { get; set; }
 

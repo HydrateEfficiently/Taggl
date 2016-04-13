@@ -14,13 +14,16 @@ namespace Taggl.Web.Controllers.Api
     {
         private readonly ISessionService _sessionService;
         private readonly IIdentityResolver _identityResolver;
+        private readonly IAccountService _accountService;
 
         public AccountApiController(
             ISessionService sessionService,
-            IIdentityResolver identityResolver)
+            IIdentityResolver identityResolver,
+            IAccountService accountService)
         {
             _sessionService = sessionService;
             _identityResolver = identityResolver;
+            _accountService = accountService;
         }
 
         [HttpPost]
@@ -33,10 +36,10 @@ namespace Taggl.Web.Controllers.Api
 
         [HttpPost]
         [Route("personal-information/update")]
-        public async Task<IActionResult> UpdatePersonalInformation() //[FromBody] PersonalInformationUpdate update)
+        public async Task<IActionResult> UpdatePersonalInformation([FromBody] PersonalInformationUpdate update)
         {
-            //var result = await _accountService.UpdatePersonalInformationAsync(update);
-            return new ObjectResult(null);
+            var result = await _accountService.UpdatePersonalInformationAsync(update);
+            return new ObjectResult(result);
         }
     }
 }
