@@ -11,6 +11,10 @@ export class SessionService extends Injectable {
         this.user = angular.copy(this.TglServerData.user);
     }
 
+    getUserId() {
+        return this.TglServerData.user.id;
+    }
+
     getUser() {
         return this.user;
     }

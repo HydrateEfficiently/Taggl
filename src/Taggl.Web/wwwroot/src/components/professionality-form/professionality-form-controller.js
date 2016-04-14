@@ -4,7 +4,7 @@ import * as GuidUtility  from './../../utility/guid-utility';
 
 export class ProfessionalityFormController extends Injectable {
     static get $inject() {
-        return ['TglLoggingService', 'TglApiInterfaceFactory'];
+        return ['TglLoggingService', 'TglApiInterfaceFactory', 'TglSessionService'];
     }
 
     constructor(...deps) {
@@ -13,10 +13,13 @@ export class ProfessionalityFormController extends Injectable {
         this.logger = this.TglLoggingService.createLogger(this.constructor.name);
         this.professionalityApi = this.TglApiInterfaceFactory.createApiInterface('professionality');
 
-        let self = this;
-        this.professionalityApi.get().then(professionality => {
-            self.masterExpertise = professionality.expertise;
-            self.expertise = angular.copy(self.masterExpertise);
+        this.professionality = {};
+        this.professionalityMaster = {};
+        this.professionalityApi.get({ 
+            models: [
+                this.professionality,
+                this.professionalityMaster
+            ]
         });
     }
 
@@ -25,34 +28,73 @@ export class ProfessionalityFormController extends Injectable {
         return filteredResults;
     }
 
-    isExpertiseSaved(expertise) {
-        return !GuidUtility.isEmpty(expertise.id);
-    }
-
     selectJobTag(jobTag) {
         if (jobTag && !this.expertiseExists(jobTag.name)) {
-            this.expertise.push({
+            this.professionality.expertise.push({
                 jobTagId: jobTag.id,
-                jobTagName: jobTag.name
+                jobTagName: jobTag.name,
+                shouldDelete: false
             });
         }
     }
 
     createJobTag(jobTagName) {
         if (jobTagName && !this.expertiseExists(jobTagName)) {
-            this.expertise.push({ jobTagName });
+            this.professionality.expertise.push({
+                jobTagName,
+                shouldDelete: false
+            });
         }
     }
 
     expertiseExists(jobTagName) {
-        return this.expertise.findIndex(e => e.jobTagName === jobTagName) >= 0;
+        return this.professionality.expertise.findIndex(e => e.jobTagName === jobTagName) >= 0;
     }
 
-    removeExpertise(expertise) {
-        ArrayUtility.remove(this.expertise, expertise);
+    deleteExpertise(expertise) {
+        if (this.isExpertiseSaved(expertise)) {
+            expertise.shouldDelete = true;
+        } else {
+            ArrayUtility.remove(this.professionality.expertise, expertise);
+        }
+    }
+
+    undoDeleteExpertise(expertise) {
+        expertise.shouldDelete = false;
+    }
+
+    isExpertiseSaved(expertise) {
+        return !GuidUtility.isEmpty(expertise.id);
+    }
+
+    isExpertisedDeleted(expertise) {
+        return expertise.shouldDelete;
+    }
+
+    edit() {
+        this.isEditing = true;
+    }
+
+    cancel() {
+        this.professionality = angular.copy(this.professionalityMaster);
+        this.isEditing = false;
     }
 
     save() {
+        let self = this;
+        let updateRequest = angular.copy(this.professionality);
+        let expertiseToDelete = updateRequest.expertise.filter(e => e.shouldDelete);
+        expertiseToDelete.forEach(e => ArrayUtility.remove(updateRequest.expertise, e));
+        this.professionalityApi.update(updateRequest, { 
+            models: [
+                this.professionality,
+                this.professionalityMaster
+            ]
+        }).then(() => self.isEditing = false);
+    }
 
+    _onProfessionalityUpdated(professionality) {
+        this.professionalityMaster = professionality;
+        this.professionality = angular.copy(professionality);
     }
 }

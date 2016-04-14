@@ -47,8 +47,8 @@ namespace Taggl.Initializer
             // Services
             services.AddTransient<JsonDataImportService>();
 
-            services.AddInitializer<SystemUserInitializer>();
             services.AddInitializer<RoleInitializer>();
+            services.AddInitializer<SystemUserInitializer>();
             services.AddInitializer<AdministratorsInitializer>();
             services.AddInitializer<JobTagIntializer>();
             //services.AddInitializer<ExpertiseInitializer>();

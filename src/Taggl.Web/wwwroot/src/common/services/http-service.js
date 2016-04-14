@@ -13,32 +13,15 @@ export class HttpService extends Injectable {
     }
 
     get(url, options = {}) {
-        let logger = this.logger;
-        return this._getGetRequest(url, options.maxAge)
-            .then(result => {
-                logger.debug(result);
-
-                let data = result.data;
-                let model = options.model;
-                if (model) {
-                    if (angular.isArray(model)) {
-                        model.length = 0;
-                        model.push(...data);
-                    } else if (angular.isObject(model)) {
-                        angular.merge(model, data);
-                    }
-                }
-
-                return data;
-            });
+        var self = this;
+        return this._getGetRequest(url, options.maxAge).then(result =>
+            self._onResult(result, options));
     }
 
-    post(...args) {
-        let logger = this.logger;
-        return this.$http.post(...args).then(result => {
-            logger.debug(result);
-            return result.data;
-        });
+    post(url, data, options = {}) {
+        var self = this;
+        return this.$http.post(url, data).then(result =>
+            self._onResult(result, options));
     }
 
     _getGetRequest(url, maxAge = 0) {
@@ -50,5 +33,31 @@ export class HttpService extends Injectable {
             this.getCache[url] = responseFromCache;
         }
         return responseFromCache.responsePromise;
+    }
+
+    _onResult(result, options) {
+        this.logger.debug(result);
+        let data = result.data;
+
+        if (options.model) {
+            this._updateModel(options.model, data);
+        } else if (options.models) {
+            options.models.forEach(m => {
+                this._updateModel(m, data);
+            });
+        }
+
+        return data;
+    }
+
+    _updateModel(model, data) {
+        if (angular.isArray(model)) {
+            model.length = 0;
+            model.push(...data);
+        } else if (angular.isObject(model)) {
+            for (let key in data) {
+                model[key] = angular.copy(data[key]);
+            }
+        }
     }
 }

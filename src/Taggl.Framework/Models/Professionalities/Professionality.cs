@@ -11,8 +11,7 @@ namespace Taggl.Framework.Models.Professionalities
     {
         public Guid Id { get; set; }
 
-        [InverseProperty(nameof(ProfessionalExpertise.Professionality))]
-        public virtual ICollection<ProfessionalExpertise> Expertise { get; set; }
-            = new List<ProfessionalExpertise>();
+        [InverseProperty(nameof(Professionalities.Expertise.Professionality))]
+        public virtual ICollection<Expertise> Expertise { get; set; } = new List<Expertise>();
     }
 }

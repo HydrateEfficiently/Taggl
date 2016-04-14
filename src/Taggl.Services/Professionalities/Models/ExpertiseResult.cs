@@ -16,7 +16,7 @@ namespace Taggl.Services.Professionalities.Models
         {
             var configuration = new ConfigurationStore(new TypeMapFactory(), MapperRegistry.Mappers);
             var mappingEngine = new MappingEngine(configuration);
-            configuration.CreateMap<ProfessionalExpertise, ExpertiseResult>();
+            configuration.CreateMap<Expertise, ExpertiseResult>();
             __mappingEngine = mappingEngine;
         }
 
@@ -28,7 +28,7 @@ namespace Taggl.Services.Professionalities.Models
 
         public string JobTagNameNormalized { get; set; }
 
-        public ExpertiseResult(ProfessionalExpertise exepertise)
+        public ExpertiseResult(Expertise exepertise)
         {
             __mappingEngine.Map(exepertise, this);
         }

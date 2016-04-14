@@ -21,14 +21,22 @@ namespace Taggl.Services.Professionalities.Queries
         }
 
         public static async Task<Professionality> GetForResultAsync(
-            this IQueryable<Professionality> queryable)
+            this IQueryable<Professionality> queryable,
+            ApplicationDbContext dbContext)
         {
-            return await queryable
-                .Include(p => p.Expertise)
-                .ThenInclude(e => e.JobTag)
-                .FirstAsync();
-        }
+            var professionality = await queryable.SingleAsync();
+            professionality.Expertise = await dbContext.Expertise
+                .QueryByProfessionality(professionality.Id)
+                .Include(e => e.JobTag)
+                .ToListAsync();
+            return professionality;
 
+            // TODO: THIS SHOULD WORK!!!
+            //return await queryable
+            //    .Include(p => p.Expertise)
+            //    .ThenInclude(e => e.JobTag)
+            //    .FirstAsync();
+        }
 
         public static async Task<Professionality> GetProfessionalityByUser(
             this IQueryable<ApplicationUserRelationships> queryable,

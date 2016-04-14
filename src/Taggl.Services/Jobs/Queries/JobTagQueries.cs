@@ -5,10 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Taggl.Framework.Constants;
+using Taggl.Framework.Models;
 using Taggl.Framework.Models.Identity;
 using Taggl.Framework.Models.Jobs;
 using Taggl.Framework.Services;
 using Taggl.Framework.Utility;
+using Taggl.Services.Identity;
 using Taggl.Services.Jobs.Models;
 
 namespace Taggl.Services.Jobs.Queries
@@ -17,29 +19,25 @@ namespace Taggl.Services.Jobs.Queries
     {
         public static async Task<JobTag> CreateOrGetJobTagAsync(
             this ApplicationDbContext dbContext,
-            IIdentityResolver identityResolver,
-            UserManager<ApplicationUser> userManager,
+            IRoleResolver roleResolver,
+            Audit audit,
             JobTagCreate create)
         {
-            var identityId = identityResolver.Resolve().GetId();
             var jobTag = create.Map();
             var existingJobTag = await dbContext.JobTags.GetMatchAsync(jobTag);
 
             if (existingJobTag == null)
             {
-                jobTag.Created = DateTime.UtcNow;
-                jobTag.CreatedById = identityId;
+                jobTag.Create(audit);
                 dbContext.JobTags.Add(jobTag);
                 existingJobTag = jobTag;
             }
 
-            var user = await userManager.FindByIdAsync(identityId);
-            if (await userManager.IsInRoleAsync(user, ApplicationRoles.Administrator))
+            if (await roleResolver.IsInRoleAsync(ApplicationRoles.Administrator))
             {
                 existingJobTag.IsSearchable = true;
             }
 
-            await dbContext.SaveChangesAsync();
             return existingJobTag;
         }
 

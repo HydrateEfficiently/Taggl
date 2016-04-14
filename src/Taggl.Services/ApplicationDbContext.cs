@@ -13,25 +13,26 @@ namespace Taggl.Services
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<ApplicationUserRelationships> UserRelationships { get; set; }
+        public DbSet<ApplicationUserRelationships> ApplicationUserRelationships { get; set; }
         public DbSet<ApplicationUserStatus> UserStatuses { get; set; }
 
         public DbSet<JobTag> JobTags { get; set; }
 
         public DbSet<Professionality> Professionalities { get; set; }
-        public DbSet<ProfessionalExpertise> ProfessionalExpertise { get; set; }
+        public DbSet<Expertise> Expertise { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            
+
+            builder.Entity<ApplicationUserRelationships>().HasTableName(nameof(ApplicationUserRelationships));
             builder.Entity<ApplicationUserStatus>().HasTableName(nameof(UserStatuses));
 
             builder.Entity<JobTag>().HasTableName(nameof(JobTags));
 
             builder.Entity<Professionality>().HasTableName(nameof(Professionalities));
-            builder.Entity<ProfessionalExpertise>().HasTableName(nameof(ProfessionalExpertise));
+            builder.Entity<Expertise>().HasTableName(nameof(Expertise));
         }
     }
 }

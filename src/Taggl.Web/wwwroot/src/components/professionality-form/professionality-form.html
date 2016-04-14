@@ -2,9 +2,9 @@
     <h5>Professional</h5>
     <div class="mb-md">
         <div class="mb-md">
-            <a ng-show="false" ng-click="ctrl.edit()" href="javascript:void(0)">Edit</a>
-            <a ng-show="true" ng-click="ctrl.save()" href="javascript:void(0)">Save</a>
-            <a ng-show="true" ng-click="ctrl.cancel()" href="javascript:void(0)">Cancel</a>
+            <a ng-show="!ctrl.isEditing" ng-click="ctrl.edit()" href="javascript:void(0)">Edit</a>
+            <a ng-show="ctrl.isEditing" ng-click="ctrl.save()" href="javascript:void(0)">Save</a>
+            <a ng-show="ctrl.isEditing" ng-click="ctrl.cancel()" href="javascript:void(0)">Cancel</a>
         </div>
     </div>
 
@@ -12,7 +12,7 @@
         <div class="row mb-xs">
             <div class="col-md-6 col-sm-12">
                 <label>Expertise</label>
-                <div>
+                <div ng-show="ctrl.isEditing">
                     <tgl-job-tag-search on-item-selected="ctrl.selectJobTag(item)"
                                         on-item-created="ctrl.createJobTag(label)"
                                         on-results-retrieved="ctrl.filterJobTagResults(results)"
@@ -22,10 +22,18 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <i ng-if="!ctrl.expertise.length" class="text-muted">(You haven't selected any expertise yet)</i>
-                <div class="pull-left mr" ng-repeat="exp in ctrl.expertise">
-                    <span ng-class="{ 'text-muted': !ctrl.isExpertiseSaved(exp) }">{{ exp.jobTagName }}</span>
-                    <span ng-click="ctrl.removeExpertise(exp)" class="fa fa-times clickable" style="color: red;"></span>
+                <i ng-if="!ctrl.professionality.expertise.length" class="text-muted">(You haven't selected any expertise yet)</i>
+                <div class="pull-left mr" ng-repeat="expertise in ctrl.professionality.expertise">
+                    <span ng-class="{ 
+                            'text-muted': !ctrl.isExpertiseSaved(expertise),
+                            'text-striked': expertise.shouldDelete
+                          }">{{ expertise.jobTagName }}</span>
+                    <span ng-if="ctrl.isEditing && expertise.shouldDelete" 
+                          ng-click="ctrl.undoDeleteExpertise(expertise)" 
+                          class="fa fa-undo clickable" style="color: dodgerblue;"></span>
+                    <span ng-if="ctrl.isEditing && !expertise.shouldDelete" 
+                          ng-click="ctrl.deleteExpertise(expertise)" 
+                          class="fa fa-times clickable" style="color: red;"></span>
                 </div>
             </div>
         </div>

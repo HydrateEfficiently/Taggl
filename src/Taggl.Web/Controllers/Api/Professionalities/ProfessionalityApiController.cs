@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Taggl.Framework.Services;
 using Taggl.Framework.Utility;
 using Taggl.Services.Professionalities;
+using Taggl.Services.Professionalities.Models;
 
 namespace Taggl.Web.Controllers.Api.Professionalities
 {
@@ -24,10 +25,19 @@ namespace Taggl.Web.Controllers.Api.Professionalities
         }
 
         [Route("get")]
+        [HttpGet]
         public async Task<IActionResult> Get()
         {
             var identityId = _identityResolver.Resolve().GetId();
             var result = await _professionalityService.GetAsync(identityId);
+            return new ObjectResult(result);
+        }
+
+        [Route("update")]
+        [HttpPost]
+        public async Task<IActionResult> Update([FromBody] ProfessionalityUpdate update)
+        {
+            var result = await _professionalityService.UpdateAsync(update);
             return new ObjectResult(result);
         }
     }

@@ -48,6 +48,8 @@ namespace Taggl.Services
             services.AddTransient<IUserStatusResolver, UserStatusResolver>();
             services.AddTransient<IUserSearchService, UserSearchService>();
             services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IRoleResolver, RoleResolver>();
+            services.AddScoped<IAuditFactory, AuditFactory>();
 
             // Jobs
             services.AddTransient<IJobTagService, JobTagService>();

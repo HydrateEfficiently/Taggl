@@ -13,7 +13,9 @@ namespace Taggl.Services.Identity
 {
     public interface ICurrentUserProvider
     {
-        Task<UserResult> GetAsync();
+        Task<ApplicationUser> GetApplicationUserAsync();
+
+        Task<UserResult> GetUserResultAsync();
     }
 
     public class CurrentUserProvider : ICurrentUserProvider
@@ -29,11 +31,15 @@ namespace Taggl.Services.Identity
             _dbContext = dbContext;
         }
 
-        public async Task<UserResult> GetAsync()
+        public async Task<ApplicationUser> GetApplicationUserAsync()
         {
             var identity = _identityResolver.Resolve();
-            var user = await _dbContext.UserRelationships.GetUserAsync(identity.GetId());
-            return new UserResult(user);
+            return await _dbContext.ApplicationUserRelationships.GetUserAsync(identity.GetId());
+        }
+
+        public async Task<UserResult> GetUserResultAsync()
+        {
+            return new UserResult(await GetApplicationUserAsync());
         }
     }
 }

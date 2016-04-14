@@ -32,5 +32,13 @@ namespace Taggl.Services.Professionalities.Models
         {
             __mappingEngine.Map(professionality, this);
         }
+
+        public string UserId { get; private set; }
+
+        public ProfessionalityResult AddUserId(string userId)
+        {
+            UserId = userId;
+            return this;
+        }
     }
 }

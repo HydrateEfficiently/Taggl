@@ -7,6 +7,7 @@ using Taggl.Framework.Models.Identity;
 using Taggl.Framework.Models.Professionalities;
 using Taggl.Framework.Services;
 using Taggl.Framework.Utility;
+using Taggl.Services.Identity;
 using Taggl.Services.Jobs.Models;
 using Taggl.Services.Jobs.Queries;
 using Taggl.Services.Professionalities.Queries;
@@ -15,39 +16,35 @@ namespace Taggl.Services.Professionalities
 {
     public interface IExpertiseService
     {
-        Task<ProfessionalExpertise> CreateAsync(JobTagCreate create);
+        Task<Expertise> CreateAsync(JobTagCreate create);
     }
 
     public class ExpertiseService : IExpertiseService
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IIdentityResolver _identityResolver;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IRoleResolver _roleResolver;
+        private readonly IAuditFactory _auditFactory;
 
         public ExpertiseService(
             ApplicationDbContext dbContext,
             IIdentityResolver identityResolver,
-            UserManager<ApplicationUser> userManager)
+            IRoleResolver roleResolver,
+            IAuditFactory auditFactory)
         {
             _dbContext = dbContext;
             _identityResolver = identityResolver;
-            _userManager = userManager;
+            _roleResolver = roleResolver;
+            _auditFactory = auditFactory;
         }
 
-        public async Task<ProfessionalExpertise> CreateAsync(JobTagCreate create)
+        public async Task<Expertise> CreateAsync(JobTagCreate create)
         {
             var identityId = _identityResolver.Resolve().GetId();
-            var professionality = await _dbContext.UserRelationships.GetProfessionalityByUser(identityId);
-            var jobTag = await _dbContext.CreateOrGetJobTagAsync(_identityResolver, _userManager, create);
-
-            var expertise = new ProfessionalExpertise()
-            {
-                JobTag = jobTag,
-                Professionality = professionality
-            };
-            _dbContext.ProfessionalExpertise.Add(expertise);
+            var professionality = await _dbContext.ApplicationUserRelationships.GetProfessionalityByUser(identityId);
+            var expertise = await _dbContext.CreateExpertiseAsync(
+                _roleResolver, _auditFactory.CreateAudit(), professionality.Id, create.Name); // TODO: Currently mapping JobTagCreate => string => JobTagCreate
             await _dbContext.SaveChangesAsync();
-            
             return expertise;
         }
     }

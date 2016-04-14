@@ -8,9 +8,10 @@ using Taggl.Services;
 namespace Taggl.Services.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160414103610_Initial2")]
+    partial class Initial2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
@@ -209,10 +210,6 @@ namespace Taggl.Services.Migrations
 
                     b.Property<string>("CreatedById");
 
-                    b.Property<DateTime?>("Deleted");
-
-                    b.Property<string>("DeletedById");
-
                     b.Property<Guid>("JobTagId");
 
                     b.Property<Guid>("ProfessionalityId");
@@ -298,10 +295,6 @@ namespace Taggl.Services.Migrations
                     b.HasOne("Taggl.Framework.Models.Identity.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("CreatedById");
-
-                    b.HasOne("Taggl.Framework.Models.Identity.ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("DeletedById");
 
                     b.HasOne("Taggl.Framework.Models.Jobs.JobTag")
                         .WithMany()

@@ -18,7 +18,7 @@ namespace Taggl.Framework.Models.Identity
 
         public ApplicationUserStatus Status { get; set; }
 
-        public Guid ProfessionalId { get; set; }
+        public Guid ProfessionalityId { get; set; }
 
         public virtual Professionality Professionality { get; set; }
     }

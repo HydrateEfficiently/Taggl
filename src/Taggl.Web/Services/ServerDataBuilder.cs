@@ -77,7 +77,7 @@ namespace Taggl.Web.Services
         {
             if (_includeCurrentUser)
             {
-                var user = await _currentUserProvider.GetAsync();
+                var user = await _currentUserProvider.GetUserResultAsync();
                 if (user != null)
                 {
                     _data.Add("User", user);
