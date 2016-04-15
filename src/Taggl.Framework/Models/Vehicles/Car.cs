@@ -16,7 +16,7 @@ namespace Taggl.Framework.Models.Vehicles
 
         public virtual ApplicationUser CreatedBy { get; set; }
 
-        public DateTime? Updated { get; set; }
+        public DateTime Updated { get; set; }
 
         public string UpdatedById { get; set; }
 
