@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.CodeGeneration.CommandLine;
 
-namespace Taggl.Scaffolding
+namespace Taggl.CodeGeneration
 {
     public abstract class CommandLineModel
     {

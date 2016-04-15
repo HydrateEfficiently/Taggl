@@ -28,8 +28,7 @@ namespace Taggl.Services.Jobs.Queries
 
             if (existingJobTag == null)
             {
-                jobTag.Create(audit);
-                dbContext.JobTags.Add(jobTag);
+                dbContext.JobTags.Add(jobTag.Create(audit));
                 existingJobTag = jobTag;
             }
 

@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Taggl.Scaffolding.Utility;
+using Taggl.CodeGeneration.Utility;
 
-namespace Taggl.Scaffolding
+namespace Taggl.CodeGeneration
 {
     public class Scaffolder
     {

@@ -20,6 +20,10 @@
       "environmentVariables": {
         "Hosting:Environment": "Development"
       }
+    },
+    "gen": {
+      "commandName": "gen",
+      "commandLineArgs": "service -e Car -f"
     }
   }
 }

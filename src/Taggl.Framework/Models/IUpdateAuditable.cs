@@ -17,12 +17,14 @@ namespace Taggl.Framework.Models
 
     public static class UpdateAuditableExtensions
     {
-        public static void Delete(
-            this IUpdateAuditable updateAuditable,
+        public static T Update<T>(
+            this T updateAuditable,
             Audit audit)
+            where T : IUpdateAuditable
         {
             updateAuditable.Updated = audit.Actioned;
             updateAuditable.UpdatedById = audit.ActionedById;
+            return updateAuditable;
         }
     }
 }

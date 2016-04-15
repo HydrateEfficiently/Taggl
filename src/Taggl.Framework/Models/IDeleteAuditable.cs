@@ -17,12 +17,14 @@ namespace Taggl.Framework.Models
 
     public static class DeleteAuditable
     {
-        public static void Delete(
-            this IDeleteAuditable deleteAuditable,
+        public static T Delete<T>(
+            this T deleteAuditable,
             Audit audit)
+            where T : IDeleteAuditable
         {
             deleteAuditable.Deleted = audit.Actioned;
             deleteAuditable.DeletedById = audit.ActionedById;
+            return deleteAuditable;
         }
     }
 }

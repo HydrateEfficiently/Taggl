@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Taggl.Scaffolding.Service
+namespace Taggl.CodeGeneration.Service
 {
     public class ServiceTemplateModel
     {
@@ -17,9 +17,11 @@ namespace Taggl.Scaffolding.Service
         public string EntityIdTypeName { get; internal set; }
         public string EntityName { get; internal set; }
         public string EntityNamespaceName { get; internal set; }
+        public string FrameworkServicesNamespaceName { get; internal set; }
         public string ReadEntityDtoName { get; internal set; }
         public string ServiceName { get; internal set; }
         public string ServiceNamespaceName { get; internal set; }
+        public string ServicesNamespaceName { get; internal set; }
         public string UpdateEntityDtoName { get; internal set; }
     }
 }

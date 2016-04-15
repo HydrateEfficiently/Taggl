@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Taggl.Scaffolding.Utility
+namespace Taggl.CodeGeneration.Utility
 {
     public static class CodeGeneratorActionsServiceExtensions
     {

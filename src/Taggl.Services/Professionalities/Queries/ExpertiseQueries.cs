@@ -25,8 +25,8 @@ namespace Taggl.Services.Professionalities.Queries
         {
             var jobTag = await dbContext.CreateOrGetJobTagAsync(
                 roleResolver, audit, new JobTagCreate() { Name = jobTagName });
-            var expertise = new Expertise() { JobTag = jobTag, ProfessionalityId = professionalityId };
-            expertise.Create(audit);
+            var expertise = new Expertise() { JobTag = jobTag, ProfessionalityId = professionalityId }
+                .Create(audit);
             dbContext.Expertise.Add(expertise);
             return expertise;
         }

@@ -17,12 +17,14 @@ namespace Taggl.Framework.Models
 
     public static class CreateAuditableExtensions
     {
-        public static void Create(
-            this ICreateAuditable createAuditable,
+        public static T Create<T>(
+            this T createAuditable,
             Audit audit)
+            where T : ICreateAuditable
         {
             createAuditable.Created = audit.Actioned;
             createAuditable.CreatedById = audit.ActionedById;
+            return createAuditable;
         }
     }
 }
