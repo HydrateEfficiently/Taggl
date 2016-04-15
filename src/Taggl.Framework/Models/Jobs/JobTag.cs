@@ -6,7 +6,7 @@ using Taggl.Framework.Models.Identity;
 
 namespace Taggl.Framework.Models.Jobs
 {
-    public class JobTag : ICreationAuditable
+    public class JobTag : ICreateAuditable
     {
         public Guid Id { get; set; }
 

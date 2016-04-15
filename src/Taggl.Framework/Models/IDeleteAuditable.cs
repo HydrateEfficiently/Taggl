@@ -6,7 +6,7 @@ using Taggl.Framework.Models.Identity;
 
 namespace Taggl.Framework.Models
 {
-    public interface IDeletionAuditable
+    public interface IDeleteAuditable
     {
         DateTime? Deleted { get; set; }
 
@@ -15,14 +15,14 @@ namespace Taggl.Framework.Models
         ApplicationUser DeletedBy { get; set; }
     }
 
-    public static class DeletionAuditableExtensions
+    public static class DeleteAuditable
     {
         public static void Delete(
-            this IDeletionAuditable deletionAuditable,
+            this IDeleteAuditable deleteAuditable,
             Audit audit)
         {
-            deletionAuditable.Deleted = audit.Actioned;
-            deletionAuditable.DeletedById = audit.ActionedById;
+            deleteAuditable.Deleted = audit.Actioned;
+            deleteAuditable.DeletedById = audit.ActionedById;
         }
     }
 }

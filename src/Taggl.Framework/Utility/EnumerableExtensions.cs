@@ -66,7 +66,6 @@ namespace Taggl.Framework.Utility
             var comparersByKey1 = valuesByKey.ToDictionary(kvp => kvp.Key, kvp => comparerSelector(kvp.Value));
             var comparersByKey2 = second.ToDictionary(i => secondKeySelector(i), i => secondComparerSelector(i));
             var difference = comparersByKey1.Except(comparersByKey2, (kvp1, kvp2) => kvp1.Key.Equals(kvp2.Key));
-            //var difference = comparersByKey1.Where(kvp1 => comparersByKey2.Any(kvp2 => kvp1.Key.Equals(kvp2.Key)));
             var result = difference.Select(kvp => valuesByKey[kvp.Key]);
             return result;
         }

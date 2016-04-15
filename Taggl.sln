@@ -18,6 +18,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Taggl.Services", "src\Taggl
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Taggl.Initializer", "src\Taggl.Initializer\Taggl.Initializer.xproj", "{0404FBFA-6FE2-4426-AFEB-45B466077522}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Taggl.Scaffolding", "src\Taggl.Scaffolding\Taggl.Scaffolding.xproj", "{706D06B4-924D-41B1-BE16-FE972BE9F2A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +42,10 @@ Global
 		{0404FBFA-6FE2-4426-AFEB-45B466077522}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0404FBFA-6FE2-4426-AFEB-45B466077522}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0404FBFA-6FE2-4426-AFEB-45B466077522}.Release|Any CPU.Build.0 = Release|Any CPU
+		{706D06B4-924D-41B1-BE16-FE972BE9F2A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{706D06B4-924D-41B1-BE16-FE972BE9F2A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{706D06B4-924D-41B1-BE16-FE972BE9F2A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{706D06B4-924D-41B1-BE16-FE972BE9F2A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,5 +55,6 @@ Global
 		{91A49F67-257B-4B15-A0AE-15C77C39DC07} = {1A7B70BB-8CB5-4526-AD3B-890B034A9A60}
 		{B2F27FCD-5EE7-481F-A95F-EE7A6A5B8373} = {1A7B70BB-8CB5-4526-AD3B-890B034A9A60}
 		{0404FBFA-6FE2-4426-AFEB-45B466077522} = {1A7B70BB-8CB5-4526-AD3B-890B034A9A60}
+		{706D06B4-924D-41B1-BE16-FE972BE9F2A5} = {1A7B70BB-8CB5-4526-AD3B-890B034A9A60}
 	EndGlobalSection
 EndGlobal

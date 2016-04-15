@@ -6,7 +6,7 @@ using Taggl.Framework.Models.Identity;
 
 namespace Taggl.Framework.Models
 {
-    public interface ICreationAuditable
+    public interface ICreateAuditable
     {
         DateTime Created { get; set; }
 
@@ -15,14 +15,14 @@ namespace Taggl.Framework.Models
         ApplicationUser CreatedBy { get; set; }
     }
 
-    public static class CreationAuditableExtensions
+    public static class CreateAuditableExtensions
     {
         public static void Create(
-            this ICreationAuditable creationAuditable,
+            this ICreateAuditable createAuditable,
             Audit audit)
         {
-            creationAuditable.Created = audit.Actioned;
-            creationAuditable.CreatedById = audit.ActionedById;
+            createAuditable.Created = audit.Actioned;
+            createAuditable.CreatedById = audit.ActionedById;
         }
     }
 }

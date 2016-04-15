@@ -7,7 +7,7 @@ using Taggl.Framework.Models.Jobs;
 
 namespace Taggl.Framework.Models.Professionalities
 {
-    public class Expertise : ICreationAuditable, IDeletionAuditable
+    public class Expertise : ICreateAuditable, IDeleteAuditable
     {
         public Guid Id { get; set; }
 
