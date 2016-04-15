@@ -61,7 +61,17 @@ namespace Taggl.CodeGeneration.Service
                 CreateEntityDtoName = CreateEntityDtoName,
                 UpdateEntityDtoName = UpdateEntityDtoName
             };
-            scaffoldingTasks.Add(_scaffolder.ScaffoldServiceAsync(AreaName, EntityName, ServiceName, serviceTemplateModel, model.Force));
+            scaffoldingTasks.Add(_scaffolder.ScaffoldServiceAsync(AreaName, ServiceName, serviceTemplateModel, model.Force));
+
+            dynamic readDtoTemplateModel = new ReadDtoTemplateModel()
+            {
+                EntityName = EntityName,
+                EntityNamespaceName = _nameResolver.GetEntityNamespace(AreaName),
+                ReadEntityDtoName = ReadEntityDtoName,
+                EntityProperties = EntityProperties,
+                ServicesNamespaceName = ServicesNamespaceName
+            };
+            scaffoldingTasks.Add(_scaffolder.ScaffoldReadDtoAsync(AreaName, ReadEntityDtoName, readDtoTemplateModel, model.Force));
 
             if (CanUpdate)
             {
@@ -395,6 +405,24 @@ namespace Taggl.CodeGeneration.Service
                     _updateEntityDtoName = $"Update{EntityName}";
                 }
                 return _updateEntityDtoName;
+            }
+        }
+
+        private IEnumerable<PropertyDeclarationModel> _entityProperties;
+        public IEnumerable<PropertyDeclarationModel> EntityProperties
+        {
+            get
+            {
+                if (_entityProperties == null)
+                {
+                    _entityProperties = EntityType.GetProperties()
+                        .Select(pi => new PropertyDeclarationModel()
+                        {
+                            ResolvedTypeName = pi.ResolveTypeName(),
+                            Name = pi.Name
+                        });
+                }
+                return _entityProperties;
             }
         }
 

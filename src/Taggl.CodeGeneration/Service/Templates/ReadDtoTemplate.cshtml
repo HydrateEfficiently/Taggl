@@ -1,0 +1,37 @@
+﻿@inherits Microsoft.Extensions.CodeGeneration.Templating.RazorTemplateBase
+@{ 
+    var mappingTypeArgs = $"<{Model.EntityName}, {Model.ReadEntityDtoName}>";
+    var entityVariableAlias = Model.EntityName.ToLower()[0].ToString() + Model.EntityName.Substring(1);
+}
+using AutoMapper;
+using AutoMapper.Mappers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using @(Model.EntityNamespaceName);
+using @(Model.ServicesNamespaceName).Identity.Models;
+
+public class @Model.ReadEntityDtoName
+{
+    private static MappingEngine __mappingEngine;
+
+    static @(Model.ReadEntityDtoName)()
+    {
+        var configuration = new ConfigurationStore(new TypeMapFactory(), MapperRegistry.Mappers);
+        var mappingEngine = new MappingEngine(configuration);
+        configuration.CreateMap@(mappingTypeArgs)();
+        __mappingEngine = mappingEngine;
+    }
+    @foreach (var property in Model.EntityProperties)
+    {
+    @:
+    @:public @property.ResolvedTypeName @property.Name { get; set; }
+    }
+
+    public @(Model.ReadEntityDtoName)(@Model.EntityName @entityVariableAlias)
+    {
+        __mappingEngine.Map(@entityVariableAlias, this);
+    }
+}
+

@@ -8,7 +8,7 @@ namespace Taggl.Framework.Models
 {
     public interface IUpdateAuditable
     {
-        DateTime? Updated { get; set; }
+        DateTime Updated { get; set; }
 
         string UpdatedById { get; set; }
 
