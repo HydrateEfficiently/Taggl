@@ -46,14 +46,9 @@ namespace Taggl.CodeGeneration.Utility
             }
         }
 
-        public string GetTemplateFolder(ScaffoldType scaffoldType)
+        public string GetTemplateFolder()
         {
             var result = Path.Combine(ContainingProjectDirectory, "Templates");
-
-            //var result = Path.Combine(
-            //    ContainingProjectDirectory,
-            //    new ScaffoldDirectoryNameResolver().ResolveDirectoryName(scaffoldType),
-            //    "Templates");
 
             if (!Directory.Exists(result))
             {

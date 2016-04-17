@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Taggl.CodeGeneration.Commands
+namespace Taggl.CodeGeneration.Commands.Models
 {
     public class FromEntityCommandLineModel : CommandLineModel
     {

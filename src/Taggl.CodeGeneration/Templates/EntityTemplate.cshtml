@@ -1,0 +1,32 @@
+﻿@inherits Microsoft.Extensions.CodeGeneration.Templating.RazorTemplateBase
+@{ 
+    string interfaces = string.Empty;
+    if (Model.Interfaces.Count > 0)
+    {
+        interfaces = " : " + string.Join(", ", Model.Interfaces);
+    }
+}
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using @(Model.FrameworkEntitiesNamespace).Identity;
+
+namespace @(Model.FrameworkEntityNamespace).@(Model.AreaName)
+{
+    public class @(Model.EntityName)@(interfaces)
+    {
+        public @(Model.IdentityTypeName) Id { get; set; }
+        @foreach (var p in Model.Properties)
+        {
+        string output = p.AccessModifier;
+        if (p.HasExtraModifier)
+        {
+            output += " " + string.Join(" ", p.ExtraModifiers);
+        }
+        output += " " + p.ResolvedTypeName + " " + p.Name;
+        @:
+        @:@(output) { get; set; }
+        }
+    }
+}

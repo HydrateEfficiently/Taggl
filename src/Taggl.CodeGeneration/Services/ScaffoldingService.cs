@@ -42,58 +42,29 @@ namespace Taggl.CodeGeneration
             _directoryResolver = ActivatorUtilities.CreateInstance<DirectoryResolver>(_serviceProvider);
         }
 
-        public async Task ScaffoldServiceAsync(
-            string areaName,
-            string serviceName,
-            object templateModel,
-            bool force = false)
-        {
-            string directory = GetDirectoryInServices(areaName);
-            string outputFileName = GetOutputFileName(directory, serviceName);
-            await AddServicesFileAsync(outputFileName, "ServiceTemplate", templateModel);
-        }
-
-        public async Task ScaffoldReadDtoAsync(
-            string areaName,
-            string dtoName,
-            object templateModel,
-            bool force = false)
-        {
-            string directory = GetDirectoryInServices(areaName, "Models");
-            string outputFileName = GetOutputFileName(directory, dtoName);
-            await AddServicesFileAsync(outputFileName, "ReadDtoTemplate", templateModel);
-        }
-
-        #region Helpers
-
-        private async Task AddServicesFileAsync(
-            string outputFileName,
+        public async Task ScaffoldAsync(
+            string outputDirectory,
+            string outputClassName,
             string templateName,
             object templateModel,
             bool force = false)
         {
-            ValidateOutputFileName(outputFileName, force);
-            string templateFolder = _directoryResolver.GetTemplateFolder(ScaffoldType.Service);
-            await _codeGeneratorActionsService.AddFileFromTemplateAsync(
-                outputFileName, $"{templateName}.{TemplateFileExtension}", templateFolder, templateModel);
-        }
-
-        private string GetDirectoryInServices(params string[] paths)
-        {
-            string srcPath = Directory.GetParent(_applicationEnvironment.ApplicationBasePath).FullName;
-            string directory = Path.Combine(srcPath, _nameResolver.GetServicesNamespace(), Path.Combine(paths));
-            if (!Directory.Exists(directory))
+            if (!Directory.Exists(outputDirectory))
             {
-                _logger.LogMessage($"Directory {directory} did not exist, creating...");
-                Directory.CreateDirectory(directory);
+                _logger.LogMessage($"Directory {outputDirectory} did not exist, creating...");
+                Directory.CreateDirectory(outputDirectory);
             }
-            return directory;
+
+            string outputFileName = Path.Combine(outputDirectory, $"{outputClassName}.{CodeFileExtension}");
+            ValidateOutputFileName(outputFileName, force);
+
+            string templateFolder = _directoryResolver.GetTemplateFolder();
+
+            await _codeGeneratorActionsService.AddFileFromTemplateAsync(
+                outputFileName, $"{templateName}.cshtml", new List<string>() { templateFolder }, templateModel);
         }
 
-        private string GetOutputFileName(string directory, string fileNameWithoutExtension)
-        {
-            return Path.Combine(directory, $"{fileNameWithoutExtension}.{CodeFileExtension}");
-        }
+        #region Helpers
 
         private void ValidateOutputFileName(string outputFileName, bool force = false)
         {

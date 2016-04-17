@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Taggl.CodeGeneration.Services.Properties;
 using Taggl.CodeGeneration.Utility;
 
 namespace Taggl.CodeGeneration.Generators.ReadDto

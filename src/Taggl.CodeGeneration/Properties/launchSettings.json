@@ -23,7 +23,7 @@
     },
     "gen": {
       "commandName": "gen",
-      "commandLineArgs": "service -e Car -f"
+      "commandLineArgs": "entity -e Truck -a Vehicles -f -c -u -d"
     }
   }
 }

@@ -52,5 +52,10 @@ namespace Taggl.CodeGeneration.Services
         {
             return $"{GetServicesNamespace()}.{areaName}";
         }
+
+        public string GetServiceModelsNamespace(string areaName)
+        {
+            return $"{GetServiceNamespace(areaName)}.Models";
+        }
     }
 }

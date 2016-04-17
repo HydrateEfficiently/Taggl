@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Taggl.CodeGeneration.Commands.Models;
 using Taggl.CodeGeneration.Services;
 
 namespace Taggl.CodeGeneration.Commands

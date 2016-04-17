@@ -15,6 +15,7 @@ namespace Taggl.CodeGeneration.Generators.Service
         private readonly IEntityReflector _entityReflector;
         private readonly IEntityOperationsResolver _entityOperationsResolver;
         private readonly OutputClassNameResolver _outputClassNameResolver;
+        private readonly OutputPathResolver _outputPathResolver;
         private readonly ScaffoldingService _scaffoldingService;
         private readonly ServiceCommandLineModel _model;
 
@@ -24,6 +25,7 @@ namespace Taggl.CodeGeneration.Generators.Service
             IEntityReflector entityReflector,
             IEntityOperationsResolver entityOperationsResolver,
             OutputClassNameResolver outputClassNameResolver,
+            OutputPathResolver outputPathResolver,
             ScaffoldingService scaffoldingService,
             ServiceCommandLineModel model)
         {
@@ -32,6 +34,7 @@ namespace Taggl.CodeGeneration.Generators.Service
             _entityReflector = entityReflector;
             _entityOperationsResolver = entityOperationsResolver;
             _outputClassNameResolver = outputClassNameResolver;
+            _outputPathResolver = outputPathResolver;
             _scaffoldingService = scaffoldingService;
             _model = model;
         }
@@ -63,8 +66,12 @@ namespace Taggl.CodeGeneration.Generators.Service
                 UpdateEntityDtoName = _outputClassNameResolver.GetUpdateEntityDtoName(entityName)
             };
 
-            await _scaffoldingService.ScaffoldServiceAsync(
-                areaName, serviceName, serviceTemplateModel, _model.Force);
+            await _scaffoldingService.ScaffoldAsync(
+                _outputPathResolver.GetServicePath(areaName),
+                serviceName,
+                "ServiceTemplate",
+                serviceTemplateModel,
+                _model.Force);
         }
     }
 }

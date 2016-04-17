@@ -11,6 +11,7 @@ namespace Taggl.CodeGeneration.Generators.ReadDto
         private readonly NamespaceService _namespaceService;
         private readonly IAreaNameResolver _areaNameResolver;
         private readonly OutputClassNameResolver _outputClassNameResolver;
+        private readonly OutputPathResolver _outputPathResolver;
         private readonly IEntityPropertyResolver _entityPropertyResolve;
         private readonly ScaffoldingService _scaffoldingService;
         private readonly ReadDtoCommandLineModel _model;
@@ -19,6 +20,7 @@ namespace Taggl.CodeGeneration.Generators.ReadDto
             NamespaceService namespaceService,
             IAreaNameResolver areaNameResolver,
             OutputClassNameResolver outputClassNameResolver,
+            OutputPathResolver outputPathResolver,
             IEntityPropertyResolver entityPropertyResolve,
             ScaffoldingService scaffoldingService,
             ReadDtoCommandLineModel model)
@@ -26,6 +28,7 @@ namespace Taggl.CodeGeneration.Generators.ReadDto
             _namespaceService = namespaceService;
             _areaNameResolver = areaNameResolver;
             _outputClassNameResolver = outputClassNameResolver;
+            _outputPathResolver = outputPathResolver;
             _entityPropertyResolve = entityPropertyResolve;
             _scaffoldingService = scaffoldingService;
             _model = model;
@@ -46,8 +49,12 @@ namespace Taggl.CodeGeneration.Generators.ReadDto
                 ServicesNamespaceName = _namespaceService.GetServicesNamespace()
             };
 
-            await _scaffoldingService.ScaffoldReadDtoAsync(
-                areaName, readDtoName, readDtoTemplateModel, _model.Force);
+            await _scaffoldingService.ScaffoldAsync(
+                _outputPathResolver.GetServiceModelsPath(areaName),
+                readDtoName,
+                "ReadDtoTemplate",
+                readDtoTemplateModel,
+                _model.Force);
         }
     }
 }

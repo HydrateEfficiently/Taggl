@@ -17,7 +17,22 @@ namespace Taggl.CodeGeneration.Entity
         {
             ValidateCommandLineModel(model);
 
+            if (string.IsNullOrWhiteSpace(model.Area))
+            {
+                throw new InvalidOperationException("Please specify an area with -a");
+            }
+            
+            if (string.IsNullOrWhiteSpace(model.IdentityTypeName))
+            {
+                model.IdentityTypeName = "g";
+            }
+            else if (model.IdentityTypeName != "g" && model.IdentityTypeName != "i")
+            {
+                throw new InvalidOperationException("Invalid value for -i");
+            }
+
             var generator = GetGenerator<EntityGenerator>(model);
+            await generator.Generate();
         }
     }
 }
