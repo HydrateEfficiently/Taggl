@@ -6,11 +6,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Taggl.CodeGeneration.Services;
 using Taggl.CodeGeneration.Utility;
 
 namespace Taggl.CodeGeneration
 {
-    public class Scaffolder
+    public class ScaffoldingService
     {
         private const string CodeFileExtension = "cs";
         private const string TemplateFileExtension = "cshtml";
@@ -21,10 +22,10 @@ namespace Taggl.CodeGeneration
         private readonly IServiceProvider _serviceProvider;
         private readonly ILogger _logger;
 
-        private readonly NameResolver _nameResolver;
+        private readonly NamespaceService _nameResolver;
         private readonly DirectoryResolver _directoryResolver;
 
-        public Scaffolder(
+        public ScaffoldingService(
             ICodeGeneratorActionsService codeGeneratorActionsService,
             IApplicationEnvironment applicationEnvironment,
             ILibraryManager libraryManager,
@@ -37,7 +38,7 @@ namespace Taggl.CodeGeneration
             _serviceProvider = serviceProvider;
             _logger = logger;
 
-            _nameResolver = ActivatorUtilities.CreateInstance<NameResolver>(_serviceProvider);
+            _nameResolver = ActivatorUtilities.CreateInstance<NamespaceService>(_serviceProvider);
             _directoryResolver = ActivatorUtilities.CreateInstance<DirectoryResolver>(_serviceProvider);
         }
 

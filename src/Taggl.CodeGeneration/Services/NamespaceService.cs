@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Taggl.CodeGeneration.Utility
+namespace Taggl.CodeGeneration.Services
 {
-    public class NameResolver
+    public class NamespaceService
     {
         private readonly string _rootNamespace;
 
-        public NameResolver(
+        public NamespaceService(
             ILibraryManager libraryManager,
             IApplicationEnvironment appEnvironment)
         {
@@ -28,19 +28,29 @@ namespace Taggl.CodeGeneration.Utility
             return $"{GetRootNamespace()}.Framework";
         }
 
-        public string GetModelsNamespace()
+        public string GetFrameworkEntitiesNamespace()
         {
             return $"{GetFrameworkNamespace()}.Models";
         }
 
-        public string GetEntityNamespace(string modelName)
+        public string GetFrameworkEntityNamespace(string areaName)
         {
-            return $"{GetModelsNamespace()}.{modelName}";
+            return $"{GetFrameworkEntitiesNamespace()}.{areaName}";
+        }
+
+        public string GetFrameworkServicesNamespace()
+        {
+            return $"{GetFrameworkNamespace()}.Services";
         }
 
         public string GetServicesNamespace()
         {
             return $"{GetRootNamespace()}.Services";
+        }
+
+        public string GetServiceNamespace(string areaName)
+        {
+            return $"{GetServicesNamespace()}.{areaName}";
         }
     }
 }
