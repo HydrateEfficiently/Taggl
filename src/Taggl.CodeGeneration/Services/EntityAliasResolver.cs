@@ -22,8 +22,11 @@ namespace Taggl.CodeGeneration.Services
         public string Resolve(string typeName)
         {
             string result;
-            if (__frameworkMappings.TryGetValue(typeName, out result)) { }
-            return result;
+            if (__frameworkMappings.TryGetValue(typeName, out result))
+            {
+                return result;
+            }
+            return typeName;
         }
     }
 }
