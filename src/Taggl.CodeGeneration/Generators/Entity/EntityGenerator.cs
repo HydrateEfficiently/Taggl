@@ -152,7 +152,7 @@ namespace Taggl.CodeGeneration.Generators.Entity
             };
 
             await _scaffoldingService.ScaffoldAsync(
-                _outputPathResolver.GetFrameworkEntityNamespace("Vehicles"),
+                _outputPathResolver.GetFrameworkEntityNamespace(areaName),
                 entityName,
                 "EntityTemplate",
                 templateModel,
