@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Taggl.CodeGeneration.Services
+namespace Taggl.CodeGeneration.Services.Service
 {
     public interface IAreaNameResolver
     {

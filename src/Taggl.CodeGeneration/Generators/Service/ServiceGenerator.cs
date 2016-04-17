@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Taggl.CodeGeneration.Services;
+using Taggl.CodeGeneration.Services.Service;
 
 namespace Taggl.CodeGeneration.Generators.Service
 {

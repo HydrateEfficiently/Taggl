@@ -23,7 +23,7 @@
     },
     "gen": {
       "commandName": "gen",
-      "commandLineArgs": "entity -e Truck -a Vehicles -f -c -u -d"
+      "commandLineArgs": "entity -e Truck -a Vehicles -f -c -u -d -p ApplicationUser:OwnedBy,dt:Owned"
     }
   }
 }

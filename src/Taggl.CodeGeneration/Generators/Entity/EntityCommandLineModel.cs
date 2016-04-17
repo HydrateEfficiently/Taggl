@@ -26,5 +26,8 @@ namespace Taggl.CodeGeneration.Generators.Entity
 
         [Option(Name = "auditDelete", ShortName = "d", Description = "A flag which determines if the entity should inherit from IDeleteAuditable")]
         public bool AuditDelete { get; set; }
+
+        [Option(Name = "properties", ShortName = "p", Description = "The comma seperated properties of the entity, in form <property-type>:<property-name>")]
+        public string Properties { get; set; }
     }
 }

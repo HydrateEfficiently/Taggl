@@ -35,11 +35,13 @@ namespace Taggl.CodeGeneration.Commands
             AddService(new OutputClassNameResolver());
             AddService<IPropertyTypeNameResolver, PropertyTypeNameResolver>();
             AddService<IEntityAliasResolver, EntityAliasResolver>();
+            AddService<ITypeNameShortcutMapper, TypeNameShortcutMapper>();
 
             // Dependencies
             AddServiceWithDependency<NamespaceService, NamespaceService>();
             AddServiceWithDependency<ScaffoldingService, ScaffoldingService>();
             AddServiceWithDependency<OutputPathResolver, OutputPathResolver>();
+            AddServiceWithDependency<IAssemblyProvider, AssemblyProvider>();
 
             AddServiceWithDependency<IIdentityTypeNameResolver, IdentityTypeNameResolver>();
             AddServiceWithDependency<IPropertyDeclarationFactory, PropertyDeclarationFactory>();

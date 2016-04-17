@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Taggl.CodeGeneration.Commands.Models;
 using Taggl.CodeGeneration.Services;
+using Taggl.CodeGeneration.Services.Service;
 
 namespace Taggl.CodeGeneration.Commands
 {

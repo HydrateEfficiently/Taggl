@@ -7,6 +7,11 @@ namespace Taggl.CodeGeneration.Services.Properties
 {
     public interface IPropertyDeclarationFactory
     {
+        PropertyDeclarationModel CreateProperty(
+            string propertyName,
+            string resolvedPropertyTypeName,
+            PropertyDeclarationModelOptions options = null);
+
         IEnumerable<PropertyDeclarationModel> CreateInterfaceProperties(
             Type interfaceType,
             Dictionary<string, PropertyDeclarationModelOptions> optionsByPropertyName = null);
@@ -20,6 +25,30 @@ namespace Taggl.CodeGeneration.Services.Properties
             IPropertyTypeNameResolver propertyTypeNameResolver)
         {
             _propertyTypeNameResolver = propertyTypeNameResolver;
+        }
+
+        public PropertyDeclarationModel CreateProperty(
+            string propertyName,
+            string resolvedPropertyTypeName,
+            PropertyDeclarationModelOptions options = null)
+        {
+            if (options == null)
+            {
+                options = new PropertyDeclarationModelOptions();
+            }
+
+            string extraModifiers = string.Join(" ", new Dictionary<string, bool>()
+            {
+                { "virtual", options.IsVirtual }
+            }.Where(kvp => kvp.Value).Select(kvp => kvp.Key));
+
+            return new PropertyDeclarationModel()
+            {
+                AccessModifier = options.AccessModifier,
+                ExtraModifiers = extraModifiers,
+                ResolvedTypeName = resolvedPropertyTypeName,
+                Name = propertyName
+            };
         }
 
         public IEnumerable<PropertyDeclarationModel> CreateInterfaceProperties(
@@ -42,18 +71,11 @@ namespace Taggl.CodeGeneration.Services.Properties
                     options = new PropertyDeclarationModelOptions();
                 }
 
-                string extraModifiers = string.Join(" ", new Dictionary<string, bool>()
-                {
-                    { "virtual", options.IsVirtual }
-                }.Where(kvp => kvp.Value).Select(kvp => kvp.Key));
-                
-                result.Add(new PropertyDeclarationModel()
-                {
-                    AccessModifier = options.AccessModifier,
-                    ExtraModifiers = extraModifiers,
-                    ResolvedTypeName = _propertyTypeNameResolver.Resolve(pi),
-                    Name = propertyName
-                });
+                result.Add(CreateProperty(
+                    propertyName,
+                    _propertyTypeNameResolver.Resolve(pi),
+                    options
+                ));
             }
             return result;
         }

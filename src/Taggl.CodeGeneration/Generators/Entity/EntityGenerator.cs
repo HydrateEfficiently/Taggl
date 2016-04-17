@@ -16,6 +16,8 @@ namespace Taggl.CodeGeneration.Generators.Entity
         private readonly NamespaceService _namespaceService;
         private readonly IIdentityTypeNameResolver _identityTypeNameResolver;
         private readonly IPropertyDeclarationFactory _propertyDeclarationFactory;
+        private readonly ITypeNameShortcutMapper _typeNameShortcutMapper;
+        private readonly IEntityReflector _entityReflector;
         private readonly EntityCommandLineModel _model;
 
         public EntityGenerator(
@@ -24,6 +26,8 @@ namespace Taggl.CodeGeneration.Generators.Entity
             NamespaceService namespaceService,
             IIdentityTypeNameResolver identityTypeNameResolver,
             IPropertyDeclarationFactory propertyDeclarationFactory,
+            ITypeNameShortcutMapper typeNameShortcutMapper,
+            IEntityReflector entityReflector,
             EntityCommandLineModel model)
         {
             _scaffoldingService = scaffoldingService;
@@ -31,16 +35,59 @@ namespace Taggl.CodeGeneration.Generators.Entity
             _namespaceService = namespaceService;
             _identityTypeNameResolver = identityTypeNameResolver;
             _propertyDeclarationFactory = propertyDeclarationFactory;
+            _typeNameShortcutMapper = typeNameShortcutMapper;
+            _entityReflector = entityReflector;
             _model = model;
         }
 
         public async Task Generate()
         {
+            var properties = new List<PropertyDeclarationModel>();
+            var interfaces = new List<string>();
+
             string areaName = _model.Area;
             string entityName = _model.Entity;
 
-            var properties = new List<PropertyDeclarationModel>();
-            var interfaces = new List<string>();
+            if (!string.IsNullOrWhiteSpace(_model.Properties))
+            {
+                var propertyDefinitions = _model.Properties.Split(',').Select(s => s.Trim());
+                foreach (var propertyDefinition in propertyDefinitions)
+                {
+                    string[] propertyTypeNamePair = propertyDefinition.Split(':');
+                    if (propertyTypeNamePair.Length != 2) {
+                        throw new InvalidOperationException("Property definition must be in format <propertyType>:<propertyName>");
+                    }
+
+                    string propertyTypeName = propertyTypeNamePair[0];
+                    string propertyName = propertyTypeNamePair[1];
+
+                    Type foreignKeyEntity = null;
+                    if (_entityReflector.TryGetEntityType(propertyTypeName, out foreignKeyEntity))
+                    {
+                        properties.Add(_propertyDeclarationFactory.CreateProperty(
+                            $"{propertyName}Id",
+                            _entityReflector.GetEntityIdType(propertyTypeName)));
+                        properties.Add(_propertyDeclarationFactory.CreateProperty(
+                            propertyName,
+                            propertyTypeName,
+                            new PropertyDeclarationModelOptions()
+                            {
+                                IsVirtual = true
+                            }));
+                    }
+                    else
+                    {
+                        bool isNullable = propertyTypeName.EndsWith("?");
+                        string underlyingTypeName = isNullable ? propertyTypeName.Replace("?", string.Empty) : propertyTypeName;
+                        underlyingTypeName = _typeNameShortcutMapper.Map(underlyingTypeName);
+                        if (isNullable)
+                        {
+                            underlyingTypeName += "?";
+                        }
+                        properties.Add(_propertyDeclarationFactory.CreateProperty(propertyName, underlyingTypeName));
+                    }                    
+                }
+            }
 
             if (_model.AuditCreate)
             {

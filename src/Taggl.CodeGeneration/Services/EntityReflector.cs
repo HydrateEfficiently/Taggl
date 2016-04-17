@@ -12,6 +12,8 @@ namespace Taggl.CodeGeneration.Services
     {
         Type GetEntityType(string entityName);
 
+        bool TryGetEntityType(string entityName, out Type entityType);
+
         string GetEntityIdType(string entityName);
 
         Type GetDataContextType();
@@ -22,6 +24,7 @@ namespace Taggl.CodeGeneration.Services
     public class EntityReflector : IEntityReflector
     {
         private readonly NamespaceService _namespaceService;
+        private readonly IAssemblyProvider _assemblyProvider;
 
         private Type _dbContextType;
         private Dictionary<string, Type> _entityTypesByEntityName = new Dictionary<string, Type>();
@@ -29,9 +32,11 @@ namespace Taggl.CodeGeneration.Services
         private Dictionary<string, string> _dbSetPropertyNamesByEntityName = new Dictionary<string, string>();
 
         public EntityReflector(
-            NamespaceService namespaceService)
+            NamespaceService namespaceService,
+            IAssemblyProvider assemblyProvider)
         {
             _namespaceService = namespaceService;
+            _assemblyProvider = assemblyProvider;
         }
 
         public Type GetEntityType(string entityName)
@@ -39,24 +44,12 @@ namespace Taggl.CodeGeneration.Services
             Type entityType;
             if (!_entityTypesByEntityName.TryGetValue(entityName, out entityType))
             {
-                var frameworkNamespaceName = _namespaceService.GetFrameworkNamespace();
-                var frameworkAssemblyName = Assembly
-                    .GetExecutingAssembly()
-                    .GetReferencedAssemblies()
-                    .Where(a => a.Name == frameworkNamespaceName)
-                    .FirstOrDefault();
-
-                if (frameworkAssemblyName == null)
-                {
-                    throw new InvalidOperationException($"Could not find assembly with name {frameworkNamespaceName}");
-                }
-                var frameworkAssembly = Assembly.Load(frameworkAssemblyName);
-
+                var frameworkAssembly = _assemblyProvider.GetFrameworkAssembly();
                 var entityTypes = frameworkAssembly.GetTypes().Where(t => t.Name == entityName);
                 if (entityTypes.Count() == 0)
                 {
                     throw new InvalidOperationException(
-                        $"Could not find entity of type {entityName} in assembly {frameworkNamespaceName}");
+                        $"Could not find entity of type {entityName}");
                 }
                 else if (entityTypes.Count() > 1)
                 {
@@ -67,6 +60,20 @@ namespace Taggl.CodeGeneration.Services
                 _entityTypesByEntityName.Add(entityName, entityType);
             }
             return entityType;
+        }
+
+        public bool TryGetEntityType(string entityName, out Type entityType)
+        {
+            try
+            {
+                entityType = GetEntityType(entityName);
+                return true;
+            }
+            catch (InvalidOperationException)
+            {
+                entityType = null;
+                return false;
+            }
         }
 
         public string GetEntityIdType(string entityName)
