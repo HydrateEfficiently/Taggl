@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Taggl.CodeGeneration.Utility
 {
+    // TODO: Tidy this class up
     public class DirectoryResolver
     {
         private readonly IApplicationEnvironment _appEnvironment;
@@ -47,10 +48,12 @@ namespace Taggl.CodeGeneration.Utility
 
         public string GetTemplateFolder(ScaffoldType scaffoldType)
         {
-            var result = Path.Combine(
-                ContainingProjectDirectory,
-                new ScaffoldDirectoryNameResolver().ResolveDirectoryName(scaffoldType),
-                "Templates");
+            var result = Path.Combine(ContainingProjectDirectory, "Templates");
+
+            //var result = Path.Combine(
+            //    ContainingProjectDirectory,
+            //    new ScaffoldDirectoryNameResolver().ResolveDirectoryName(scaffoldType),
+            //    "Templates");
 
             if (!Directory.Exists(result))
             {

@@ -6,16 +6,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Taggl.CodeGeneration.Generators;
 using Taggl.CodeGeneration.Services;
 using Taggl.CodeGeneration.Utility;
 
-namespace Taggl.CodeGeneration
+namespace Taggl.CodeGeneration.Commands
 {
-    public abstract class CommandLineGeneratorBase : ICodeGenerator
+    public abstract class GenerateCommand : ICodeGenerator
     {
-        private readonly ServiceProvider _serviceProvider;
+        protected readonly ServiceProvider _serviceProvider;
 
-        public CommandLineGeneratorBase(IServiceProvider serviceProvider)
+        public GenerateCommand(IServiceProvider serviceProvider)
         {
             _serviceProvider = new ServiceProvider(serviceProvider);
 
@@ -27,8 +28,15 @@ namespace Taggl.CodeGeneration
             AddService(CompilationServices.Default.LibraryExporter);
             AddService(CompilationServices.Default.CompilerOptionsProvider);
 
+            AddService(new OutputClassNameResolver());
             AddServiceWithDependency<NamespaceService, NamespaceService>();
             AddServiceWithDependency<ScaffoldingService, ScaffoldingService>();
+
+        }
+
+        protected TGenerator GetGenerator<TGenerator>(CommandLineModel commandLineModel) where TGenerator : IGenerator
+        {
+            return ActivatorUtilities.CreateInstance<TGenerator>(_serviceProvider, commandLineModel);
         }
         
         protected TService GetService<TService>()

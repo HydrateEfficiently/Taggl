@@ -56,7 +56,7 @@ namespace Taggl.CodeGeneration.Services
                 if (entityTypes.Count() == 0)
                 {
                     throw new InvalidOperationException(
-                        $"Could not find entity of type ${entityName} in assembly {frameworkNamespaceName}");
+                        $"Could not find entity of type {entityName} in assembly {frameworkNamespaceName}");
                 }
                 else if (entityTypes.Count() > 1)
                 {

@@ -4,17 +4,26 @@ using System.Linq;
 using System.Threading.Tasks;
 using Taggl.CodeGeneration.Services;
 
-namespace Taggl.CodeGeneration
+namespace Taggl.CodeGeneration.Commands
 {
-    public class EntityDependentCommandLineGeneratorBase : CommandLineGeneratorBase
+    public abstract class FromEntityGenerateCommand : GenerateCommand
     {
-        public EntityDependentCommandLineGeneratorBase(
+        public FromEntityGenerateCommand(
             IServiceProvider serviceProvider)
             : base(serviceProvider)
         {
             AddServiceWithDependency<IEntityReflector, EntityReflector>();
             AddServiceWithDependency<IEntityPropertyResolver, EntityPropertyResolver>();
             AddServiceWithDependency<IAreaNameResolver, AreaNameResolver>();
+            AddServiceWithDependency<IEntityOperationsResolver, EntityOperationsResolver>();
+        }
+
+        public void ValidateCommandLineModel(FromEntityCommandLineModel model)
+        {
+            if (string.IsNullOrEmpty(model.Entity))
+            {
+                throw new Exception("-e is required");
+            }
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Taggl.CodeGeneration.Utility;
 
-namespace Taggl.CodeGeneration.Service
+namespace Taggl.CodeGeneration.Generators.ReadDto
 {
     public class ReadDtoTemplateModel
     {
