@@ -1,4 +1,54 @@
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-fixed-top navbar-default" role="navigation">
+    <div class="container">
+        <!--<div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>-->
+        <a class="navbar-brand">
+            <img style="margin: 0 auto; height: 100%" src="/assets/images/logo-white.png" />
+        </a>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-left">
+                <li><a ui-sref="profile"><h3>Your Profile</h3></a></li>
+                <li><a ui-sref="calendar"><h3>Your Calendar</h3></a></li>
+                <li><a href="#"><h3>Available Shifts</h3></a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <form class="navbar-form">
+                        <input type="text" class="form-control" placeholder="&#xF002; Search" style="font-family:Arial, FontAwesome"  name="srch-term" id="srch-term">
+                    </form>
+                </li>
+                <li uib-dropdown>
+                    <a href="javascript:void(0)" id="simple-dropdown" uib-dropdown-toggle>
+                        <!--{{ ctrl.userName }}-->
+                        <h3>MF</h3>
+                    </a>
+                    <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                        <li>
+                            <a href="javascript:void(0)" ui-sref="profile">Profile</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" ui-sref="settings">Settings</a>
+                        </li>
+                        <li ng-if="ctrl.isAdministrator()">
+                            <a href="javascript:void(0)" ui-sref="administration">Administration</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="javascript:void(0)" ng-click="ctrl.logout()">Logout</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!--<nav class="navbar navbar-default">
     <div class="container">
         <div class="navbar-header">
             <a class="navbar-brand" style="padding: 10px;" asp-controller="Home" asp-action="Index">
@@ -8,6 +58,9 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
+                <li>
+                    <input type="text" class="form-control" />
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li uib-dropdown>
@@ -34,4 +87,4 @@
             </ul>
         </div>
     </div>
-</nav>
+</nav>-->

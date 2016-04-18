@@ -1,3 +1,5 @@
+import { modalStateLoader } from './../../utility/modal-state-loader';
+
 export function config($stateProvider, $urlRouterProvider) {
     // TODO: Annotate injection
     $urlRouterProvider.otherwise('/profile');
@@ -14,6 +16,14 @@ export function config($stateProvider, $urlRouterProvider) {
         .state('settings', {
             url: '/settings',
             template: '<tgl-settings></tgl-settings>'
+        })
+        .state('calendar', {
+            url: '/calendar',
+            template: '<tgl-calendar-main></tgl-calendar-main>'
+        })
+        .state('calendar.addShift', {
+            url: '/add-shift',
+            onEnter: modalStateLoader('Add Shift', 'tgl-shift-form', '', 'save-shift')
         });
 
 

@@ -7527,11 +7527,16 @@ input[type="checkbox"]:disabled:checked:after,
   transition: box-shadow 0.25s;
   border-radius: 2px;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  /*.card-content:not(:last-child) {
+        border-bottom: 2px solid #eeeeee;
+    }*/
 }
 .card .card-title {
   color: #fff;
   font-size: 24px;
   font-weight: 300;
+  padding: 20px;
+  border-bottom: 2px solid #4BB5CF;
 }
 .card .card-title.activator {
   cursor: pointer;
@@ -7613,6 +7618,9 @@ input[type="checkbox"]:disabled:checked:after,
 }
 .card .card-content .card-title {
   line-height: 48px;
+}
+.card .card-content:not(:last-child) {
+  border-bottom: 2px solid #eeeeee;
 }
 .card .card-action {
   border-top: 1px solid rgba(160, 160, 160, 0.2);

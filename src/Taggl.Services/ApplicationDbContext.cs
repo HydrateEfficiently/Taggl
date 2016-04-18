@@ -8,7 +8,6 @@ using Microsoft.Data.Entity;
 using Taggl.Framework.Utility;
 using Taggl.Framework.Models.Jobs;
 using Taggl.Framework.Models.Professionalities;
-//using Taggl.Framework.Models.Company;
 
 namespace Taggl.Services
 {
@@ -21,8 +20,6 @@ namespace Taggl.Services
 
         public DbSet<Professionality> Professionalities { get; set; }
         public DbSet<Expertise> Expertise { get; set; }
-
-        //public DbSet<Employee> Employees { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

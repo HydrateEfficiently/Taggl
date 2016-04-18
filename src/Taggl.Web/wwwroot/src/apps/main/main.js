@@ -8,6 +8,7 @@ import { navbar } from './../../components/navbar/navbar';
 import { profile } from './../../components/profile/profile';
 import { administration } from './../../components/administration/administration';
 import { settings } from './../../components/settings/settings';
+import { calendarMain } from './../../components/calendar-main/calendar-main';
 
 let app = angular.module('tgl.main.app', [
     'ui.router',
@@ -18,7 +19,8 @@ let app = angular.module('tgl.main.app', [
     navbar,
     profile,
     administration,
-    settings
+    settings,
+    calendarMain
 ])
 .controller('MainController', MainController);
 
