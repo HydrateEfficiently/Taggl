@@ -25,12 +25,12 @@ export class ProfessionalityFormController extends Injectable {
         this.searchSource = SearchSource.ShiftTypes;
     }
 
-    filterJobTagResults(results) {
+    filterShiftTypeResults(results) {
         let filteredResults = results.filter(j => !this.expertiseExists(j.name));
         return filteredResults;
     }
 
-    selectJobTag(shiftType) {
+    selectShiftType(shiftType) {
         if (shiftType && !this.expertiseExists(shiftType.name)) {
             this.professionality.expertise.push({
                 shiftTypeId: shiftType.id,
@@ -40,7 +40,7 @@ export class ProfessionalityFormController extends Injectable {
         }
     }
 
-    createJobTag(shiftTypeName) {
+    createShiftType(shiftTypeName) {
         if (shiftTypeName && !this.expertiseExists(shiftTypeName)) {
             this.professionality.expertise.push({
                 shiftTypeName,

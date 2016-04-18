@@ -5,7 +5,8 @@
             <div class="col-sm-6 mb-md">
                 <label>Class</label>
                 <div>
-                    <input type="text" class="form-control" required />
+                    <tgl-search search-source="ctrl.searchSource"
+                                on-item-selected="ctrl.shift.shiftType = item"></tgl-search>
                 </div>
             </div>
             <div class="col-sm-6 mb-md">
