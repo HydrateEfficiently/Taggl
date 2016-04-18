@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Taggl.Framework.Models.Identity;
-using Taggl.Framework.Models.Jobs;
+using Taggl.Framework.Models.Shifts;
 
 namespace Taggl.Framework.Models.Professionalities
 {
@@ -15,9 +15,9 @@ namespace Taggl.Framework.Models.Professionalities
         
         public virtual Professionality Professionality { get; set; }
 
-        public Guid JobTagId { get; set; }
+        public Guid ShiftTypeId { get; set; }
 
-        public virtual JobTag JobTag { get; set; }
+        public virtual ShiftType ShiftType { get; set; }
 
         public DateTime Created { get; set; }
 

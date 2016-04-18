@@ -5,7 +5,7 @@ using Microsoft.Data.Entity.Metadata;
 
 namespace Taggl.Services.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialSchema : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -159,7 +159,7 @@ namespace Taggl.Services.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
             migrationBuilder.CreateTable(
-                name: "JobTags",
+                name: "ShiftTypes",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -171,9 +171,9 @@ namespace Taggl.Services.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JobTag", x => x.Id);
+                    table.PrimaryKey("PK_ShiftType", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_JobTag_ApplicationUser_CreatedById",
+                        name: "FK_ShiftType_ApplicationUser_CreatedById",
                         column: x => x.CreatedById,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -184,8 +184,7 @@ namespace Taggl.Services.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    ProfessionalId = table.Column<Guid>(nullable: false),
-                    ProfessionalityId = table.Column<Guid>(nullable: true),
+                    ProfessionalityId = table.Column<Guid>(nullable: false),
                     StatusId = table.Column<Guid>(nullable: false),
                     UserId = table.Column<string>(nullable: true)
                 },
@@ -197,7 +196,7 @@ namespace Taggl.Services.Migrations
                         column: x => x.ProfessionalityId,
                         principalTable: "Professionalities",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ApplicationUserRelationships_ApplicationUserStatus_StatusId",
                         column: x => x.StatusId,
@@ -212,29 +211,44 @@ namespace Taggl.Services.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
             migrationBuilder.CreateTable(
-                name: "ProfessionalExpertise",
+                name: "Expertise",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    JobTagId = table.Column<Guid>(nullable: false),
-                    ProfessionalId = table.Column<Guid>(nullable: false),
-                    ProfessionalityId = table.Column<Guid>(nullable: true)
+                    Created = table.Column<DateTime>(nullable: false),
+                    CreatedById = table.Column<string>(nullable: true),
+                    Deleted = table.Column<DateTime>(nullable: true),
+                    DeletedById = table.Column<string>(nullable: true),
+                    ProfessionalityId = table.Column<Guid>(nullable: false),
+                    ShiftTypeId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProfessionalExpertise", x => x.Id);
+                    table.PrimaryKey("PK_Expertise", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProfessionalExpertise_JobTag_JobTagId",
-                        column: x => x.JobTagId,
-                        principalTable: "JobTags",
+                        name: "FK_Expertise_ApplicationUser_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProfessionalExpertise_Professionality_ProfessionalityId",
+                        name: "FK_Expertise_ApplicationUser_DeletedById",
+                        column: x => x.DeletedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Expertise_Professionality_ProfessionalityId",
                         column: x => x.ProfessionalityId,
                         principalTable: "Professionalities",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Expertise_ShiftType_ShiftTypeId",
+                        column: x => x.ShiftTypeId,
+                        principalTable: "ShiftTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
@@ -257,11 +271,11 @@ namespace Taggl.Services.Migrations
             migrationBuilder.DropTable("AspNetUserLogins");
             migrationBuilder.DropTable("AspNetUserRoles");
             migrationBuilder.DropTable("ApplicationUserRelationships");
-            migrationBuilder.DropTable("ProfessionalExpertise");
+            migrationBuilder.DropTable("Expertise");
             migrationBuilder.DropTable("AspNetRoles");
             migrationBuilder.DropTable("UserStatuses");
-            migrationBuilder.DropTable("JobTags");
             migrationBuilder.DropTable("Professionalities");
+            migrationBuilder.DropTable("ShiftTypes");
             migrationBuilder.DropTable("AspNetUsers");
         }
     }

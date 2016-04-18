@@ -22,11 +22,11 @@ namespace Taggl.Services.Professionalities.Models
 
         public Guid Id { get; set; }
 
-        public Guid JobTagId { get; set; }
+        public Guid ShiftTypeId { get; set; }
 
-        public string JobTagName { get; set; }
+        public string ShiftTypeName { get; set; }
 
-        public string JobTagNameNormalized { get; set; }
+        public string ShiftTypeNameNormalized { get; set; }
 
         public ExpertiseResult(Expertise exepertise)
         {

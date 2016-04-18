@@ -13,10 +13,12 @@
             <div class="col-md-6 col-sm-12">
                 <label>Expertise</label>
                 <div ng-show="ctrl.isEditing">
-                    <tgl-job-tag-search on-item-selected="ctrl.selectJobTag(item)"
-                                        on-item-created="ctrl.createJobTag(label)"
-                                        on-results-retrieved="ctrl.filterJobTagResults(results)"
-                                        clear-on-select="true"></tgl-job-tag-search>
+                    <tgl-search search-source="ctrl.searchSource"
+                                on-item-selected="ctrl.selectJobTag(item)"
+                                on-item-created="ctrl.createJobTag(label)"
+                                on-results-retrieved="ctrl.filterJobTagResults(results)"
+                                clear-on-select="true"
+                                create-results="true"></tgl-search>
                 </div>
             </div>
         </div>
@@ -27,7 +29,7 @@
                     <span ng-class="{ 
                             'text-muted': !ctrl.isExpertiseSaved(expertise),
                             'text-striked': expertise.shouldDelete
-                          }">{{ expertise.jobTagName }}</span>
+                          }">{{ expertise.shiftTypeName }}</span>
                     <span ng-if="ctrl.isEditing && expertise.shouldDelete" 
                           ng-click="ctrl.undoDeleteExpertise(expertise)" 
                           class="fa fa-undo clickable" style="color: dodgerblue;"></span>

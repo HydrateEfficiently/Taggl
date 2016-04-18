@@ -17,7 +17,7 @@ using Taggl.Initializer.Services.DataImportServices;
 using Taggl.Initializer.Services.Framework;
 using Taggl.Initializer.Initializers.Environments;
 using Taggl.Initializer.Initializers.Professionalities;
-using Taggl.Initializer.Initializers.Jobs;
+using Taggl.Initializer.Initializers.Shifts;
 
 namespace Taggl.Initializer
 {
@@ -50,7 +50,7 @@ namespace Taggl.Initializer
             services.AddInitializer<RoleInitializer>();
             services.AddInitializer<SystemUserInitializer>();
             services.AddInitializer<AdministratorsInitializer>();
-            services.AddInitializer<JobTagIntializer>();
+            services.AddInitializer<ShiftTypeInitializer>();
             //services.AddInitializer<ExpertiseInitializer>();
 
             services.AddTransient<IEnvironmentInitializer, DebugEnvironmentInitializer>();

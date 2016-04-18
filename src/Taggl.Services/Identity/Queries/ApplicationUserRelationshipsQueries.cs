@@ -36,8 +36,8 @@ namespace Taggl.Services.Identity.Queries
         {
             string patternNormalized = lookupNormalizer.Normalize(pattern);
             return queryable.Where(r =>
-                r.User.NormalizedEmail == patternNormalized ||
-                lookupNormalizer.Normalize(r.User.GetDisplayName()) == patternNormalized);
+                r.User.NormalizedEmail.Contains(patternNormalized) ||
+                lookupNormalizer.Normalize(r.User.GetDisplayName()).Contains(patternNormalized));
         }
 
         public static IQueryable<ApplicationUserRelationships> WhereUserSearchable(

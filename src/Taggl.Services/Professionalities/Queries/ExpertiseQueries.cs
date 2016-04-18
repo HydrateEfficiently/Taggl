@@ -9,8 +9,8 @@ using Taggl.Framework.Models.Professionalities;
 using Taggl.Framework.Services;
 using Taggl.Framework.Utility;
 using Taggl.Services.Identity;
-using Taggl.Services.Jobs.Models;
-using Taggl.Services.Jobs.Queries;
+using Taggl.Services.Shifts.Models;
+using Taggl.Services.Shifts.Queries;
 
 namespace Taggl.Services.Professionalities.Queries
 {
@@ -21,11 +21,11 @@ namespace Taggl.Services.Professionalities.Queries
             IRoleResolver roleResolver,
             Audit audit,
             Guid professionalityId,
-            string jobTagName)
+            string shiftTypeName)
         {
-            var jobTag = await dbContext.CreateOrGetJobTagAsync(
-                roleResolver, audit, new JobTagCreate() { Name = jobTagName });
-            var expertise = new Expertise() { JobTag = jobTag, ProfessionalityId = professionalityId }
+            var shiftType = await dbContext.CreateOrGetShiftTypeAsync(
+                roleResolver, audit, new ShiftTypeCreate() { Name = shiftTypeName });
+            var expertise = new Expertise() { ShiftType = shiftType, ProfessionalityId = professionalityId }
                 .Create(audit);
             dbContext.Expertise.Add(expertise);
             return expertise;

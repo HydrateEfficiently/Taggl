@@ -8,15 +8,15 @@ using Taggl.Framework.Models.Professionalities;
 using Taggl.Framework.Services;
 using Taggl.Framework.Utility;
 using Taggl.Services.Identity;
-using Taggl.Services.Jobs.Models;
-using Taggl.Services.Jobs.Queries;
+using Taggl.Services.Shifts.Models;
+using Taggl.Services.Shifts.Queries;
 using Taggl.Services.Professionalities.Queries;
 
 namespace Taggl.Services.Professionalities
 {
     public interface IExpertiseService
     {
-        Task<Expertise> CreateAsync(JobTagCreate create);
+        Task<Expertise> CreateAsync(ShiftTypeCreate create);
     }
 
     public class ExpertiseService : IExpertiseService
@@ -38,12 +38,12 @@ namespace Taggl.Services.Professionalities
             _auditFactory = auditFactory;
         }
 
-        public async Task<Expertise> CreateAsync(JobTagCreate create)
+        public async Task<Expertise> CreateAsync(ShiftTypeCreate create)
         {
             var identityId = _identityResolver.Resolve().GetId();
             var professionality = await _dbContext.ApplicationUserRelationships.GetProfessionalityByUser(identityId);
             var expertise = await _dbContext.CreateExpertiseAsync(
-                _roleResolver, _auditFactory.CreateAudit(), professionality.Id, create.Name); // TODO: Currently mapping JobTagCreate => string => JobTagCreate
+                _roleResolver, _auditFactory.CreateAudit(), professionality.Id, create.Name); // TODO: Currently mapping ShiftTypeCreate => string => ShiftTypeCreate
             await _dbContext.SaveChangesAsync();
             return expertise;
         }

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Taggl.Services.Jobs.Models;
+using Taggl.Services.Shifts.Models;
 using Taggl.Services.Professionalities;
 
 namespace Taggl.Web.Controllers.Api.Professionalities
@@ -19,7 +19,7 @@ namespace Taggl.Web.Controllers.Api.Professionalities
             _expertiseService = expertiseService;
         }
 
-        public async Task<IActionResult> Create(JobTagCreate create)
+        public async Task<IActionResult> Create(ShiftTypeCreate create)
         {
             var result = await _expertiseService.CreateAsync(create);
             return new ObjectResult(result);

@@ -8,8 +8,8 @@ using Taggl.Services;
 namespace Taggl.Services.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160413141016_Initial")]
-    partial class Initial
+    [Migration("20160418154629_InitialSchema")]
+    partial class InitialSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -156,15 +156,15 @@ namespace Taggl.Services.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("ProfessionalId");
-
-                    b.Property<Guid?>("ProfessionalityId");
+                    b.Property<Guid>("ProfessionalityId");
 
                     b.Property<Guid>("StatusId");
 
                     b.Property<string>("UserId");
 
                     b.HasKey("Id");
+
+                    b.HasAnnotation("Relational:TableName", "ApplicationUserRelationships");
                 });
 
             modelBuilder.Entity("Taggl.Framework.Models.Identity.ApplicationUserStatus", b =>
@@ -181,7 +181,39 @@ namespace Taggl.Services.Migrations
                     b.HasAnnotation("Relational:TableName", "UserStatuses");
                 });
 
-            modelBuilder.Entity("Taggl.Framework.Models.Jobs.JobTag", b =>
+            modelBuilder.Entity("Taggl.Framework.Models.Professionalities.Expertise", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Created");
+
+                    b.Property<string>("CreatedById");
+
+                    b.Property<DateTime?>("Deleted");
+
+                    b.Property<string>("DeletedById");
+
+                    b.Property<Guid>("ProfessionalityId");
+
+                    b.Property<Guid>("ShiftTypeId");
+
+                    b.HasKey("Id");
+
+                    b.HasAnnotation("Relational:TableName", "Expertise");
+                });
+
+            modelBuilder.Entity("Taggl.Framework.Models.Professionalities.Professionality", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.HasKey("Id");
+
+                    b.HasAnnotation("Relational:TableName", "Professionalities");
+                });
+
+            modelBuilder.Entity("Taggl.Framework.Models.Shifts.ShiftType", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -198,33 +230,7 @@ namespace Taggl.Services.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasAnnotation("Relational:TableName", "JobTags");
-                });
-
-            modelBuilder.Entity("Taggl.Framework.Models.Professionalities.ProfessionalExpertise", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("JobTagId");
-
-                    b.Property<Guid>("ProfessionalId");
-
-                    b.Property<Guid?>("ProfessionalityId");
-
-                    b.HasKey("Id");
-
-                    b.HasAnnotation("Relational:TableName", "ProfessionalExpertise");
-                });
-
-            modelBuilder.Entity("Taggl.Framework.Models.Professionalities.Professionality", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.HasKey("Id");
-
-                    b.HasAnnotation("Relational:TableName", "Professionalities");
+                    b.HasAnnotation("Relational:TableName", "ShiftTypes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityRoleClaim<string>", b =>
@@ -281,22 +287,30 @@ namespace Taggl.Services.Migrations
                         .HasForeignKey("ApprovedById");
                 });
 
-            modelBuilder.Entity("Taggl.Framework.Models.Jobs.JobTag", b =>
+            modelBuilder.Entity("Taggl.Framework.Models.Professionalities.Expertise", b =>
                 {
                     b.HasOne("Taggl.Framework.Models.Identity.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("CreatedById");
-                });
 
-            modelBuilder.Entity("Taggl.Framework.Models.Professionalities.ProfessionalExpertise", b =>
-                {
-                    b.HasOne("Taggl.Framework.Models.Jobs.JobTag")
+                    b.HasOne("Taggl.Framework.Models.Identity.ApplicationUser")
                         .WithMany()
-                        .HasForeignKey("JobTagId");
+                        .HasForeignKey("DeletedById");
 
                     b.HasOne("Taggl.Framework.Models.Professionalities.Professionality")
                         .WithMany()
                         .HasForeignKey("ProfessionalityId");
+
+                    b.HasOne("Taggl.Framework.Models.Shifts.ShiftType")
+                        .WithMany()
+                        .HasForeignKey("ShiftTypeId");
+                });
+
+            modelBuilder.Entity("Taggl.Framework.Models.Shifts.ShiftType", b =>
+                {
+                    b.HasOne("Taggl.Framework.Models.Identity.ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
                 });
         }
     }

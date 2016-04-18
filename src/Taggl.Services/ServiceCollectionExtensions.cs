@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Taggl.Services.Administrator;
-using Taggl.Services.Jobs;
+using Taggl.Services.Shifts;
 using Taggl.Services.Professionalities;
 using Taggl.Services.Utility;
 
@@ -51,10 +51,10 @@ namespace Taggl.Services
             services.AddTransient<IRoleResolver, RoleResolver>();
             services.AddScoped<IAuditFactory, AuditFactory>();
 
-            // Jobs
-            services.AddTransient<IJobTagService, JobTagService>();
-            services.AddTransient<IJobTagFormatter, JobTagFormatter>();
-            services.AddTransient<IJobTagSearchService, JobTagSearchService>();
+            // Shifts
+            services.AddTransient<IShiftTypeService, ShiftTypeService>();
+            services.AddTransient<IShiftTypeFormatter, ShiftTypeFormatter>();
+            services.AddTransient<IShiftTypeSearchService, ShiftTypeSearchService>();
 
             // Professionalities
             services.AddTransient<IExpertiseService, ExpertiseService>();

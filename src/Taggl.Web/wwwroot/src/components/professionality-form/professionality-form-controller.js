@@ -1,6 +1,7 @@
 import { Injectable } from './../../utility/injectable';
 import * as ArrayUtility  from './../../utility/array-utility';
 import * as GuidUtility  from './../../utility/guid-utility';
+import { SearchSource } from './../search/search';
 
 export class ProfessionalityFormController extends Injectable {
     static get $inject() {
@@ -21,6 +22,7 @@ export class ProfessionalityFormController extends Injectable {
                 this.professionalityMaster
             ]
         });
+        this.searchSource = SearchSource.ShiftTypes;
     }
 
     filterJobTagResults(results) {
@@ -28,27 +30,27 @@ export class ProfessionalityFormController extends Injectable {
         return filteredResults;
     }
 
-    selectJobTag(jobTag) {
-        if (jobTag && !this.expertiseExists(jobTag.name)) {
+    selectJobTag(shiftType) {
+        if (shiftType && !this.expertiseExists(shiftType.name)) {
             this.professionality.expertise.push({
-                jobTagId: jobTag.id,
-                jobTagName: jobTag.name,
+                shiftTypeId: shiftType.id,
+                shiftTypeName: shiftType.name,
                 shouldDelete: false
             });
         }
     }
 
-    createJobTag(jobTagName) {
-        if (jobTagName && !this.expertiseExists(jobTagName)) {
+    createJobTag(shiftTypeName) {
+        if (shiftTypeName && !this.expertiseExists(shiftTypeName)) {
             this.professionality.expertise.push({
-                jobTagName,
+                shiftTypeName,
                 shouldDelete: false
             });
         }
     }
 
-    expertiseExists(jobTagName) {
-        return this.professionality.expertise.findIndex(e => e.jobTagName === jobTagName) >= 0;
+    expertiseExists(shiftTypeName) {
+        return this.professionality.expertise.findIndex(e => e.shiftTypeName === shiftTypeName) >= 0;
     }
 
     deleteExpertise(expertise) {

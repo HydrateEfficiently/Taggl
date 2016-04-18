@@ -27,14 +27,14 @@ namespace Taggl.Services.Professionalities.Queries
             var professionality = await queryable.SingleAsync();
             professionality.Expertise = await dbContext.Expertise
                 .QueryByProfessionality(professionality.Id)
-                .Include(e => e.JobTag)
+                .Include(e => e.ShiftType)
                 .ToListAsync();
             return professionality;
 
             // TODO: THIS SHOULD WORK!!!
             //return await queryable
             //    .Include(p => p.Expertise)
-            //    .ThenInclude(e => e.JobTag)
+            //    .ThenInclude(e => e.ShiftType)
             //    .FirstAsync();
         }
 

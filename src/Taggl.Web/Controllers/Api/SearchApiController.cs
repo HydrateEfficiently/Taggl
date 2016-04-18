@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Taggl.Services.Identity;
-using Taggl.Services.Jobs;
+using Taggl.Services.Shifts;
 
 namespace Taggl.Web.Controllers.Api
 {
@@ -12,14 +12,14 @@ namespace Taggl.Web.Controllers.Api
     public class SearchApiController : Controller
     {
         private readonly IUserSearchService _userSearchService;
-        private readonly IJobTagSearchService _jobTagSearchService;
+        private readonly IShiftTypeSearchService _shiftTypeSearchService;
 
         public SearchApiController(
             IUserSearchService userSearchService,
-            IJobTagSearchService jobTagSearchService)
+            IShiftTypeSearchService shiftTypeSearchService)
         {
             _userSearchService = userSearchService;
-            _jobTagSearchService = jobTagSearchService;
+            _shiftTypeSearchService = shiftTypeSearchService;
         }
 
         [HttpGet]
@@ -31,10 +31,10 @@ namespace Taggl.Web.Controllers.Api
         }
 
         [HttpGet]
-        [Route("job-tags/{pattern}")]
-        public async Task<IActionResult> JobTags(string pattern)
+        [Route("shift-types/{pattern}")]
+        public async Task<IActionResult> ShiftTypes(string pattern)
         {
-            var result = await _jobTagSearchService.Search(pattern);
+            var result = await _shiftTypeSearchService.Search(pattern);
             return new ObjectResult(result);
         }
     }

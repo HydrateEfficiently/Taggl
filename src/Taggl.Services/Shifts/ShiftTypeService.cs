@@ -4,28 +4,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Taggl.Framework.Models.Identity;
-using Taggl.Framework.Models.Jobs;
+using Taggl.Framework.Models.Shifts;
 using Taggl.Framework.Services;
 using Taggl.Framework.Utility;
 using Taggl.Services.Identity;
-using Taggl.Services.Jobs.Models;
-using Taggl.Services.Jobs.Queries;
+using Taggl.Services.Shifts.Models;
+using Taggl.Services.Shifts.Queries;
 
-namespace Taggl.Services.Jobs
+namespace Taggl.Services.Shifts
 {
-    public interface IJobTagService
+    public interface IShiftTypeService
     {
-        Task<JobTag> CreateAsync(JobTagCreate create);
+        Task<ShiftType> CreateAsync(ShiftTypeCreate create);
     }
 
-    public class JobTagService : IJobTagService
+    public class ShiftTypeService : IShiftTypeService
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IIdentityResolver _identityResolver;
         private readonly IRoleResolver _roleResolver;
         private readonly IAuditFactory _auditFactory;
 
-        public JobTagService(
+        public ShiftTypeService(
             ApplicationDbContext dbContext,
             IIdentityResolver identityResolver,
             IRoleResolver roleResolver,
@@ -37,12 +37,12 @@ namespace Taggl.Services.Jobs
             _auditFactory = auditFactory;
         }
 
-        public async Task<JobTag> CreateAsync(JobTagCreate create)
+        public async Task<ShiftType> CreateAsync(ShiftTypeCreate create)
         {
-            var jobTag = await _dbContext.CreateOrGetJobTagAsync(
+            var shiftType = await _dbContext.CreateOrGetShiftTypeAsync(
                 _roleResolver, _auditFactory.CreateAudit(), create);
             await _dbContext.SaveChangesAsync();
-            return jobTag;
+            return shiftType;
         }
     }
 }

@@ -4,19 +4,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Taggl.Framework.Models.Jobs;
+using Taggl.Framework.Models.Shifts;
 
-namespace Taggl.Services.Jobs.Models
+namespace Taggl.Services.Shifts.Models
 {
-    public class JobTagResult
+    public class ShiftTypeResult
     {
         private static MappingEngine __mappingEngine;
 
-        static JobTagResult()
+        static ShiftTypeResult()
         {
             var configuration = new ConfigurationStore(new TypeMapFactory(), MapperRegistry.Mappers);
             var mappingEngine = new MappingEngine(configuration);
-            configuration.CreateMap<JobTag, JobTagResult>();
+            configuration.CreateMap<ShiftType, ShiftTypeResult>();
             __mappingEngine = mappingEngine;
         }
 
@@ -26,9 +26,9 @@ namespace Taggl.Services.Jobs.Models
 
         public string NameNormalized { get; set; }
 
-        public JobTagResult(JobTag jobTag)
+        public ShiftTypeResult(ShiftType shiftType)
         {
-            __mappingEngine.Map(jobTag, this);
+            __mappingEngine.Map(shiftType, this);
         }
     }
 }

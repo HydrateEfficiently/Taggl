@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Taggl.Services.Jobs.Models;
+using Taggl.Services.Shifts.Models;
 
 namespace Taggl.Services.Professionalities.Models
 {

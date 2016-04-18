@@ -62,9 +62,13 @@ namespace Taggl.Framework.Utility
             Func<TResult, TComparer> comparerSelector,
             Func<TOther, TComparer> secondComparerSelector)
         {
-            var valuesByKey = enumerable.ToDictionary(i => keySelector(i), i => i);
+            var valuesByKey = enumerable
+                .Where(i => !keySelector(i).Equals(default(TKey)))
+                .ToDictionary(i => keySelector(i), i => i);
             var comparersByKey1 = valuesByKey.ToDictionary(kvp => kvp.Key, kvp => comparerSelector(kvp.Value));
-            var comparersByKey2 = second.ToDictionary(i => secondKeySelector(i), i => secondComparerSelector(i));
+            var comparersByKey2 = second
+                .Where(i => !secondKeySelector(i).Equals(default(TKey)))
+                .ToDictionary(i => secondKeySelector(i), i => secondComparerSelector(i));
             var difference = comparersByKey1.Except(comparersByKey2, (kvp1, kvp2) => kvp1.Key.Equals(kvp2.Key));
             var result = difference.Select(kvp => valuesByKey[kvp.Key]);
             return result;

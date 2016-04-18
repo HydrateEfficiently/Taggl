@@ -1,0 +1,5 @@
+<input type="text" class="input form-control" 
+       ng-model="ctrl.selectedResult"
+       uib-typeahead="result.name for result in ctrl.getResults($viewValue)"
+       typeahead-on-select="ctrl.selectResult($item, $model, $event)"
+       tgl-on-enter="ctrl.createResult(value)">

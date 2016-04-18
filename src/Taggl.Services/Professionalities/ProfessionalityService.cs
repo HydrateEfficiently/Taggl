@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Taggl.Framework.Models.Identity;
-using Taggl.Framework.Models.Jobs;
+using Taggl.Framework.Models.Shifts;
 using Taggl.Framework.Models.Professionalities;
 using Taggl.Framework.Services;
 using Taggl.Framework.Utility;
-using Taggl.Services.Jobs;
-using Taggl.Services.Jobs.Models;
+using Taggl.Services.Shifts;
+using Taggl.Services.Shifts.Models;
 using Taggl.Services.Professionalities.Models;
 using Taggl.Services.Professionalities.Queries;
 using Microsoft.Data.Entity;
@@ -66,7 +66,7 @@ namespace Taggl.Services.Professionalities
 
             var expertiseToAdd = currentExpertise.Where(e => e.Id == Guid.Empty);
             var creationTasks = expertiseToAdd.Select(e =>
-                _dbContext.CreateExpertiseAsync(_roleResolver, audit, professionality.Id, e.JobTagName));
+                _dbContext.CreateExpertiseAsync(_roleResolver, audit, professionality.Id, e.ShiftTypeName));
             var createdExpertise = await Task.WhenAll(creationTasks);
 
             await _dbContext.SaveChangesAsync();

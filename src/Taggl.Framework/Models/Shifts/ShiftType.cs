@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Taggl.Framework.Models.Identity;
 
-namespace Taggl.Framework.Models.Jobs
+namespace Taggl.Framework.Models.Shifts
 {
-    public class JobTag : ICreateAuditable
+    public class ShiftType : ICreateAuditable
     {
         public Guid Id { get; set; }
 
