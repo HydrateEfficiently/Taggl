@@ -1,13 +1,13 @@
-export function modalStateLoader(title, templateName, modalButtons = '', closeEvent = 'no-close-event') {
+export function modalLoader(title, templateName, ...closeEvents) {
     return ($stateParams, $state, $uibModal) => {
+        let closeEventHtml = closeEvents
+            .map(closeEvent => `${closeEvent}="dismiss()"`)
+            .join(' ');
         $uibModal.open({
             template: `
                 <tgl-modal-base-directive modal-title="${title}">
-                    <${templateName} ${closeEvent}="dismiss()"></${templateName}>
+                    <${templateName} ${closeEventHtml}></${templateName}>
                 </tgl-modal-base-directive>`,
-            // resolve: {
-            //   item: function() { new Item(123).get(); }
-            // },
             controller: ['$scope', function($scope) {
                 $scope.dismiss = function() {
                     $scope.$dismiss();

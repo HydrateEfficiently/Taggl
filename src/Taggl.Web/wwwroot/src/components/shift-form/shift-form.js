@@ -8,4 +8,4 @@ export let shiftForm = componentFactory(
     'shiftForm',
     ShiftFormController,
     [commonServices],
-    { saveShift: '&' });
+    { onSave: '&', onCancel: '&' });

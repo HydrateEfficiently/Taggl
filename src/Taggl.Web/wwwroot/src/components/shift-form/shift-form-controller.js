@@ -10,7 +10,7 @@ export class ShiftFormController extends Injectable {
 
         this.logger = this.TglLoggingService.createLogger(this.constructor.name);
 
-        let self = this;
-        this.$timeout(this.saveShift, 5000);
+        // let self = this;
+        // this.$timeout(this.saveShift, 5000);
     }
 }

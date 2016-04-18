@@ -1,4 +1,4 @@
-import { modalStateLoader } from './../../utility/modal-state-loader';
+import { modalLoader } from './../../utility/modal-loader';
 
 export function config($stateProvider, $urlRouterProvider) {
     // TODO: Annotate injection
@@ -23,7 +23,7 @@ export function config($stateProvider, $urlRouterProvider) {
         })
         .state('calendar.addShift', {
             url: '/add-shift',
-            onEnter: modalStateLoader('Add Shift', 'tgl-shift-form', '', 'save-shift')
+            onEnter: modalLoader('Add Shift', 'tgl-shift-form', 'on-saved', 'on-cancel')
         });
 
 
