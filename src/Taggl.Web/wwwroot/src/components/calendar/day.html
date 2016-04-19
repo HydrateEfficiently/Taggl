@@ -1,0 +1,47 @@
+<div class="card">
+    <div class="card-title text-center">
+        <div class="row">
+            <div class="col-md-4">
+                <h3 class="pull-left clickable" ng-click="move(-1)">
+                    <i class="fa fa-chevron-left "></i>
+                </h3>
+            </div>
+            <div class="col-md-4">
+                <h3 class="text-center">{{ title }}</h3>
+            </div>
+            <div class="col-md-4">
+                <h3 class="pull-right clickable" ng-click="move(1)">
+                    <i class="fa fa-chevron-right "></i>
+                </h3>
+            </div>
+        </div>
+    </div>
+    <div class="month">
+        <div ng-repeat="row in rows track by $index" class="clearfix week-row">
+            <div ng-repeat="dt in row" id="{{::dt.uid}}" class="pull-left date-cell">
+                <div uib-is-class="'active' for activeDt on dt" ng-click="select(dt.date)" ng-disabled="::dt.disabled">
+                    <div style="padding: 10px;" ng-class="::{'text-muted': dt.secondary, 'text-info': dt.current}">
+                        {{::dt.label}}
+                        <div ng-if="isToday(dt)">Test</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style type="text/css">
+        .week-row:hover {
+            background-color: #faf9f9;
+        }
+
+        .date-cell:hover {
+            background-color: #eeeeee; 
+        }
+
+        .date-cell {
+            width: 14.28571429%;
+            min-height: 100px;
+            border: 1px solid #e1e1e1;
+        }
+    </style>
+</div>

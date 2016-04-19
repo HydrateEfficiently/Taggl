@@ -1,4 +1,5 @@
 import { paths } from './../paths';
+import * as angular from 'angular';
 
 function camelCaseToDashed(str) {
     return str.replace(/(?:^|\.?)([A-Z])/g, (x, y) => `-${y.toLowerCase()}`).replace(/^_/, "");

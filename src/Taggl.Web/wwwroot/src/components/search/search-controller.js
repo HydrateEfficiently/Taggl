@@ -25,7 +25,7 @@ class SearchController extends Injectable {
 
     getResults(pattern) {
         if (pattern) {
-            let sourceAction = this._getSourceAction(this.sourceAction);
+            let sourceAction = this._getSourceAction();
             return this.searchApi[sourceAction](pattern, { maxAge: 10000 })
                 .then(results => {
                     if (this.onResultsRetrieved && results.length) {
@@ -59,7 +59,7 @@ class SearchController extends Injectable {
 
     _getSourceAction() {
         switch (this.searchSource) {
-            case SearchSource.User:
+            case SearchSource.Users:
                 return "users";
             case SearchSource.ShiftTypes:
                 return "shiftTypes";

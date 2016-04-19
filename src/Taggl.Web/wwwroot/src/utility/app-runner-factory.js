@@ -1,3 +1,5 @@
+import * as angular from 'angular';
+
 export function appRunnerFactory(app, config) {
     return function (data) {
         app.constant('TglServerData', data);

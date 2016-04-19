@@ -1,0 +1,23 @@
+<div>
+    <mwl-calendar view="ctrl.view"
+                view-date="ctrl.month"
+                events="ctrl.events"
+                on-view-change-click="ctrl.selectDate(calendarDate)"
+                slide-box-disabled="true"></mwl-calendar>
+</div>
+
+<style type="text/css">
+    .cal-month-box {
+        border-left: 0px;
+        border-radius: 0px;
+        border-right: 0px;
+    }
+
+    .cal-cell:nth-child(7n) {
+        border-right: 0px;
+    }
+
+    .cal-row-head {
+        display: none;
+    }
+</style>

@@ -1,3 +1,5 @@
+import * as angular from 'angular';
+
 import { HttpService } from './services/http-service';
 import { UrlService } from './services/url-service';
 import { SessionService } from './services/session-service';

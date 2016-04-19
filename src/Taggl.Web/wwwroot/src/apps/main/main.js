@@ -1,3 +1,6 @@
+import * as angular from 'angular';
+import 'angular-ui-router';
+
 import { MainController } from './main-controller';
 import { config } from './config';
 

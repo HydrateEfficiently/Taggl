@@ -1,3 +1,4 @@
+import * as angular from 'angular';
 import { Injectable } from './../../utility/injectable';
 import * as ArrayUtility  from './../../utility/array-utility';
 import * as GuidUtility  from './../../utility/guid-utility';

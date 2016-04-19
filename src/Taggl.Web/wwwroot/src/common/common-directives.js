@@ -1,3 +1,5 @@
+import * as angular from 'angular';
+
 import { modalBaseDirective } from './directives/modal-base/modal-base-directive';
 
 function onEnter() {

@@ -1,3 +1,5 @@
+import * as angular from 'angular';
+
 import { Injectable } from './../../utility/injectable';
 
 export class SessionService extends Injectable {

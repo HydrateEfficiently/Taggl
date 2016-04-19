@@ -1,3 +1,5 @@
+import * as angular from 'angular';
+
 function sanitizeHtml($sce) {
     // TODO: ng annotate
     return html => {
