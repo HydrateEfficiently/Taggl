@@ -12,26 +12,28 @@ using System.Threading.Tasks;
 using @(Model.EntityNamespaceName);
 using @(Model.ServicesNamespaceName).Identity.Models;
 
-public class @Model.ReadEntityDtoName
-{
-    private static MappingEngine __mappingEngine;
+namespace @Model.NamespaceName {
+    public class @Model.ReadEntityDtoName
+    {
+        private static MappingEngine __mappingEngine;
 
-    static @(Model.ReadEntityDtoName)()
-    {
-        var configuration = new ConfigurationStore(new TypeMapFactory(), MapperRegistry.Mappers);
-        var mappingEngine = new MappingEngine(configuration);
-        configuration.CreateMap@(mappingTypeArgs)();
-        __mappingEngine = mappingEngine;
-    }
-    @foreach (var property in Model.EntityProperties)
-    {
-    @:
-    @:public @property.ResolvedTypeName @property.Name { get; set; }
-    }
+        static @(Model.ReadEntityDtoName)()
+        {
+            var configuration = new ConfigurationStore(new TypeMapFactory(), MapperRegistry.Mappers);
+            var mappingEngine = new MappingEngine(configuration);
+            configuration.CreateMap@(mappingTypeArgs)();
+            __mappingEngine = mappingEngine;
+        }
+        @foreach (var property in Model.EntityProperties)
+        {
+        @:
+        @:public @property.ResolvedTypeName @property.Name { get; set; }
+        }
 
-    public @(Model.ReadEntityDtoName)(@Model.EntityName @entityVariableAlias)
-    {
-        __mappingEngine.Map(@entityVariableAlias, this);
+        public @(Model.ReadEntityDtoName)(@Model.EntityName @entityVariableAlias)
+        {
+            __mappingEngine.Map(@entityVariableAlias, this);
+        }
     }
 }
 

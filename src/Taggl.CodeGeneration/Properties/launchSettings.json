@@ -23,7 +23,7 @@
     },
     "gen": {
       "commandName": "gen",
-      "commandLineArgs": "service -e Truck"
+      "commandLineArgs": "entity -e Shift -a Shifts -c -u -d -p ShiftType,s:GymName,s:GymAddress,dt:ShiftDateTime,TimeSpan:Duration,dt:Published,ApplicationUser:PublishedBy,dt:Covered,ApplicationUser:CoveredBy"
     }
   }
 }

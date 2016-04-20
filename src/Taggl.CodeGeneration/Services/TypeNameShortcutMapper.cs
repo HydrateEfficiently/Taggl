@@ -26,8 +26,10 @@ namespace Taggl.CodeGeneration.Services
                     return "double";
                 case "dt":
                     return "DateTime";
+                case "ts":
+                    return "TimeSpan";
                 default:
-                    throw new InvalidOperationException("Invalid value for -i");
+                    throw new InvalidOperationException($"Could not find a property type to map from {input}");
             }
         }
     }

@@ -54,16 +54,14 @@ namespace Taggl.CodeGeneration.Generators.Entity
                 foreach (var propertyDefinition in propertyDefinitions)
                 {
                     string[] propertyTypeNamePair = propertyDefinition.Split(':');
-                    if (propertyTypeNamePair.Length != 2) {
-                        throw new InvalidOperationException("Property definition must be in format <propertyType>:<propertyName>");
-                    }
 
                     string propertyTypeName = propertyTypeNamePair[0];
-                    string propertyName = propertyTypeNamePair[1];
-
                     Type foreignKeyEntity = null;
                     if (_entityReflector.TryGetEntityType(propertyTypeName, out foreignKeyEntity))
                     {
+                        string propertyName = propertyTypeNamePair.Length == 2 ?
+                            propertyTypeNamePair[1] : propertyTypeName;
+
                         properties.Add(_propertyDeclarationFactory.CreateProperty(
                             $"{propertyName}Id",
                             _entityReflector.GetEntityIdType(propertyTypeName)));
@@ -84,6 +82,7 @@ namespace Taggl.CodeGeneration.Generators.Entity
                         {
                             underlyingTypeName += "?";
                         }
+                        string propertyName = propertyTypeNamePair[1];
                         properties.Add(_propertyDeclarationFactory.CreateProperty(propertyName, underlyingTypeName));
                     }                    
                 }

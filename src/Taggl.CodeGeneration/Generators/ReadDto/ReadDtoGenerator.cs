@@ -47,6 +47,7 @@ namespace Taggl.CodeGeneration.Generators.ReadDto
                 EntityNamespaceName = _namespaceService.GetFrameworkEntityNamespace(areaName),
                 ReadEntityDtoName = readDtoName,
                 EntityProperties = _entityPropertyResolve.Resolve(entityName),
+                NamespaceName = _namespaceService.GetServiceModelsNamespace(areaName),
                 ServicesNamespaceName = _namespaceService.GetServicesNamespace()
             };
 
