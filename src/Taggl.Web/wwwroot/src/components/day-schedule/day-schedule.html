@@ -1,0 +1,45 @@
+<div class="card">
+    <div class="card-title">
+        <h3>{{ ctrl.startOfDay | tglMomentCommonDateFormat }}</h3>
+    </div>
+    <div class="card-content" ng-repeat="shift in ctrl.shifts">
+        <div class="tgl-text shift-type shift-type-1">{{ shift.shiftType.name }}</div>
+        <div class="gym-name tgl-text shift-location-name">{{ shift.location }}</div>
+        <div class="clearfix">
+            <div class="pull-left tgl-text shift-time">{{ shift.date | tglMomentCommonDateFormat }} | {{ shift.date | tglMomentFormat:'HH:mm' }} - {{ ctrl.getShiftEndTime(shift) | tglMomentFormat:'HH:mm' }}</div>
+            <div class="pull-right tgl-text shift-details">See Details</div>
+        </div>
+    </div>
+    <div class="card-content">
+        <div class="tgl-text shift-type shift-type-1">Box Fit</div>
+        <div class="gym-name tgl-text shift-location-name">LA Fitness Marlyebone</div>
+        <div class="clearfix">
+            <div class="pull-left tgl-text shift-time">Monday 30 November | 13:30 - 14:30</div>
+            <div class="pull-right tgl-text shift-details">See Details</div>
+        </div>
+    </div>
+    <div class="card-content">
+        <div class="tgl-text shift-type shift-type-2">Pilates</div>
+        <div class="gym-name tgl-text shift-location-name">LA Fitness Marlyebone</div>
+        <div class="clearfix">
+            <div class="pull-left tgl-text shift-time">Monday 30 November | 13:30 - 14:30</div>
+            <div class="pull-right tgl-text shift-details">See Details</div>
+        </div>
+    </div>
+    <div class="card-content">
+        <div class="tgl-text shift-type shift-type-3">Body Pump</div>
+        <div class="gym-name tgl-text shift-location-name">LA Fitness Marlyebone</div>
+        <div class="clearfix">
+            <div class="pull-left tgl-text shift-time">Monday 30 November | 13:30 - 14:30</div>
+            <div class="pull-right tgl-text shift-details">See Details</div>
+        </div>
+    </div>
+    <div class="card-content clearfix">
+        <div class="pull-right">
+            <button class="btn btn-info col-sm-12" ng-click="ctrl.addShift()">
+                <span style="margin-right: 10px;">Add Shift</span>
+                <i style="vertical-align: middle;" class="fa fa-plus fa-2x"></i>
+            </button>
+        </div>
+    </div>
+</div>

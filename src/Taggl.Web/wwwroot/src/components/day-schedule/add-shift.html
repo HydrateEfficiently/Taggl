@@ -1,26 +1,25 @@
-<div>
-    <div class="mb-md">Add a new shift to your calendar.</div>
+<div class="card">
+    <div class="card-title">
+        <h3>Add Shift</h3>
+    </div>
+    <div class="card-content">
+        <div class="container-fluid">
+            <div class="mb-md">Add a new shift on {{ ctrl.day | tglMomentCommonDateFormat }}.</div>
     <form name="ctrl.form" class="form-horizontal" role="form" novalidate>
         <div class="row">
-            <div class="col-sm-6 mb-md">
+            <div class="col-sm-12 mb-md">
                 <label>Class</label>
                 <div>
                     <tgl-search search-source="ctrl.searchSource"
                                 on-item-selected="ctrl.shift.shiftType = item"></tgl-search>
                 </div>
             </div>
-            <div class="col-sm-6 mb-md">
-                <label>Gym</label>
-                <div>
-                    <input type="text" class="form-control" required />
-                </div>
-            </div>
         </div>
         <div class="row">
             <div class="col-sm-12 mb-md">
-                <label>Date</label>
+                <label>Gym</label>
                 <div>
-                    <input type="date" class="form-control" required />
+                    <input type="text" class="form-control" required />
                 </div>
             </div>
         </div>
@@ -40,9 +39,11 @@
         </div>
         <div class="clearfix">
             <div class="pull-right">
-                <a href="#">Cancel</a>
-                <button class="btn btn-success ml-sm">Add</button>
+                <a href="javascript:void(0)" ng-click="ctrl.cancel()">Cancel</a>
+                <button class="btn btn-success ml-sm" ng-click="ctrl.save()">Add</button>
             </div>
         </div>
     </form>
+        </div>
+    </div>
 </div>

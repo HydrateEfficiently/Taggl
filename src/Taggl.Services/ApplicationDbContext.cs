@@ -8,6 +8,7 @@ using Microsoft.Data.Entity;
 using Taggl.Framework.Utility;
 using Taggl.Framework.Models.Shifts;
 using Taggl.Framework.Models.Professionalities;
+using Taggl.Framework.Models.Gyms;
 
 namespace Taggl.Services
 {
@@ -16,11 +17,13 @@ namespace Taggl.Services
         public DbSet<ApplicationUserRelationships> ApplicationUserRelationships { get; set; }
         public DbSet<ApplicationUserStatus> UserStatuses { get; set; }
 
+        public DbSet<Gym> Gyms { get; set; }
+        
         public DbSet<ShiftType> ShiftTypes { get; set; }
+        public DbSet<ShiftSchedule> ShiftSchedules { get; set; }
 
         public DbSet<Professionality> Professionalities { get; set; }
         public DbSet<Expertise> Expertise { get; set; }
-
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -29,7 +32,9 @@ namespace Taggl.Services
             builder.Entity<ApplicationUserRelationships>().HasTableName(nameof(ApplicationUserRelationships));
             builder.Entity<ApplicationUserStatus>().HasTableName(nameof(UserStatuses));
 
+            //builder.Entity<Shift>().HasTableName(nameof(Shift));
             builder.Entity<ShiftType>().HasTableName(nameof(ShiftTypes));
+            builder.Entity<ShiftSchedule>().HasTableName(nameof(ShiftSchedules));
 
             builder.Entity<Professionality>().HasTableName(nameof(Professionalities));
             builder.Entity<Expertise>().HasTableName(nameof(Expertise));

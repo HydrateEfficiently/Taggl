@@ -12,7 +12,7 @@ function momentFormat() {
 }
 
 function momentCommonDateFormat() {
-    return date => moment(date).format('DD-MM-YYYY');
+    return date => moment(date).format('dddd D MMMM');
 }
 
 function momentCommonDateTimeFormat() {

@@ -20,7 +20,7 @@ namespace Taggl.Services.Shifts.Queries
         public static async Task<ShiftType> CreateOrGetShiftTypeAsync(
             this ApplicationDbContext dbContext,
             IRoleResolver roleResolver,
-            Audit audit,
+            IAuditFactory auditFactory,
             ShiftTypeCreate create)
         {
             var shiftType = create.Map();
@@ -28,7 +28,7 @@ namespace Taggl.Services.Shifts.Queries
 
             if (existingShiftType == null)
             {
-                dbContext.ShiftTypes.Add(shiftType.Create(audit));
+                dbContext.ShiftTypes.Add(shiftType.Create(auditFactory.CreateAudit()));
                 existingShiftType = shiftType;
             }
 
@@ -38,28 +38,6 @@ namespace Taggl.Services.Shifts.Queries
             }
 
             return existingShiftType;
-        }
-
-        public static async Task<ShiftType> GetMatchAsync(
-            this IQueryable<ShiftType> queryable,
-            ShiftType shiftType)
-        {
-            return await queryable.FirstOrDefaultAsync(s => s.NameNormalized == shiftType.NameNormalized);
-        }
-
-        public static IQueryable<ShiftType> WherePatternMatched(
-            this IQueryable<ShiftType> queryable,
-            IShiftTypeFormatter shiftTypeFormatter,
-            string pattern)
-        {
-            string patternNormalized = shiftTypeFormatter.NormalizeName(pattern);
-            return queryable.Where(s => s.NameNormalized.Contains(patternNormalized));
-        }
-
-        public static IQueryable<ShiftType> WhereSearchable(
-            this IQueryable<ShiftType> queryable)
-        {
-            return queryable.Where(s => s.IsSearchable);
         }
     }
 }

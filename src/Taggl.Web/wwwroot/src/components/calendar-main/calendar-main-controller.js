@@ -2,7 +2,7 @@ import { Injectable } from './../../utility/injectable';
 
 export class CalendarMainController extends Injectable {
     static get $inject() {
-        return ['$scope', 'TglLoggingService', '$state'];
+        return ['$scope', '$state', 'TglLoggingService', '$state'];
     }
 
     constructor(...deps) {
@@ -10,26 +10,13 @@ export class CalendarMainController extends Injectable {
 
         this.logger = this.TglLoggingService.createLogger(this.constructor.name);
 
-        this.calendarMonthMoment = moment().startOf('month');
-        this.calendarMonth = new Date(0);
-        this._updateMonth();
+        if (this.$state.is('calendar')) {
+            this.getSchedule(new Date());
+        }
     }
 
-    nextMonth() {
-        this.calendarMonthMoment.add(1, 'months');
-        this._updateMonth();
-    }
-
-    previousMonth() {
-        this.calendarMonthMoment.subtract(1, 'months');
-        this._updateMonth();
-    }
-
-    addShift() {
-        this.$state.go('calendar.addShift');
-    }
-
-    _updateMonth() {
-        this.calendarMonth.setTime(this.calendarMonthMoment.toDate().getTime());
+    getSchedule(date) {
+        let timestamp = moment(date).startOf('day').toDate().getTime();
+        this.$state.go('calendar.day', { timestamp });
     }
 }

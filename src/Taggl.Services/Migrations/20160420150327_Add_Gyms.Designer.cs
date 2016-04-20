@@ -8,9 +8,10 @@ using Taggl.Services;
 namespace Taggl.Services.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160420150327_Add_Gyms")]
+    partial class Add_Gyms
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
@@ -238,36 +239,6 @@ namespace Taggl.Services.Migrations
                     b.HasAnnotation("Relational:TableName", "Professionalities");
                 });
 
-            modelBuilder.Entity("Taggl.Framework.Models.Shifts.ShiftSchedule", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("Created");
-
-                    b.Property<string>("CreatedById");
-
-                    b.Property<DateTime?>("Deleted");
-
-                    b.Property<string>("DeletedById");
-
-                    b.Property<TimeSpan>("Duration");
-
-                    b.Property<DateTime>("FromDate");
-
-                    b.Property<Guid>("GymId");
-
-                    b.Property<Guid>("ShiftTypeId");
-
-                    b.Property<DateTime>("Updated");
-
-                    b.Property<string>("UpdatedById");
-
-                    b.HasKey("Id");
-
-                    b.HasAnnotation("Relational:TableName", "ShiftSchedules");
-                });
-
             modelBuilder.Entity("Taggl.Framework.Models.Shifts.ShiftType", b =>
                 {
                     b.Property<Guid>("Id")
@@ -374,29 +345,6 @@ namespace Taggl.Services.Migrations
                     b.HasOne("Taggl.Framework.Models.Shifts.ShiftType")
                         .WithMany()
                         .HasForeignKey("ShiftTypeId");
-                });
-
-            modelBuilder.Entity("Taggl.Framework.Models.Shifts.ShiftSchedule", b =>
-                {
-                    b.HasOne("Taggl.Framework.Models.Identity.ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedById");
-
-                    b.HasOne("Taggl.Framework.Models.Identity.ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("DeletedById");
-
-                    b.HasOne("Taggl.Framework.Models.Gyms.Gym")
-                        .WithMany()
-                        .HasForeignKey("GymId");
-
-                    b.HasOne("Taggl.Framework.Models.Shifts.ShiftType")
-                        .WithMany()
-                        .HasForeignKey("ShiftTypeId");
-
-                    b.HasOne("Taggl.Framework.Models.Identity.ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById");
                 });
 
             modelBuilder.Entity("Taggl.Framework.Models.Shifts.ShiftType", b =>

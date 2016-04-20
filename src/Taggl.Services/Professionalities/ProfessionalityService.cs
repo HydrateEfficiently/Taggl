@@ -58,15 +58,13 @@ namespace Taggl.Services.Professionalities
             var existingExpertise = professionality.Expertise;
             var currentExpertise = update.Expertise;
 
-            var audit = _auditFactory.CreateAudit();
-
             var expertiseToDelete = existingExpertise.Except(
                 currentExpertise, e => e.Id, e => e.Id);
-            expertiseToDelete.ForEach(e => e.Delete(audit));
+            expertiseToDelete.ForEach(e => e.Delete(_auditFactory.CreateAudit()));
 
             var expertiseToAdd = currentExpertise.Where(e => e.Id == Guid.Empty);
             var creationTasks = expertiseToAdd.Select(e =>
-                _dbContext.CreateExpertiseAsync(_roleResolver, audit, professionality.Id, e.ShiftTypeName));
+                _dbContext.CreateExpertiseAsync(_roleResolver, _auditFactory, professionality.Id, e.ShiftTypeName));
             var createdExpertise = await Task.WhenAll(creationTasks);
 
             await _dbContext.SaveChangesAsync();

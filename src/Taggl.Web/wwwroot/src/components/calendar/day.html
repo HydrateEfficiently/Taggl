@@ -18,8 +18,8 @@
     </div>
     <div class="month">
         <div ng-repeat="row in rows track by $index" class="clearfix week-row">
-            <div ng-repeat="dt in row" id="{{::dt.uid}}" class="pull-left date-cell">
-                <div uib-is-class="'active' for activeDt on dt" ng-click="select(dt.date)" ng-disabled="::dt.disabled">
+            <div ng-repeat="dt in row" id="{{::dt.uid}}" ng-click="select(dt.date)" class="pull-left date-cell">
+                <div uib-is-class="'active' for activeDt on dt" ng-disabled="::dt.disabled">
                     <div style="padding: 10px;" ng-class="::{'text-muted': dt.secondary, 'text-info': dt.current}">
                         {{::dt.label}}
                         <div ng-if="isToday(dt)">Test</div>

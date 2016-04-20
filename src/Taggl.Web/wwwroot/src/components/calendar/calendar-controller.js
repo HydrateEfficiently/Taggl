@@ -11,17 +11,17 @@ export class CalendarController extends Injectable {
         this.logger = this.TglLoggingService.createLogger(this.constructor.name);
         this.date = new Date();
 
-        this.today = new Date();
+        this.$scope.$watch(
+            () => this.date,
+            (date) => {
+                if (this.onDateSelected) {
+                    this.onDateSelected({ date });
+                }
+            },
+            true);
 
         this.datepickerOptions = {
             maxMode: 'day'
         };
-
-        this.$scope.isToday = this.isToday;
-    }
-
-    isToday(date) {
-        date;
-        debugger;
     }
 }

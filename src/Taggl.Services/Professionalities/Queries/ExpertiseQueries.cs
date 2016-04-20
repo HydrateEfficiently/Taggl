@@ -19,14 +19,14 @@ namespace Taggl.Services.Professionalities.Queries
         public static async Task<Expertise> CreateExpertiseAsync(
             this ApplicationDbContext dbContext,
             IRoleResolver roleResolver,
-            Audit audit,
+            IAuditFactory auditFactory,
             Guid professionalityId,
             string shiftTypeName)
         {
             var shiftType = await dbContext.CreateOrGetShiftTypeAsync(
-                roleResolver, audit, new ShiftTypeCreate() { Name = shiftTypeName });
+                roleResolver, auditFactory, new ShiftTypeCreate() { Name = shiftTypeName });
             var expertise = new Expertise() { ShiftType = shiftType, ProfessionalityId = professionalityId }
-                .Create(audit);
+                .Create(auditFactory.CreateAudit());
             dbContext.Expertise.Add(expertise);
             return expertise;
         }

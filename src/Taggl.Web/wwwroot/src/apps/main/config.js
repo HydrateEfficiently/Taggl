@@ -21,10 +21,20 @@ export function config($stateProvider, $urlRouterProvider) {
             url: '/calendar',
             template: '<tgl-calendar-main></tgl-calendar-main>'
         })
-        .state('calendar.addShift', {
-            url: '/add-shift',
-            onEnter: modalLoader('Add Shift', 'tgl-shift-form', 'on-saved', 'on-cancel')
+        .state('calendar.day', {
+            url: '/day/:timestamp',
+            template: params => {
+                return `<tgl-day-schedule timestamp="${params.timestamp}"</tgl-day-schedule>`;
+            }
         });
+        // .state('calendar.day.addShift', {
+        //     url: '/add-shift',
+        //     onEnter: modalLoader({
+        //         title: 'Add Shift',
+        //         component: 'tgl-shift-form',
+        //         events: ['onSave', 'onCancel']
+        //     })
+        // });
 
 
         // .state('registry', {

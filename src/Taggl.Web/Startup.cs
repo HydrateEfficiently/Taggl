@@ -62,6 +62,7 @@ namespace Taggl.Web
                     }
                 });
                 setup.OutputFormatters.Insert(1, new XmlSerializerOutputFormatter());
+                
             });
 
             services.AddServices(connectionString: ConnectionString, loginPath: "/account/login");
@@ -105,8 +106,11 @@ namespace Taggl.Web
             app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
 
             app.UseStaticFiles();
+            
 
             app.UseIdentity();
+
+            
 
             // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
 

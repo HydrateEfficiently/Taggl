@@ -6,7 +6,8 @@ using Taggl.Framework.Models.Identity;
 
 namespace Taggl.Framework.Models.Shifts
 {
-    public class ShiftType : ICreateAuditable
+    public class ShiftType
+        : ICreateAuditable, ISearchableName
     {
         public Guid Id { get; set; }
 

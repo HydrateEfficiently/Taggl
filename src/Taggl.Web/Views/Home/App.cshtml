@@ -192,9 +192,7 @@
     </style>
 </head>
 <body ng-controller="MainController as ctrl" style="background-color: #FAFAFA;">
-    <div>
-        <tgl-navbar></tgl-navbar>
-    </div>
+    <tgl-navbar></tgl-navbar>
 
     <div class="container" style="margin-top: 63px;">
         <ui-view></ui-view>
@@ -203,7 +201,7 @@
     <script src="~/jspm_packages/system.js"></script>
     <script src="~/jspm.browser.js"></script>
     <script src="~/jspm.config.js"></script>
-    <script src="~/jspm_packages/npm/moment@2.12.0/moment.js"></script>
+    <script src="~/jspm_packages/npm/moment@2.12.0/moment.js" asp-append-version="true"></script>
     <script type="text/javascript">
         System.import("/src/apps/main/main.js").then(function (m) {
             m.run(@(await ServerDataBuilder

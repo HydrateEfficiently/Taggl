@@ -5,20 +5,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using Taggl.Framework.Utility;
 
-namespace Taggl.Services.Shifts
+namespace Taggl.Services
 {
-    public interface IShiftTypeFormatter
+    public interface ISearchableNameFormatter
     {
         string FormatName(string name);
 
         string NormalizeName(string name);
     }
 
-    public class ShiftTypeFormatter : IShiftTypeFormatter
+    public class SearchableNameFormatter : ISearchableNameFormatter
     {
         private readonly ILookupNormalizer _lookupNormalizer;
 
-        public ShiftTypeFormatter(
+        public SearchableNameFormatter(
             ILookupNormalizer lookupNormalizer)
         {
             _lookupNormalizer = lookupNormalizer;

@@ -12,6 +12,7 @@ using Taggl.Services.Administrator;
 using Taggl.Services.Shifts;
 using Taggl.Services.Professionalities;
 using Taggl.Services.Utility;
+using Taggl.Services.Gyms;
 
 namespace Taggl.Services
 {
@@ -51,9 +52,13 @@ namespace Taggl.Services
             services.AddTransient<IRoleResolver, RoleResolver>();
             services.AddScoped<IAuditFactory, AuditFactory>();
 
+            // Gyms
+            services.AddTransient<IGymService, GymService>();
+            services.AddTransient<IGymSearchService, GymSearchService>();
+
             // Shifts
             services.AddTransient<IShiftTypeService, ShiftTypeService>();
-            services.AddTransient<IShiftTypeFormatter, ShiftTypeFormatter>();
+            services.AddTransient<ISearchableNameFormatter, SearchableNameFormatter>();
             services.AddTransient<IShiftTypeSearchService, ShiftTypeSearchService>();
 
             // Professionalities

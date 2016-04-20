@@ -25,7 +25,8 @@ export function componentFactory(name, controller, deps = [], bindToController =
         controller,
         controllerAs: 'ctrl',
         bindToController,
-        templateUrl
+        templateUrl,
+        replace: true
     };
 
     angular.module(moduleName, deps).directive(prefixedName, () => componentOptions);

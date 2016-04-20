@@ -40,7 +40,7 @@ namespace Taggl.Services.Shifts
         public async Task<ShiftType> CreateAsync(ShiftTypeCreate create)
         {
             var shiftType = await _dbContext.CreateOrGetShiftTypeAsync(
-                _roleResolver, _auditFactory.CreateAudit(), create);
+                _roleResolver, _auditFactory, create);
             await _dbContext.SaveChangesAsync();
             return shiftType;
         }

@@ -1,3 +1,6 @@
-<uib-datepicker ng-model="ctrl.date"
+<div class="card">
+    <uib-datepicker ng-model="ctrl.date"
                 template-url="/src/components/calendar/datepicker.html" 
-                datepicker-options="ctrl.datepickerOptions"></uib-datepicker>
+                datepicker-options="ctrl.datepickerOptions"
+                ng-change="ctrl.dateChanged()"></uib-datepicker>
+</div>

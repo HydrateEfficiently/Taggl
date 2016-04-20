@@ -10,4 +10,4 @@ export let calendar = componentFactory(
     'calendar',
     CalendarController,
     [commonServices, datepicker],
-    { date: '=' });
+    { onDateSelected: '&' });

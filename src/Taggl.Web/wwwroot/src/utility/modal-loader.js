@@ -1,4 +1,4 @@
-export function modalLoader(title, templateName, ...closeEvents) {
+export function modalLoader2(title, templateName, ...closeEvents) {
     return ($stateParams, $state, $uibModal) => {
         let closeEventHtml = closeEvents
             .map(closeEvent => `${closeEvent}="dismiss()"`)

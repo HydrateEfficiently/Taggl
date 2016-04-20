@@ -43,7 +43,7 @@ namespace Taggl.Services.Professionalities
             var identityId = _identityResolver.Resolve().GetId();
             var professionality = await _dbContext.ApplicationUserRelationships.GetProfessionalityByUser(identityId);
             var expertise = await _dbContext.CreateExpertiseAsync(
-                _roleResolver, _auditFactory.CreateAudit(), professionality.Id, create.Name); // TODO: Currently mapping ShiftTypeCreate => string => ShiftTypeCreate
+                _roleResolver, _auditFactory, professionality.Id, create.Name); // TODO: Currently mapping ShiftTypeCreate => string => ShiftTypeCreate
             await _dbContext.SaveChangesAsync();
             return expertise;
         }

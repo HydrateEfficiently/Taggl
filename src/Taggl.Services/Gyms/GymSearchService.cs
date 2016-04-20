@@ -3,22 +3,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Taggl.Framework.Models.Shifts;
-using Taggl.Services.Shifts.Queries;
+using Taggl.Framework.Models.Gyms;
 
-namespace Taggl.Services.Shifts
+namespace Taggl.Services.Gyms
 {
-    public interface IShiftTypeSearchService
+    public interface IGymSearchService
     {
-        Task<IEnumerable<ShiftType>> Search(string pattern);
+        Task<IEnumerable<Gym>> Search(string pattern);
     }
 
-    public class ShiftTypeSearchService : IShiftTypeSearchService
+    public class GymSearchService : IGymSearchService
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly ISearchableNameFormatter _searchableNameFormatter;
 
-        public ShiftTypeSearchService(
+        public GymSearchService(
             ApplicationDbContext dbContext,
             ISearchableNameFormatter searchableNameFormatter)
         {
@@ -26,11 +25,11 @@ namespace Taggl.Services.Shifts
             _searchableNameFormatter = searchableNameFormatter;
         }
 
-        public async Task<IEnumerable<ShiftType>> Search(string pattern)
+        public async Task<IEnumerable<Gym>> Search(string pattern)
         {
-            return await _dbContext.ShiftTypes
-                .WhereSearchable<ShiftType>()
-                .WherePatternMatched<ShiftType>(_searchableNameFormatter, pattern)
+            return await _dbContext.Gyms
+                .WhereSearchable<Gym>()
+                .WherePatternMatched<Gym>(_searchableNameFormatter, pattern)
                 .ToListAsync();
         }
     }

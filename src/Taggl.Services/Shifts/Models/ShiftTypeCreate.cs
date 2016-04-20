@@ -17,7 +17,7 @@ namespace Taggl.Services.Shifts.Models
 
         static ShiftTypeCreate()
         {
-            var shiftTypeFormatter = ServiceLocator.Current.GetRequiredService<IShiftTypeFormatter>();
+            var shiftTypeFormatter = ServiceLocator.Current.GetRequiredService<ISearchableNameFormatter>();
             var configuration = new ConfigurationStore(new TypeMapFactory(), MapperRegistry.Mappers);
             var mappingEngine = new MappingEngine(configuration);
             configuration.CreateMap<ShiftTypeCreate, ShiftType>()

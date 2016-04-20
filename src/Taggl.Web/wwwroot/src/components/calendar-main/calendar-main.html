@@ -1,81 +1,43 @@
-<div class="row mt-sm">
-    <div class="col-sm-6 col-md-3">
-        <button class="btn btn-info col-sm-12" ng-click="ctrl.addShift()">
-            <div class="pull-left">
-                <i style="vertical-align: middle;" class="fa fa-plus fa-2x"></i>
-                <span style="margin-left: 20px;">Add Shift</span>
-            </div>
-        </button>
-    </div>
-</div>
-<div class="row mt-sm">
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-title">
-                <h3>Tuesday 9 February</h3>
-            </div>
-            <div class="card-content">
-                <div class="tgl-text shift-type shift-type-1">Box Fit</div>
-                <div class="gym-name tgl-text shift-location-name">LA Fitness Marlyebone</div>
-                <div class="clearfix">
-                    <div class="pull-left tgl-text shift-time">Monday 30 November | 13:30 - 14:30</div>
-                    <div class="pull-right tgl-text shift-details">See Details</div>
-                </div>
-            </div>
-            <div class="card-content">
-                <div class="tgl-text shift-type shift-type-2">Pilates</div>
-                <div class="gym-name tgl-text shift-location-name">LA Fitness Marlyebone</div>
-                <div class="clearfix">
-                    <div class="pull-left tgl-text shift-time">Monday 30 November | 13:30 - 14:30</div>
-                    <div class="pull-right tgl-text shift-details">See Details</div>
-                </div>
-            </div>
-            <div class="card-content">
-                <div class="tgl-text shift-type shift-type-3">Body Pump</div>
-                <div class="gym-name tgl-text shift-location-name">LA Fitness Marlyebone</div>
-                <div class="clearfix">
-                    <div class="pull-left tgl-text shift-time">Monday 30 November | 13:30 - 14:30</div>
-                    <div class="pull-right tgl-text shift-details">See Details</div>
-                </div>
-            </div>
+<div>
+    <div>
+        <div class="col-md-6">
+            <ui-view></ui-view>
+        </div>
+        <div class="col-md-6">
+            <tgl-calendar on-date-selected="ctrl.getSchedule(date)"></tgl-calendar>
         </div>
     </div>
-    <div class="col-md-6">
-        <div class="card">
-            <tgl-calendar date="ctrl.calendarDate"></tgl-calendar>
-        </div>
-    </div>
+
+    <style type="text/css">
+        .tgl-text.shift-type {
+            font-weight: 700;
+        }
+        .tgl-text.shift-type-1 {
+            color: #e47070;
+        }
+        .tgl-text.shift-type-2 {
+            color: #fcd764;
+        }
+        .tgl-text.shift-type-3 {
+            color: #a1e104;
+        }
+        .tgl-text.shift-location-name {
+            font-weight: 500;
+        }
+        .tgl-text.shift-time {
+            color: #bbb;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+        .tgl-text.shift-details {
+            color: #4BB5CF;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+
+        .modal-content {
+            background-color: none; 
+            border: none;
+        }
+    </style>
 </div>
-
-<style type="text/css">
-    .tgl-text.shift-type {
-        font-weight: 700;
-    }
-    .tgl-text.shift-type-1 {
-        color: #e47070;
-    }
-    .tgl-text.shift-type-2 {
-        color: #fcd764;
-    }
-    .tgl-text.shift-type-3 {
-        color: #a1e104;
-    }
-    .tgl-text.shift-location-name {
-        font-weight: 500;
-    }
-    .tgl-text.shift-time {
-        color: #bbb;
-        text-transform: uppercase;
-        font-size: 12px;
-    }
-    .tgl-text.shift-details {
-        color: #4BB5CF;
-        text-transform: uppercase;
-        font-size: 12px;
-    }
-
-    .modal-content {
-        background-color: none; 
-        border: none;
-    }
-</style>
