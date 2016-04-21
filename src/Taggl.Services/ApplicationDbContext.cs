@@ -8,7 +8,6 @@ using Taggl.Framework.Models.Gyms;
 using Taggl.Framework.Models.Identity;
 using Taggl.Framework.Models.Professionalities;
 using Taggl.Framework.Models.Shifts;
-using Taggl.Framework.Models.Vehicle;
 using Taggl.Framework.Utility;
 
 namespace Taggl.Services
