@@ -20,8 +20,6 @@ namespace Taggl.Services
         
         public DbSet<ApplicationUserStatus> UserStatuses { get; set; }
         
-        public DbSet<Car> Cars { get; set; }
-        
         public DbSet<Expertise> Expertise { get; set; }
         
         public DbSet<Gym> Gyms { get; set; }
