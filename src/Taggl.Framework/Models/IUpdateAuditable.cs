@@ -17,7 +17,7 @@ namespace Taggl.Framework.Models
 
     public static class UpdateAuditableExtensions
     {
-        public static T Update<T>(
+        public static T AuditUpdated<T>(
             this T updateAuditable,
             Audit audit)
             where T : IUpdateAuditable

@@ -25,6 +25,11 @@ namespace Taggl.CodeGeneration.Services
             return GetPath(_namespaceService.GetFrameworkEntityNamespace(areaName));
         }
 
+        public string GetServicesPath()
+        {
+            return GetPath(_namespaceService.GetServicesNamespace());
+        }
+
         public string GetServicePath(string areaName)
         {
             return GetPath(_namespaceService.GetServiceNamespace(areaName));

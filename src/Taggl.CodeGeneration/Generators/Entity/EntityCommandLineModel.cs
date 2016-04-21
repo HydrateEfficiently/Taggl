@@ -18,16 +18,13 @@ namespace Taggl.CodeGeneration.Generators.Entity
         [Option(Name = "identity", ShortName = "i", Description = "The type of the identity property, \"Id\", g: guid (default), i: int")]
         public string IdentityTypeName { get; set; }
 
-        [Option(Name = "auditCreate", ShortName = "c", Description = "A flag which determines if the entity should inherit from ICreateAuditable")]
-        public bool AuditCreate { get; set; }
-
-        [Option(Name = "auditUpdate", ShortName = "u", Description = "A flag which determines if the entity should inherit from IUpdateAuditable")]
-        public bool AuditUpdate { get; set; }
-
-        [Option(Name = "auditDelete", ShortName = "d", Description = "A flag which determines if the entity should inherit from IDeleteAuditable")]
-        public bool AuditDelete { get; set; }
+        [Option(Name = "audit", ShortName = "au", Description = "The audit foreign keys.")]
+        public string Audits { get; set; }
 
         [Option(Name = "properties", ShortName = "p", Description = "The comma seperated properties of the entity, in form <property-type>:<property-name>")]
         public string Properties { get; set; }
+
+        [Option(Name = "table", ShortName = "t", Description = "The table name.")]
+        public string Table { get; set; }
     }
 }

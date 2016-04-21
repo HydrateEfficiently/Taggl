@@ -38,6 +38,11 @@ namespace Taggl.CodeGeneration.Services
             return $"{GetFrameworkEntitiesNamespace()}.{areaName}";
         }
 
+        public string GetFrameworkUtilityNamespace()
+        {
+            return $"{GetFrameworkNamespace()}.Utility";
+        }
+
         public string GetFrameworkServicesNamespace()
         {
             return $"{GetFrameworkNamespace()}.Services";
@@ -61,6 +66,11 @@ namespace Taggl.CodeGeneration.Services
         public string GetWebNamespace()
         {
             return $"{GetRootNamespace()}.Web";
+        }
+
+        public string GetGenerationCoreNamespace()
+        {
+            return $"{GetRootNamespace()}.CodeGeneration.Core";
         }
     }
 }

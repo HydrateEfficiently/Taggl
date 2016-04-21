@@ -44,7 +44,7 @@ namespace Taggl.Services.Professionalities
         // TODO: Authorize
         public async Task<ProfessionalityResult> GetAsync(string userId)
         {
-            var professionality = await _dbContext.ApplicationUserRelationships
+            var professionality = await _dbContext.UserRelationships
                 .QueryProfessionalityByUser(userId)
                 .GetForResultAsync(_dbContext);
             return new ProfessionalityResult(professionality).AddUserId(userId);
@@ -52,7 +52,7 @@ namespace Taggl.Services.Professionalities
 
         public async Task<ProfessionalityResult> UpdateAsync(ProfessionalityUpdate update)
         {
-            var professionality = await _dbContext.ApplicationUserRelationships
+            var professionality = await _dbContext.UserRelationships
                 .QueryProfessionalityByUser(update.UserId)
                 .GetForResultAsync(_dbContext);
             var existingExpertise = professionality.Expertise;
@@ -60,7 +60,7 @@ namespace Taggl.Services.Professionalities
 
             var expertiseToDelete = existingExpertise.Except(
                 currentExpertise, e => e.Id, e => e.Id);
-            expertiseToDelete.ForEach(e => e.Delete(_auditFactory.CreateAudit()));
+            expertiseToDelete.ForEach(e => e.AuditDeleted(_auditFactory.CreateAudit()));
 
             var expertiseToAdd = currentExpertise.Where(e => e.Id == Guid.Empty);
             var creationTasks = expertiseToAdd.Select(e =>

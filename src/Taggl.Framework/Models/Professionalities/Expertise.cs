@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Taggl.CodeGeneration.Core.Attributes;
 using Taggl.Framework.Models.Identity;
 using Taggl.Framework.Models.Shifts;
 
 namespace Taggl.Framework.Models.Professionalities
 {
+    [GeneratedEntity(TableName = "Expertise")]
     public class Expertise : ICreateAuditable, IDeleteAuditable
     {
         public Guid Id { get; set; }

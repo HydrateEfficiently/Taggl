@@ -64,7 +64,7 @@ namespace Taggl.Services.Shifts
         {
             var shiftSchedule = create.Map();
             var audit = _auditFactory.CreateAudit();
-            shiftSchedule.Create(audit).Update(audit);
+            shiftSchedule.AuditCreated(audit).AuditUpdated(audit);
             _dbContext.ShiftSchedules.Add(shiftSchedule);
             await _dbContext.CreateOrGetGymAsync(_roleResolver, _auditFactory, create.Gym);
             await _dbContext.CreateOrGetShiftTypeAsync(_roleResolver, _auditFactory, create.ShiftType);

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Taggl.CodeGeneration.Core.Attributes;
 
 namespace Taggl.Framework.Models.Identity
 {
+    [GeneratedEntity(TableName = "UserStatuses")]
     public class ApplicationUserStatus
     {
         public Guid Id { get; set; }

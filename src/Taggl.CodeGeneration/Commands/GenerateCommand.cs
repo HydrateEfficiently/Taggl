@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Taggl.CodeGeneration.Commands.Models;
 using Taggl.CodeGeneration.Generators;
 using Taggl.CodeGeneration.Services;
+using Taggl.CodeGeneration.Services.Audits;
 using Taggl.CodeGeneration.Services.Properties;
 using Taggl.CodeGeneration.Utility;
 
@@ -36,6 +37,7 @@ namespace Taggl.CodeGeneration.Commands
             AddService<IPropertyTypeNameResolver, PropertyTypeNameResolver>();
             AddService<IEntityAliasResolver, EntityAliasResolver>();
             AddService<ITypeNameShortcutMapper, TypeNameShortcutMapper>();
+            AddService<IAuditDeclarationFactory, AuditDeclarationFactory>();
 
             // Dependencies
             AddServiceWithDependency<NamespaceService, NamespaceService>();

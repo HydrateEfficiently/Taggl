@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Taggl.CodeGeneration.Exceptions;
 using Taggl.CodeGeneration.Services;
 using Taggl.CodeGeneration.Utility;
 
@@ -44,7 +45,7 @@ namespace Taggl.CodeGeneration
 
         public async Task ScaffoldAsync(
             string outputDirectory,
-            string outputClassName,
+            string outputFileName,
             string templateName,
             object templateModel,
             bool force = false)
@@ -55,13 +56,13 @@ namespace Taggl.CodeGeneration
                 Directory.CreateDirectory(outputDirectory);
             }
 
-            string outputFileName = Path.Combine(outputDirectory, $"{outputClassName}.{CodeFileExtension}");
-            ValidateOutputFileName(outputFileName, force);
+            string outputAbsoluteFileName = Path.Combine(outputDirectory, $"{outputFileName}.{CodeFileExtension}");
+            ValidateOutputFileName(outputAbsoluteFileName, force);
 
             string templateFolder = _directoryResolver.GetTemplateFolder();
 
             await _codeGeneratorActionsService.AddFileFromTemplateAsync(
-                outputFileName, $"{templateName}.cshtml", new List<string>() { templateFolder }, templateModel);
+                outputAbsoluteFileName, $"{templateName}.cshtml", new List<string>() { templateFolder }, templateModel);
         }
 
         #region Helpers
@@ -70,7 +71,7 @@ namespace Taggl.CodeGeneration
         {
             if (File.Exists(outputFileName) && !force)
             {
-                throw new InvalidOperationException($"The file {outputFileName} exists, use -f option to overwrite");
+                throw new GeneratedFileExistsException(outputFileName);
             }
         }
 

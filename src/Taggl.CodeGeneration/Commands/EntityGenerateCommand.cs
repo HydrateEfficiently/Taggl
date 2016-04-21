@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Taggl.CodeGeneration.Commands;
+using Taggl.CodeGeneration.Generators.DataContext;
 using Taggl.CodeGeneration.Generators.Entity;
 
 namespace Taggl.CodeGeneration.Entity
@@ -31,8 +32,14 @@ namespace Taggl.CodeGeneration.Entity
                 throw new InvalidOperationException("Invalid value for -i");
             }
 
-            var generator = GetGenerator<EntityGenerator>(model);
-            await generator.Generate();
+            var entityGenerator = GetGenerator<EntityGenerator>(model);
+            await entityGenerator.Generate();
+
+            var dbContextGenerator = GetGenerator<DataContextGenerator>(new DataContextCommandLineModel()
+            {
+                Force = model.Force
+            });
+            await dbContextGenerator.Generate();
         }
     }
 }

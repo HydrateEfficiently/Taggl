@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Taggl.CodeGeneration.Core.Attributes;
 using Taggl.Framework.Models.Identity;
 
 namespace Taggl.Framework.Models.Shifts
 {
+    [GeneratedEntity(TableName = "ShiftTypes")]
     public class ShiftType
         : ICreateAuditable, ISearchableName
     {

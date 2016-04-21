@@ -17,7 +17,7 @@ namespace Taggl.Framework.Models
 
     public static class DeleteAuditable
     {
-        public static T Delete<T>(
+        public static T AuditDeleted<T>(
             this T deleteAuditable,
             Audit audit)
             where T : IDeleteAuditable

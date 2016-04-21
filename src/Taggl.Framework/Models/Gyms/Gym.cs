@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Taggl.CodeGeneration.Core.Attributes;
 using Taggl.Framework.Models.Identity;
 
 namespace Taggl.Framework.Models.Gyms
 {
+    [GeneratedEntity(TableName = "Gyms")]
     public class Gym : 
         ICreateAuditable,
         IUpdateAuditable,

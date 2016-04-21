@@ -28,7 +28,7 @@ namespace Taggl.Services.Shifts.Queries
 
             if (existingShiftType == null)
             {
-                dbContext.ShiftTypes.Add(shiftType.Create(auditFactory.CreateAudit()));
+                dbContext.ShiftTypes.Add(shiftType.AuditCreated(auditFactory.CreateAudit()));
                 existingShiftType = shiftType;
             }
 

@@ -11,9 +11,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using @(Model.FrameworkEntitiesNamespace).Identity;
+using @(Model.GenerationCoreNamespace).Attributes;
 
 namespace @(Model.FrameworkEntityNamespace)
 {
+    [GeneratedEntity(TableName = "@(Model.TableName)")]
     public class @(Model.EntityName)@(interfaces)
     {
         public @(Model.IdentityTypeName) Id { get; set; }
@@ -27,6 +29,36 @@ namespace @(Model.FrameworkEntityNamespace)
         output += " " + p.ResolvedTypeName + " " + p.Name;
         @:
         @:@(output) { get; set; }
+        }
+
+        @if (Model.HasAudit)
+        {
+        @:#region Audits
+        foreach (Taggl.CodeGeneration.Services.Audits.AuditDeclarationModel audit in Model.Audits)
+        {
+        @:
+        @:public @(audit.IsNullable ? "DateTime?" : "DateTime") @audit.Name { get; set; }
+        @:
+        @:public virtual ApplicationUser @(audit.Name)By { get; set; }
+        @:
+        @:public string @(audit.Name)ById { get; set; }
+        }
+
+        foreach (Taggl.CodeGeneration.Services.Audits.AuditDeclarationModel audit in Model.Audits)
+        {
+        if (!audit.IsFromInterface)
+        {
+        @:
+        @:public @Model.EntityName Audit@(audit.Name)(Audit audit)
+        @:{
+        @:    @audit.Name = audit.Actioned;
+        @:    @(audit.Name)ById = audit.ActionedById;
+        @:    return this;
+        @:}
+        }
+        }
+        @:
+        @:#endregion
         }
     }
 }

@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Taggl.CodeGeneration.Core.Attributes;
 using Taggl.Framework.Models.Professionalities;
 
 namespace Taggl.Framework.Models.Identity
 {
+    [GeneratedEntity(TableName = "UserRelationships")]
     public class ApplicationUserRelationships
     {
         public Guid Id { get; set; }

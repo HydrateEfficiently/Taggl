@@ -26,7 +26,7 @@ namespace Taggl.Services.Professionalities.Queries
             var shiftType = await dbContext.CreateOrGetShiftTypeAsync(
                 roleResolver, auditFactory, new ShiftTypeCreate() { Name = shiftTypeName });
             var expertise = new Expertise() { ShiftType = shiftType, ProfessionalityId = professionalityId }
-                .Create(auditFactory.CreateAudit());
+                .AuditCreated(auditFactory.CreateAudit());
             dbContext.Expertise.Add(expertise);
             return expertise;
         }

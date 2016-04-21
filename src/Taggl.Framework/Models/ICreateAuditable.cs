@@ -17,7 +17,7 @@ namespace Taggl.Framework.Models
 
     public static class CreateAuditableExtensions
     {
-        public static T Create<T>(
+        public static T AuditCreated<T>(
             this T createAuditable,
             Audit audit)
             where T : ICreateAuditable

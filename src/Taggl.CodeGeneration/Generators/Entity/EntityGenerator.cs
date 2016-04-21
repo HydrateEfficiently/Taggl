@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Taggl.CodeGeneration.Services;
+using Taggl.CodeGeneration.Services.Audits;
 using Taggl.CodeGeneration.Services.Properties;
 using Taggl.CodeGeneration.Utility;
 using Taggl.Framework.Models;
@@ -16,6 +17,7 @@ namespace Taggl.CodeGeneration.Generators.Entity
         private readonly NamespaceService _namespaceService;
         private readonly IIdentityTypeNameResolver _identityTypeNameResolver;
         private readonly IPropertyDeclarationFactory _propertyDeclarationFactory;
+        private readonly IAuditDeclarationFactory _auditDeclarationFactory;
         private readonly ITypeNameShortcutMapper _typeNameShortcutMapper;
         private readonly IEntityReflector _entityReflector;
         private readonly EntityCommandLineModel _model;
@@ -26,6 +28,7 @@ namespace Taggl.CodeGeneration.Generators.Entity
             NamespaceService namespaceService,
             IIdentityTypeNameResolver identityTypeNameResolver,
             IPropertyDeclarationFactory propertyDeclarationFactory,
+            IAuditDeclarationFactory auditDeclarationFactory,
             ITypeNameShortcutMapper typeNameShortcutMapper,
             IEntityReflector entityReflector,
             EntityCommandLineModel model)
@@ -35,6 +38,7 @@ namespace Taggl.CodeGeneration.Generators.Entity
             _namespaceService = namespaceService;
             _identityTypeNameResolver = identityTypeNameResolver;
             _propertyDeclarationFactory = propertyDeclarationFactory;
+            _auditDeclarationFactory = auditDeclarationFactory;
             _typeNameShortcutMapper = typeNameShortcutMapper;
             _entityReflector = entityReflector;
             _model = model;
@@ -88,55 +92,18 @@ namespace Taggl.CodeGeneration.Generators.Entity
                 }
             }
 
-            if (_model.AuditCreate)
+            var audits = new List<AuditDeclarationModel>();
+            if (!string.IsNullOrWhiteSpace(_model.Audits))
             {
-                interfaces.Add(nameof(ICreateAuditable));
-                properties.AddRange(_propertyDeclarationFactory.CreateInterfaceProperties(
-                    typeof(ICreateAuditable),
-                    new Dictionary<string, PropertyDeclarationModelOptions>()
+                foreach (var auditCommand in _model.Audits.Split(','))
+                {
+                    var auditDeclarationModel = _auditDeclarationFactory.CreateAuditProperties(auditCommand);
+                    audits.Add(auditDeclarationModel);
+                    if (auditDeclarationModel.IsFromInterface)
                     {
-                        {
-                            nameof(ICreateAuditable.CreatedBy),
-                            new PropertyDeclarationModelOptions()
-                            {
-                                IsVirtual = true
-                            }
-                        }
-                    }));
-            }
-
-            if (_model.AuditUpdate)
-            {
-                interfaces.Add(nameof(IUpdateAuditable));
-                properties.AddRange(_propertyDeclarationFactory.CreateInterfaceProperties(
-                    typeof(IUpdateAuditable),
-                    new Dictionary<string, PropertyDeclarationModelOptions>()
-                    {
-                        {
-                            nameof(IUpdateAuditable.UpdatedBy),
-                            new PropertyDeclarationModelOptions()
-                            {
-                                IsVirtual = true
-                            }
-                        }
-                    }));
-            }
-
-            if (_model.AuditDelete)
-            {
-                interfaces.Add(nameof(IDeleteAuditable));
-                properties.AddRange(_propertyDeclarationFactory.CreateInterfaceProperties(
-                    typeof(IDeleteAuditable),
-                    new Dictionary<string, PropertyDeclarationModelOptions>()
-                    {
-                        {
-                            nameof(IDeleteAuditable.DeletedBy),
-                            new PropertyDeclarationModelOptions()
-                            {
-                                IsVirtual = true
-                            }
-                        }
-                    }));
+                        interfaces.Add(auditDeclarationModel.FromInterface);
+                    }
+                }
             }
 
             var templateModel = new EntityTemplateModel()
@@ -147,7 +114,10 @@ namespace Taggl.CodeGeneration.Generators.Entity
                 FrameworkEntitiesNamespace = _namespaceService.GetFrameworkEntitiesNamespace(),
                 IdentityTypeName = _identityTypeNameResolver.Resolve(_model),
                 Interfaces = interfaces,
-                Properties = properties
+                Properties = properties,
+                Audits = audits,
+                TableName = string.IsNullOrEmpty(_model.Table) ? $"{entityName}s" : _model.Table,
+                GenerationCoreNamespace = _namespaceService.GetGenerationCoreNamespace()
             };
 
             await _scaffoldingService.ScaffoldAsync(

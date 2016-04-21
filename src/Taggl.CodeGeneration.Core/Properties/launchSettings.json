@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:15860/",
+      "applicationUrl": "http://localhost:37064/",
       "sslPort": 0
     }
   },
@@ -20,10 +20,6 @@
       "environmentVariables": {
         "Hosting:Environment": "Development"
       }
-    },
-    "gen": {
-      "commandName": "gen",
-      "commandLineArgs": "data-context"
     }
   }
 }

@@ -79,7 +79,7 @@ namespace Taggl.Services.Gyms
             var result = (await _dbContext.Gyms
                 .Where(g => g.Id == id)
                 .FirstOrDefaultAsync())
-                .Delete(_auditFactory.CreateAudit());
+                .AuditDeleted(_auditFactory.CreateAudit());
             _dbContext.Gyms.Remove(result);
             await _dbContext.SaveChangesAsync();
         }

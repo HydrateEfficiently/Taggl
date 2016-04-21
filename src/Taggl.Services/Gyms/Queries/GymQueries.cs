@@ -23,7 +23,7 @@ namespace Taggl.Services.Gyms.Queries
 
             if (existingGym == null)
             {
-                dbContext.Gyms.Add(gym.Create(auditFactory.CreateAudit()));
+                dbContext.Gyms.Add(gym.AuditCreated(auditFactory.CreateAudit()));
                 existingGym = gym;
             }
 
