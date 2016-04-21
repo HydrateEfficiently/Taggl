@@ -60,6 +60,7 @@ namespace Taggl.Services
             services.AddTransient<IShiftTypeService, ShiftTypeService>();
             services.AddTransient<ISearchableNameFormatter, SearchableNameFormatter>();
             services.AddTransient<IShiftTypeSearchService, ShiftTypeSearchService>();
+            services.AddTransient<IShiftScheduleService, ShiftScheduleService>();
 
             // Professionalities
             services.AddTransient<IExpertiseService, ExpertiseService>();

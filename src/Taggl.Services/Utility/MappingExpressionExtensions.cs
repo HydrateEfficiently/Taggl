@@ -25,17 +25,5 @@ namespace Taggl.Services.Utility
         {
             return mappingExpr.ForMember(destinationMember, opts => opts.Ignore());
         }
-
-        public static IMappingExpression<TSource, TDestination> ForUserMember<TSource, TDestination>(
-            this IMappingExpression<TSource, TDestination> self,
-            Expression<Func<TDestination, object>> destinationMember,
-            Func<TSource, ApplicationUser> source)
-        {
-            return self.ForMember(
-                destinationMember,
-                options => options.MapFrom(src =>
-                    source(src) == null ? null : new UserResult(source(src))
-                ));
-        }
     }
 }

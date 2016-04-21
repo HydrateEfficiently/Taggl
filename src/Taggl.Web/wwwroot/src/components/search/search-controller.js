@@ -43,6 +43,8 @@ class SearchController extends Injectable {
         this.onItemSelected({ item });
         if (this.clearOnSelect) {
             this.selectedResult = null;
+        } else {
+            this.selectedItem = item;
         }
 
         event.stopImmediatePropagation();
@@ -55,6 +57,16 @@ class SearchController extends Injectable {
                 this.selectedResult = null;
             }
         }
+    }
+
+    onBlur() {
+        if (!this.selectedItem) {
+            this.createResult(this.selectedResult);
+        }
+    }
+
+    onChange() {
+        this.selectedItem = null;
     }
 
     _getSourceAction() {

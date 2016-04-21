@@ -10,17 +10,43 @@ export class AddShiftController extends Injectable {
         super(...deps);
 
         this.logger = this.TglLoggingService.createLogger(this.constructor.name);
+        this.shiftScheduleApi = this.TglApiInterfaceFactory.createApiInterface('shiftSchedule');
 
-        this.shift = {};
-        this.searchSource = SearchSource.ShiftTypes;
+        this.shiftSchedule = {};
+        this.shiftTypeSearchSource = SearchSource.ShiftTypes;
+        this.gymSearchSource = SearchSource.Gyms;
     }
 
     selectShiftType(shiftType) {
-        this.shift.shiftType = shiftType;
+        this.shiftSchedule.shiftTypeName = shiftType.name;
+        this.shiftSchedule.shiftTypeId = shiftType.id;
+    }
+
+    createShiftType(shiftTypeName) {
+        this.shiftSchedule.shiftTypeName = shiftTypeName;
+    }
+
+    selectGym(gym) {
+        this.shiftSchedule.gymName = gym.name;
+        this.shiftSchedule.gymId = gym.id;
+    }
+
+    createGym(gymName) {
+        this.shiftSchedule.gymName = gymName;
     }
 
     save() {
-        debugger;
+        let data = angular.copy(this.shiftSchedule);
+        let fromTimeMoment = moment(data.fromTime);
+        let fromDateMoment = moment(this.day);
+        fromDateMoment.add(fromTimeMoment.get('hours'), 'hours');
+        fromDateMoment.add(fromTimeMoment.get('minutes'), 'minutes');
+        data.fromDate = fromDateMoment.toDate();
+        delete data.fromTime;
+
+        this.shiftScheduleApi.create(data, { 
+            model: this.shiftSchedule
+        }).then(this.close.bind(this));
     }
 
     close() {

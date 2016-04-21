@@ -11,7 +11,7 @@ namespace Taggl.Services.Gyms.Mappings
 {
     public static class GymMappings
     {
-        public static IMappingExpression<TSource, TDestination> MapFromEntity<TSource, TDestination>(
+        public static IMappingExpression<TSource, TDestination> ForGym<TSource, TDestination>(
             this IMappingExpression<TSource, TDestination> self,
             Expression<Func<TDestination, object>> destinationMember,
             Func<TSource, Gym> source)
@@ -23,7 +23,7 @@ namespace Taggl.Services.Gyms.Mappings
                 ));
         }
 
-        public static IMappingExpression<TSource, TDestination> MapToEntity<TSource, TDestination>(
+        public static IMappingExpression<TSource, TDestination> ToGymEntity<TSource, TDestination>(
             this IMappingExpression<TSource, TDestination> self,
             Expression<Func<TDestination, object>> destinationMember,
             Func<TSource, GymCreate> source)

@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Taggl.Framework.Models.Gyms;
+using Taggl.Services.Identity.Mappings;
 using Taggl.Services.Identity.Models;
+using Taggl.Services.Utility;
 
 namespace Taggl.Services.Gyms.Models {
     public class GymResult
@@ -16,7 +18,9 @@ namespace Taggl.Services.Gyms.Models {
         {
             var configuration = new ConfigurationStore(new TypeMapFactory(), MapperRegistry.Mappers);
             var mappingEngine = new MappingEngine(configuration);
-            configuration.CreateMap<Gym, GymResult>();
+            configuration.CreateMap<Gym, GymResult>()
+                .ForUser(dest => dest.CreatedBy, src => src.CreatedBy)
+                .ForMemberIgnore(dest => dest.CreatedBy);
             __mappingEngine = mappingEngine;
         }
         

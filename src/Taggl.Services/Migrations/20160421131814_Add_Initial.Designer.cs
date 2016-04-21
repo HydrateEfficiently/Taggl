@@ -8,8 +8,8 @@ using Taggl.Services;
 namespace Taggl.Services.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160418154629_InitialSchema")]
-    partial class InitialSchema
+    [Migration("20160421131814_Add_Initial")]
+    partial class Add_Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -99,6 +99,34 @@ namespace Taggl.Services.Migrations
                     b.HasAnnotation("Relational:TableName", "AspNetUserRoles");
                 });
 
+            modelBuilder.Entity("Taggl.Framework.Models.Gyms.Gym", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Created");
+
+                    b.Property<string>("CreatedById");
+
+                    b.Property<DateTime?>("Deleted");
+
+                    b.Property<string>("DeletedById");
+
+                    b.Property<bool>("IsSearchable");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("NameNormalized");
+
+                    b.Property<DateTime>("Updated");
+
+                    b.Property<string>("UpdatedById");
+
+                    b.HasKey("Id");
+
+                    b.HasAnnotation("Relational:TableName", "Gyms");
+                });
+
             modelBuilder.Entity("Taggl.Framework.Models.Identity.ApplicationUser", b =>
                 {
                     b.Property<string>("Id");
@@ -164,7 +192,7 @@ namespace Taggl.Services.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasAnnotation("Relational:TableName", "ApplicationUserRelationships");
+                    b.HasAnnotation("Relational:TableName", "UserRelationships");
                 });
 
             modelBuilder.Entity("Taggl.Framework.Models.Identity.ApplicationUserStatus", b =>
@@ -211,6 +239,36 @@ namespace Taggl.Services.Migrations
                     b.HasKey("Id");
 
                     b.HasAnnotation("Relational:TableName", "Professionalities");
+                });
+
+            modelBuilder.Entity("Taggl.Framework.Models.Shifts.ShiftSchedule", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Created");
+
+                    b.Property<string>("CreatedById");
+
+                    b.Property<DateTime?>("Deleted");
+
+                    b.Property<string>("DeletedById");
+
+                    b.Property<TimeSpan>("Duration");
+
+                    b.Property<DateTime>("FromDate");
+
+                    b.Property<Guid>("GymId");
+
+                    b.Property<Guid>("ShiftTypeId");
+
+                    b.Property<DateTime>("Updated");
+
+                    b.Property<string>("UpdatedById");
+
+                    b.HasKey("Id");
+
+                    b.HasAnnotation("Relational:TableName", "ShiftSchedules");
                 });
 
             modelBuilder.Entity("Taggl.Framework.Models.Shifts.ShiftType", b =>
@@ -265,6 +323,21 @@ namespace Taggl.Services.Migrations
                         .HasForeignKey("UserId");
                 });
 
+            modelBuilder.Entity("Taggl.Framework.Models.Gyms.Gym", b =>
+                {
+                    b.HasOne("Taggl.Framework.Models.Identity.ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("Taggl.Framework.Models.Identity.ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("DeletedById");
+
+                    b.HasOne("Taggl.Framework.Models.Identity.ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedById");
+                });
+
             modelBuilder.Entity("Taggl.Framework.Models.Identity.ApplicationUserRelationships", b =>
                 {
                     b.HasOne("Taggl.Framework.Models.Professionalities.Professionality")
@@ -304,6 +377,29 @@ namespace Taggl.Services.Migrations
                     b.HasOne("Taggl.Framework.Models.Shifts.ShiftType")
                         .WithMany()
                         .HasForeignKey("ShiftTypeId");
+                });
+
+            modelBuilder.Entity("Taggl.Framework.Models.Shifts.ShiftSchedule", b =>
+                {
+                    b.HasOne("Taggl.Framework.Models.Identity.ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("Taggl.Framework.Models.Identity.ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("DeletedById");
+
+                    b.HasOne("Taggl.Framework.Models.Gyms.Gym")
+                        .WithMany()
+                        .HasForeignKey("GymId");
+
+                    b.HasOne("Taggl.Framework.Models.Shifts.ShiftType")
+                        .WithMany()
+                        .HasForeignKey("ShiftTypeId");
+
+                    b.HasOne("Taggl.Framework.Models.Identity.ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedById");
                 });
 
             modelBuilder.Entity("Taggl.Framework.Models.Shifts.ShiftType", b =>

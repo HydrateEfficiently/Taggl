@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Taggl.Framework.Models.Gyms;
+using Taggl.Services.Gyms.Models;
 
 namespace Taggl.Services.Gyms
 {
     public interface IGymSearchService
     {
-        Task<IEnumerable<Gym>> Search(string pattern);
+        Task<IEnumerable<GymResult>> Search(string pattern);
     }
 
     public class GymSearchService : IGymSearchService
@@ -25,12 +26,13 @@ namespace Taggl.Services.Gyms
             _searchableNameFormatter = searchableNameFormatter;
         }
 
-        public async Task<IEnumerable<Gym>> Search(string pattern)
+        public async Task<IEnumerable<GymResult>> Search(string pattern)
         {
-            return await _dbContext.Gyms
+            return (await _dbContext.Gyms
                 .WhereSearchable<Gym>()
                 .WherePatternMatched<Gym>(_searchableNameFormatter, pattern)
-                .ToListAsync();
+                .Include(g => g.CreatedBy)
+                .ToListAsync()).Select(g => new GymResult(g));
         }
     }
 }

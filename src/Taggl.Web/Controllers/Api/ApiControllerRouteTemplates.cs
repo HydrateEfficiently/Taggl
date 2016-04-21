@@ -17,5 +17,12 @@ namespace Taggl.Web.Controllers
 
         #endregion
 
+        #region Shifts
+
+        private const string ShiftsRouteTemplate = RootRouteTemplate + "/shifts";
+        public const string ShiftScheduleRouteTemplate = ShiftsRouteTemplate + "/schedules";
+
+        #endregion
+
     }
 }

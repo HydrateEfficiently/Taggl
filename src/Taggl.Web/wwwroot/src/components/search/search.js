@@ -15,10 +15,10 @@ let search = componentFactory(
         'searchSource': '=',
         'initialModelJson': '@',
         'onItemSelected': '&',
-        'onItemCreated': '&',
+        'onItemCreated': '&', // onLabelAdded?
         'onResultsRetrieved': '&',
         'clearOnSelect': '@',
-        'createResults': '@' 
+        'createResults': '@' // addLabels?
     });
 
 export { search, SearchSource };

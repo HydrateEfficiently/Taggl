@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Taggl.Framework.Models;
 using Taggl.Framework.Models.Shifts;
 using Taggl.Framework.Services;
+using Taggl.Services.Gyms.Models;
 using Taggl.Services.Gyms.Queries;
 using Taggl.Services.Identity;
 using Taggl.Services.Shifts.Models;
@@ -65,10 +66,38 @@ namespace Taggl.Services.Shifts
             var shiftSchedule = create.Map();
             var audit = _auditFactory.CreateAudit();
             shiftSchedule.AuditCreated(audit).AuditUpdated(audit);
+
+            if (create.ShiftTypeId != Guid.Empty)
+            {
+                shiftSchedule.ShiftTypeId = create.ShiftTypeId;
+            }
+            else if (!string.IsNullOrEmpty(create.ShiftTypeName))
+            {
+                shiftSchedule.ShiftType = await _dbContext.CreateOrGetShiftTypeAsync(
+                    _roleResolver, _auditFactory, new ShiftTypeCreate() { Name = create.ShiftTypeName });
+            }
+            else
+            {
+                throw new Exception(); // TODO: Validation
+            }
+
+            if (create.GymId != Guid.Empty)
+            {
+                shiftSchedule.GymId = create.GymId;
+            }
+            else if (!string.IsNullOrEmpty(create.GymName))
+            {
+                shiftSchedule.Gym = await _dbContext.CreateOrGetGymAsync(
+                    _roleResolver, _auditFactory, new GymCreate() { Name = create.GymName });
+            }
+            else
+            {
+                throw new Exception(); // TODO: Validation
+            }
+
             _dbContext.ShiftSchedules.Add(shiftSchedule);
-            await _dbContext.CreateOrGetGymAsync(_roleResolver, _auditFactory, create.Gym);
-            await _dbContext.CreateOrGetShiftTypeAsync(_roleResolver, _auditFactory, create.ShiftType);
             await _dbContext.SaveChangesAsync();
+
             return new ShiftScheduleResult(shiftSchedule);
         }
         

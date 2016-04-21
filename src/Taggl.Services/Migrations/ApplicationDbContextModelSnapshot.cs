@@ -122,6 +122,8 @@ namespace Taggl.Services.Migrations
                     b.Property<string>("UpdatedById");
 
                     b.HasKey("Id");
+
+                    b.HasAnnotation("Relational:TableName", "Gyms");
                 });
 
             modelBuilder.Entity("Taggl.Framework.Models.Identity.ApplicationUser", b =>
@@ -189,7 +191,7 @@ namespace Taggl.Services.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasAnnotation("Relational:TableName", "ApplicationUserRelationships");
+                    b.HasAnnotation("Relational:TableName", "UserRelationships");
                 });
 
             modelBuilder.Entity("Taggl.Framework.Models.Identity.ApplicationUserStatus", b =>

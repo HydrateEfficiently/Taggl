@@ -5,8 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Taggl.Framework.Models.Shifts;
+using Taggl.Services.Gyms.Mappings;
 using Taggl.Services.Gyms.Models;
+using Taggl.Services.Identity.Mappings;
 using Taggl.Services.Identity.Models;
+using Taggl.Services.Shifts.Mappings;
 
 namespace Taggl.Services.Shifts.Models {
     public class ShiftScheduleResult
@@ -17,7 +20,12 @@ namespace Taggl.Services.Shifts.Models {
         {
             var configuration = new ConfigurationStore(new TypeMapFactory(), MapperRegistry.Mappers);
             var mappingEngine = new MappingEngine(configuration);
-            configuration.CreateMap<ShiftSchedule, ShiftScheduleResult>();
+            configuration.CreateMap<ShiftSchedule, ShiftScheduleResult>()
+                .ForShiftType(dest => dest.ShiftType, src => src.ShiftType)
+                .ForGym(dest => dest.Gym, src => src.Gym)
+                .ForUser(dest => dest.CreatedBy, src => src.CreatedBy)
+                .ForUser(dest => dest.UpdatedBy, src => src.UpdatedBy)
+                .ForUser(dest => dest.DeletedBy, src => src.DeletedBy);
             __mappingEngine = mappingEngine;
         }
         
