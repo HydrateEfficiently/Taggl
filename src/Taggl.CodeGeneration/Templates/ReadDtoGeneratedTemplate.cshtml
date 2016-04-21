@@ -1,0 +1,47 @@
+﻿@inherits Microsoft.Extensions.CodeGeneration.Templating.RazorTemplateBase
+@{ 
+    var mappingTypeArgs = $"<{Model.EntityName}, {Model.ReadEntityDtoName}>";
+    var entityVariableAlias = Model.EntityName.ToLower()[0].ToString() + Model.EntityName.Substring(1);
+}
+using AutoMapper;
+using AutoMapper.Mappers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using @(Model.EntityNamespaceName);
+@foreach (string namespaceName in Model.ReadDtoNamespaceNames)
+{
+@:using @(namespaceName).Models;
+@:using @(namespaceName).Mappings;
+}
+
+namespace @Model.NamespaceName {
+    public partial class @Model.ReadEntityDtoName
+    {
+        private static MappingEngine __mappingEngine;
+
+        static @(Model.ReadEntityDtoName)()
+        {
+            var configuration = new ConfigurationStore(new TypeMapFactory(), MapperRegistry.Mappers);
+            var mappingEngine = new MappingEngine(configuration);
+            var mappingExpression = configuration.CreateMap@(mappingTypeArgs)();
+            @foreach (Taggl.CodeGeneration.Generators.ReadDto.ReadDtoPropertyDeclarationModel property in Model.ReadDtoProperties)
+            {
+            @:mappingExpression.For@(property.BasePropertyTypeName)(dest => dest.@(property.PropertyName), src => src.@(property.PropertyName));
+            }
+            CreateCustomMappings(mappingExpression);
+            __mappingEngine = mappingEngine;
+        }
+        @foreach (Taggl.CodeGeneration.Generators.ReadDto.PropertyDeclarationModel property in Model.Properties)
+        {
+        @:
+        @:public @property.PropertyTypeName @property.PropertyName { get; set; }
+        }
+
+        public @(Model.ReadEntityDtoName)(@Model.EntityName @entityVariableAlias)
+        {
+            __mappingEngine.Map(@entityVariableAlias, this);
+        }
+    }
+}

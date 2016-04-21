@@ -12,9 +12,10 @@ namespace Taggl.CodeGeneration.Generators.ReadDto
     {
         public string EntityName { get; internal set; }
         public string EntityNamespaceName { get; internal set; }
-        public IEnumerable<PropertyDeclarationModel> EntityProperties { get; internal set; }
         public string ReadEntityDtoName { get; internal set; }
         public string NamespaceName { get; internal set; }
-        public string ServicesNamespaceName { get; internal set; }
+        public List<PropertyDeclarationModel> Properties { get; internal set; }
+        public List<ReadDtoPropertyDeclarationModel> ReadDtoProperties { get; internal set; }
+        public List<string> ReadDtoNamespaceNames { get; internal set; }
     }
 }

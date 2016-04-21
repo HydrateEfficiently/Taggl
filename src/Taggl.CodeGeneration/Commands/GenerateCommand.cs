@@ -36,6 +36,7 @@ namespace Taggl.CodeGeneration.Commands
             AddService(new OutputClassNameResolver());
             AddService<IPropertyTypeNameResolver, PropertyTypeNameResolver>();
             AddService<IEntityAliasResolver, EntityAliasResolver>();
+            AddService<IDtoAliasResolver, DtoAliasResolver>();
             AddService<ITypeNameShortcutMapper, TypeNameShortcutMapper>();
             AddService<IAuditDeclarationFactory, AuditDeclarationFactory>();
 

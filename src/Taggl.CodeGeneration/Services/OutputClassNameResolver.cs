@@ -19,12 +19,12 @@ namespace Taggl.CodeGeneration.Services
 
         public string GetCreateDtoName(string entityName)
         {
-            return $"Create{entityName}";
+            return $"{entityName}Create";
         }
 
         public string GetUpdateEntityDtoName(string entityName)
         {
-            return $"Update{entityName}";
+            return $"{entityName}Update";
         }
     }
 }

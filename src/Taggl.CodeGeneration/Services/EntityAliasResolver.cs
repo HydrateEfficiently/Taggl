@@ -16,7 +16,7 @@ namespace Taggl.CodeGeneration.Services
         private static readonly Dictionary<string, string> __frameworkMappings =
             new Dictionary<string, string>()
             {
-                { nameof(ApplicationUser), "UserResult" }
+                { nameof(ApplicationUser), "User" }
             };
 
         public string Resolve(string typeName)

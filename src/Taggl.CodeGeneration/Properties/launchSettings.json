@@ -23,7 +23,7 @@
     },
     "gen": {
       "commandName": "gen",
-      "commandLineArgs": "data-context"
+      "commandLineArgs": "dto-read -e Gym -f"
     }
   }
 }

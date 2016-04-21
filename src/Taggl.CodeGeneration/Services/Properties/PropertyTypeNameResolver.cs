@@ -18,7 +18,8 @@ namespace Taggl.CodeGeneration.Services.Properties
             new Dictionary<Type, string>()
             {
                 { typeof(string), "string" },
-                { typeof(int), "int" }
+                { typeof(int), "int" },
+                { typeof(bool), "bool" }
             };
 
         public string Resolve(PropertyInfo pi)
