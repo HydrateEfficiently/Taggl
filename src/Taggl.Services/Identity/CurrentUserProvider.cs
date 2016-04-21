@@ -34,7 +34,7 @@ namespace Taggl.Services.Identity
         public async Task<ApplicationUser> GetApplicationUserAsync()
         {
             var identity = _identityResolver.Resolve();
-            return await _dbContext.ApplicationUserRelationships.GetUserAsync(identity.GetId());
+            return await _dbContext.UserRelationships.GetUserAsync(identity.GetId());
         }
 
         public async Task<UserResult> GetUserResultAsync()

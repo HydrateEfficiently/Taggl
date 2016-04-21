@@ -84,7 +84,7 @@ namespace Taggl.Services.Identity
                 Status = new ApplicationUserStatus(),
                 Professionality = new Professionality()
             };
-            _dbContext.ApplicationUserRelationships.Add(userRelationships);
+            _dbContext.UserRelationships.Add(userRelationships);
             _dbContext.UserStatuses.Add(userRelationships.Status);
             _dbContext.Professionalities.Add(userRelationships.Professionality);
 

@@ -54,7 +54,7 @@ namespace Taggl.Initializer.Initializers.Identity
                         _registrationService.ConfirmEmailAsync(user.Id, token).Wait();
                     }
 
-                    var status = _dbContext.ApplicationUserRelationships.GetStatusAsync(user.Id).Result;
+                    var status = _dbContext.UserRelationships.GetStatusAsync(user.Id).Result;
                     if (!status.Approved.HasValue)
                     {
                         _administrationService.ApproveUserAsync(user.Id).Wait();

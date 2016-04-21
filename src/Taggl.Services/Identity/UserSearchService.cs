@@ -33,7 +33,7 @@ namespace Taggl.Services.Identity
 
         public async Task<IEnumerable<UserResult>> Search(string pattern)
         {
-            return (await _dbContext.ApplicationUserRelationships
+            return (await _dbContext.UserRelationships
                 .WhereUserPatternMatched(_lookupNormalizer, pattern)
                 .WhereUserSearchable(_userStatusResolver)
                 .Select(r => r.User)

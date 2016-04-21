@@ -33,7 +33,7 @@ namespace Taggl.Services.Administrator
 
         public async Task<IEnumerable<UserResult>> ListPendingUsersAsync()
         {
-            return (await _dbContext.ApplicationUserRelationships.IncludeAll()
+            return (await _dbContext.UserRelationships.IncludeAll()
                 .Where(r => !r.Status.Approved.HasValue)
                 .Select(r => r.User)
                 .ToListAsync()).Select(u => new UserResult(u));
@@ -41,7 +41,7 @@ namespace Taggl.Services.Administrator
 
         public async Task ApproveUserAsync(string userId)
         {
-            var status = await _dbContext.ApplicationUserRelationships.GetStatusAsync(userId);
+            var status = await _dbContext.UserRelationships.GetStatusAsync(userId);
             status.Approved = DateTime.UtcNow;
             status.ApprovedById = _identityResolver.Resolve().GetId();
             await _dbContext.SaveChangesAsync();

@@ -41,7 +41,7 @@ namespace Taggl.Services.Professionalities
         public async Task<Expertise> CreateAsync(ShiftTypeCreate create)
         {
             var identityId = _identityResolver.Resolve().GetId();
-            var professionality = await _dbContext.ApplicationUserRelationships.GetProfessionalityByUser(identityId);
+            var professionality = await _dbContext.UserRelationships.GetProfessionalityByUser(identityId);
             var expertise = await _dbContext.CreateExpertiseAsync(
                 _roleResolver, _auditFactory, professionality.Id, create.Name); // TODO: Currently mapping ShiftTypeCreate => string => ShiftTypeCreate
             await _dbContext.SaveChangesAsync();

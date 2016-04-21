@@ -53,7 +53,7 @@ namespace Taggl.Services.Identity
                 throw new IdentityErrorException("You must have a confirmed email to log in.");
             }
 
-            var status = await _dbContext.ApplicationUserRelationships.GetStatusAsync(user.Id);
+            var status = await _dbContext.UserRelationships.GetStatusAsync(user.Id);
             if (!status.Approved.HasValue)
             {
                 throw new IdentityErrorException("Your account has not yet been approved");
