@@ -35,7 +35,6 @@ namespace Taggl.Services
 
             builder.Entity<ApplicationUserRelationships>().HasTableName(nameof(UserRelationships));
             builder.Entity<ApplicationUserStatus>().HasTableName(nameof(UserStatuses));
-            builder.Entity<Car>().HasTableName(nameof(Cars));
             builder.Entity<Expertise>().HasTableName(nameof(Expertise));
             builder.Entity<Gym>().HasTableName(nameof(Gyms));
             builder.Entity<Professionality>().HasTableName(nameof(Professionalities));
