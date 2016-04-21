@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Data.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Taggl.Framework.Models.Identity;
-using Microsoft.Data.Entity;
-using Taggl.Framework.Utility;
-using Taggl.Framework.Models.Shifts;
-using Taggl.Framework.Models.Professionalities;
 using Taggl.Framework.Models.Gyms;
+using Taggl.Framework.Models.Identity;
+using Taggl.Framework.Models.Professionalities;
+using Taggl.Framework.Models.Shifts;
+using Taggl.Framework.Utility;
 
 namespace Taggl.Services
 {
