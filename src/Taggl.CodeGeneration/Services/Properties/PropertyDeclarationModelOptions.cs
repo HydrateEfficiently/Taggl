@@ -7,8 +7,7 @@ namespace Taggl.CodeGeneration.Services.Properties
 {
     public class PropertyDeclarationModelOptions
     {
-        public string AccessModifier { get; set; } = "public";
-
-        public bool IsVirtual { get; set; } = false;
+        public string AccessModifier { get; internal set; } = "public";
+        public bool IsVirtual { get; internal set; } = false;
     }
 }

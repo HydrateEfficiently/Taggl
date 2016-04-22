@@ -31,7 +31,6 @@ namespace Taggl.CodeGeneration.Commands
             AddService(CompilationServices.Default.LibraryExporter);
             AddService(CompilationServices.Default.CompilerOptionsProvider);
 
-
             // No dependencies
             AddService(new OutputClassNameResolver());
             AddService<IPropertyTypeNameResolver, PropertyTypeNameResolver>();
@@ -39,14 +38,14 @@ namespace Taggl.CodeGeneration.Commands
             AddService<IDtoAliasResolver, DtoAliasResolver>();
             AddService<ITypeNameShortcutMapper, TypeNameShortcutMapper>();
             AddService<IAuditDeclarationFactory, AuditDeclarationFactory>();
+            AddService<IDtoGenerateIgnoreAttributeFactory, DtoGenerateIgnoreAttributeFactory>(); // Not used
+            AddService<IIdentityTypeNameResolver, IdentityTypeNameResolver>();
 
-            // Dependencies
+            // With dependencies
             AddServiceWithDependency<NamespaceService, NamespaceService>();
             AddServiceWithDependency<ScaffoldingService, ScaffoldingService>();
             AddServiceWithDependency<OutputPathResolver, OutputPathResolver>();
             AddServiceWithDependency<IAssemblyProvider, AssemblyProvider>();
-
-            AddServiceWithDependency<IIdentityTypeNameResolver, IdentityTypeNameResolver>();
             AddServiceWithDependency<IPropertyDeclarationFactory, PropertyDeclarationFactory>();
         }
 

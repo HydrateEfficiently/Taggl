@@ -14,7 +14,7 @@ namespace Taggl.CodeGeneration.Commands
         {
         }
 
-        public async Task GenerateCode(ReadDtoCommandLineModel model)
+        public async Task GenerateCode(EntityGenerateCommandLineModel model)
         {
             await GetGenerator<ReadDtoGenerator>(model).Generate();
         }

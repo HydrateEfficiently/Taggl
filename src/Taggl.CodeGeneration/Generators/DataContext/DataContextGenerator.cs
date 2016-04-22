@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Taggl.CodeGeneration.Core.Attributes;
+using Taggl.CodeGeneration.Core;
 using Taggl.CodeGeneration.Exceptions;
 using Taggl.CodeGeneration.Generators.Entity;
 using Taggl.CodeGeneration.Services;

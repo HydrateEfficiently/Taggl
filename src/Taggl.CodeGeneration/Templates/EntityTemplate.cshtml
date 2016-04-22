@@ -37,10 +37,13 @@ namespace @(Model.FrameworkEntityNamespace)
         foreach (Taggl.CodeGeneration.Services.Audits.AuditDeclarationModel audit in Model.Audits)
         {
         @:
+        @:[DtoGenerateIgnore(DtoType.Create, DtoType.Update)]
         @:public @(audit.IsNullable ? "DateTime?" : "DateTime") @audit.Name { get; set; }
         @:
+        @:[DtoGenerateIgnore(DtoType.Create, DtoType.Update)]
         @:public virtual ApplicationUser @(audit.Name)By { get; set; }
         @:
+        @:[DtoGenerateIgnore(DtoType.Create, DtoType.Update)]
         @:public string @(audit.Name)ById { get; set; }
         }
 

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Taggl.CodeGeneration.Generators.DtoMappings;
 using Taggl.CodeGeneration.Generators.ReadDto;
 using Taggl.CodeGeneration.Generators.Service;
 
@@ -28,10 +29,14 @@ namespace Taggl.CodeGeneration.Commands
             var serviceGenerator = GetGenerator<ServiceGenerator>(model);
             scaffoldingTasks.Add(serviceGenerator.Generate());
 
-            Mapper.CreateMap<ServiceCommandLineModel, ReadDtoCommandLineModel>();
-            var readDtoModel = Mapper.Map<ServiceCommandLineModel, ReadDtoCommandLineModel>(model);
-            var readDtoGenerator = GetGenerator<ReadDtoGenerator>(readDtoModel);
+            Mapper.CreateMap<ServiceCommandLineModel, EntityGenerateCommandLineModel>();
+            var sideGeneratorModel = Mapper.Map<ServiceCommandLineModel, EntityGenerateCommandLineModel>(model);
+
+            var readDtoGenerator = GetGenerator<ReadDtoGenerator>(sideGeneratorModel);
             scaffoldingTasks.Add(readDtoGenerator.Generate());
+
+            var dtoMappingsGenerator = GetGenerator<DtoMappingsGenerator>(sideGeneratorModel);
+            scaffoldingTasks.Add(dtoMappingsGenerator.Generate());
 
             await Task.WhenAll(scaffoldingTasks);
         }

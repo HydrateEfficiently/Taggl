@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Taggl.CodeGeneration.Core;
 using Taggl.CodeGeneration.Exceptions;
 using Taggl.CodeGeneration.Services;
 using Taggl.CodeGeneration.Services.Properties;
 using Taggl.CodeGeneration.Services.Service;
+using Taggl.CodeGeneration.Utility;
 
 namespace Taggl.CodeGeneration.Generators.ReadDto
 {
@@ -19,7 +21,7 @@ namespace Taggl.CodeGeneration.Generators.ReadDto
         private readonly IAreaNameResolver _areaNameResolver;
         private readonly OutputPathResolver _outputPathResolver;
         private readonly ScaffoldingService _scaffoldingService;
-        private readonly ReadDtoCommandLineModel _model;
+        private readonly EntityGenerateCommandLineModel _model;
 
         public ReadDtoGenerator(
             IEntityReflector entityReflector,
@@ -30,7 +32,7 @@ namespace Taggl.CodeGeneration.Generators.ReadDto
             IAreaNameResolver areaNameResolver,
             OutputPathResolver outputPathResolver,
             ScaffoldingService scaffoldingService,
-            ReadDtoCommandLineModel model)
+            EntityGenerateCommandLineModel model)
         {
             _entityReflector = entityReflector;
             _entityAliasResolver = entityAliasResolver;
@@ -55,7 +57,9 @@ namespace Taggl.CodeGeneration.Generators.ReadDto
             var readDtoNamespaceNames = new List<string>();
 
             var entityType = _entityReflector.GetEntityType(entityName);
-            foreach (var property in entityType.GetProperties())
+            var propertiesToGenerate = entityType.GetProperties()
+                .Where(pi => !pi.ShouldIgnoreForDto(DtoType.Read));
+            foreach (var property in propertiesToGenerate)
             {
                 string propertyTypeName = property.PropertyType.Name;
                 Type foreignKeyEntityType;

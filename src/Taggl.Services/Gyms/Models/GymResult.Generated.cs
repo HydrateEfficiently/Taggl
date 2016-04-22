@@ -31,8 +31,6 @@ namespace Taggl.Services.Gyms.Models {
         
         public string NameNormalized { get; set; }
         
-        public bool IsSearchable { get; set; }
-        
         public DateTime Created { get; set; }
         
         public string CreatedById { get; set; }

@@ -1,0 +1,36 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Taggl.CodeGeneration.Core;
+
+namespace Taggl.CodeGeneration.Services
+{
+    public interface IDtoGenerateIgnoreAttributeFactory
+    {
+        string CreateAttributeString(params DtoType[] dtoTypes);
+    }
+
+    public class DtoGenerateIgnoreAttributeFactory : IDtoGenerateIgnoreAttributeFactory
+    {
+        private const string AttributeSuffix = "Attribute";
+
+        public string CreateAttributeString(params DtoType[] dtoTypes)
+        {
+            var attributeName = nameof(DtoGenerateIgnoreAttribute);
+            if (dtoTypes.Contains(DtoType.Unknown))
+            {
+                throw new Exception($"Unknown is not a valid DtoType to add to {attributeName}");
+            }
+
+            if (dtoTypes.Length == 0)
+            {
+                throw new Exception($"Must include at least one DtoType to add to {attributeName}");
+            }
+
+            var resolvedDtoTypes = dtoTypes.Distinct().OrderBy(t => t);
+            var shortAttributeName = attributeName.Substring(attributeName.Length - AttributeSuffix.Length);
+            return $"[{shortAttributeName}(${string.Join(", ", resolvedDtoTypes)})]";
+        }
+    }
+}

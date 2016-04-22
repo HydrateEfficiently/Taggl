@@ -7,7 +7,7 @@ using Taggl.CodeGeneration.Commands.Models;
 
 namespace Taggl.CodeGeneration.Generators.ReadDto
 {
-    public class ReadDtoCommandLineModel : FromEntityCommandLineModel
+    public class EntityGenerateCommandLineModel : FromEntityCommandLineModel
     {
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Taggl.CodeGeneration.Core.Attributes;
+using Taggl.CodeGeneration.Core;
 using Taggl.Framework.Models.Identity;
 using Taggl.Framework.Models.Shifts;
 

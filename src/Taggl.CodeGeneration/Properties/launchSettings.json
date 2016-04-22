@@ -23,7 +23,7 @@
     },
     "gen": {
       "commandName": "gen",
-      "commandLineArgs": "mappings -e Gym -f"
+      "commandLineArgs": "dto-read -e Gym"
     }
   }
 }
