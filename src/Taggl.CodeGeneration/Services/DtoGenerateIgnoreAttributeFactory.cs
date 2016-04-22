@@ -29,8 +29,9 @@ namespace Taggl.CodeGeneration.Services
             }
 
             var resolvedDtoTypes = dtoTypes.Distinct().OrderBy(t => t);
-            var shortAttributeName = attributeName.Substring(attributeName.Length - AttributeSuffix.Length);
-            return $"[{shortAttributeName}(${string.Join(", ", resolvedDtoTypes)})]";
+            var shortAttributeName = attributeName.Substring(0, attributeName.Length - AttributeSuffix.Length);
+            var dtoTypeParams = resolvedDtoTypes.Select(t => $"{nameof(DtoType)}.{t}");
+            return $"[{shortAttributeName}({string.Join(", ", dtoTypeParams)})]";
         }
     }
 }

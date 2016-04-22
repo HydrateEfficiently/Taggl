@@ -2,33 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Taggl.CodeGeneration.Core;
 
 namespace Taggl.CodeGeneration.Services
 {
     public interface IDtoAliasResolver
     {
-        string ResolveReadDtoAlias(string entityAlias);
-
-        string ResolveCreateDtoAlias(string entityAlias);
-
-        string ResolveUpdateDtoAlias(string entityAlias);
+        string Resolve(string entityAlias, DtoType dtoType);
     }
 
     public class DtoAliasResolver : IDtoAliasResolver
     {
-        public string ResolveReadDtoAlias(string entityAlias)
+        public string Resolve(string entityAlias, DtoType dtoType)
         {
-            return $"{entityAlias}Result";
-        }
-
-        public string ResolveCreateDtoAlias(string entityAlias)
-        {
-            return $"{entityAlias}Create";
-        }
-
-        public string ResolveUpdateDtoAlias(string entityAlias)
-        {
-            return $"{entityAlias}Update";
+            switch (dtoType)
+            {
+                case DtoType.Read:
+                    return $"{entityAlias}Result";
+                case DtoType.Create:
+                    return $"{entityAlias}Create";
+                case DtoType.Update:
+                    return $"{entityAlias}Update";
+                default:
+                    throw new InvalidOperationException("Invalid DtoType");
+            }
         }
     }
 }

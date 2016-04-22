@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Taggl.CodeGeneration.Commands.Models;
+using Taggl.CodeGeneration.Core;
 using Taggl.CodeGeneration.Services;
 using Taggl.CodeGeneration.Services.Service;
 
@@ -50,8 +51,8 @@ namespace Taggl.CodeGeneration.Generators.DtoMappings
                 EntityName = entityName,
                 EntityNamespaceName = _namespaceService.GetFrameworkEntityNamespace(areaName),
                 ModelsNamespaceName = _namespaceService.GetServiceModelsNamespace(areaName),
-                ReadDtoName = _dtoAliasResolver.ResolveReadDtoAlias(aliasedEntityName),
-                CreateDtoName = _dtoAliasResolver.ResolveCreateDtoAlias(aliasedEntityName)
+                ReadDtoName = _dtoAliasResolver.Resolve(aliasedEntityName, DtoType.Read),
+                CreateDtoName = _dtoAliasResolver.Resolve(aliasedEntityName, DtoType.Create)
             };
 
             await _scaffoldingService.ScaffoldAsync(

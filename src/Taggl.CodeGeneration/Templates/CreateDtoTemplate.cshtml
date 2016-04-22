@@ -1,6 +1,6 @@
 ﻿@inherits Microsoft.Extensions.CodeGeneration.Templating.RazorTemplateBase
 @{ 
-    var mappingTypeArgs = $"<{Model.EntityName}, {Model.ReadEntityDtoName}>";
+    var mappingTypeArgs = $"<{Model.DtoName}, {Model.EntityName}>";
 }
 using AutoMapper;
 using AutoMapper.Mappers;
@@ -11,11 +11,10 @@ using System.Threading.Tasks;
 using @(Model.EntityNamespaceName);
 
 namespace @Model.NamespaceName {
-    public partial class @Model.ReadEntityDtoName
+    public partial class @Model.DtoName
     {
         private static void MappingsHook(IMappingExpression@(mappingTypeArgs) mappingExpression)
         {
         }
     }
 }
-

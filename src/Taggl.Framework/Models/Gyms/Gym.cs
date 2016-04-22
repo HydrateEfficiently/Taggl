@@ -14,6 +14,7 @@ namespace Taggl.Framework.Models.Gyms
         IDeleteAuditable,
         ISearchableName
     {
+        [DtoGenerateIgnore(DtoType.Create)]
         public Guid Id { get; set; }
         
         public string Name { get; set; }

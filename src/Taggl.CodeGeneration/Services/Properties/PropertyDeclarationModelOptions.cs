@@ -9,5 +9,7 @@ namespace Taggl.CodeGeneration.Services.Properties
     {
         public string AccessModifier { get; internal set; } = "public";
         public bool IsVirtual { get; internal set; } = false;
+        public IEnumerable<string> Attributes { get; internal set; } = Enumerable.Empty<string>();
+        public bool HasAttribute { get { return Attributes.Count() > 0; } }
     }
 }

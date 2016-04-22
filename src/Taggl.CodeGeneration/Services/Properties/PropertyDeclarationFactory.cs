@@ -46,8 +46,9 @@ namespace Taggl.CodeGeneration.Services.Properties
             {
                 AccessModifier = options.AccessModifier,
                 ExtraModifiers = extraModifiers,
-                ResolvedTypeName = resolvedPropertyTypeName,
-                Name = propertyName
+                PropertyTypeName = resolvedPropertyTypeName,
+                PropertyName = propertyName,
+                Attributes = options.Attributes
             };
         }
 

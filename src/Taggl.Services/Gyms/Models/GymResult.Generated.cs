@@ -21,7 +21,7 @@ namespace Taggl.Services.Gyms.Models {
             mappingExpression.ForUser(dest => dest.CreatedBy, src => src.CreatedBy);
             mappingExpression.ForUser(dest => dest.UpdatedBy, src => src.UpdatedBy);
             mappingExpression.ForUser(dest => dest.DeletedBy, src => src.DeletedBy);
-            CreateCustomMappings(mappingExpression);
+            MappingsHook(mappingExpression);
             __mappingEngine = mappingEngine;
         }
         

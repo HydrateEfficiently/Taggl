@@ -36,8 +36,8 @@ namespace Taggl.CodeGeneration.Services
                 .GetProperties()
                 .Select(pi => new EntityPropertyDeclarationModel()
                 {
-                    ResolvedTypeName = _entityAliasResolver.Resolve(_propertyTypeNameResolver.Resolve(pi)),
-                    Name = pi.Name
+                    PropertyTypeName = _entityAliasResolver.Resolve(_propertyTypeNameResolver.Resolve(pi)),
+                    PropertyName = pi.Name
                 });
         }
     }

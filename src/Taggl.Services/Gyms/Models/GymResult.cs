@@ -9,7 +9,7 @@ using Taggl.Framework.Models.Gyms;
 namespace Taggl.Services.Gyms.Models {
     public partial class GymResult
     {
-        private static void CreateCustomMappings(IMappingExpression<Gym, GymResult> mappingExpression)
+        private static void MappingsHook(IMappingExpression<Gym, GymResult> mappingExpression)
         {
         }
     }

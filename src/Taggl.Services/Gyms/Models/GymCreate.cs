@@ -10,26 +10,14 @@ using Taggl.Services.Utility;
 
 namespace Taggl.Services.Gyms.Models
 {
-    public class GymCreate
+    public partial class GymCreate
     {
-        private static MappingEngine __mappingEngine;
-
-        static GymCreate()
+        private static void MappingsHook(IMappingExpression<GymCreate, Gym> mappingExpression)
         {
             var searchableNameFormatter = ServiceLocator.Current.GetRequiredService<ISearchableNameFormatter>();
-            var configuration = new ConfigurationStore(new TypeMapFactory(), MapperRegistry.Mappers);
-            var mappingEngine = new MappingEngine(configuration);
-            configuration.CreateMap<GymCreate, Gym>()
+            mappingExpression
                 .ForMemberResolveUsing(dest => dest.Name, src => searchableNameFormatter.FormatName(src.Name))
                 .ForMemberResolveUsing(dest => dest.NameNormalized, src => searchableNameFormatter.NormalizeName(src.Name));
-            __mappingEngine = mappingEngine;
-        }
-
-        public string Name { get; set; }
-
-        public Gym Map()
-        {
-            return __mappingEngine.Map<GymCreate, Gym>(this);
         }
     }
 }

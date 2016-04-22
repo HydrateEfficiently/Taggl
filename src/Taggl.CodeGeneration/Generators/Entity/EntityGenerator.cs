@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Taggl.CodeGeneration.Core;
 using Taggl.CodeGeneration.Services;
 using Taggl.CodeGeneration.Services.Audits;
 using Taggl.CodeGeneration.Services.Properties;
@@ -20,6 +21,7 @@ namespace Taggl.CodeGeneration.Generators.Entity
         private readonly IAuditDeclarationFactory _auditDeclarationFactory;
         private readonly ITypeNameShortcutMapper _typeNameShortcutMapper;
         private readonly IEntityReflector _entityReflector;
+        private readonly IDtoGenerateIgnoreAttributeFactory _dtoGenerateIgnoreAttributeFactory;
         private readonly EntityCommandLineModel _model;
 
         public EntityGenerator(
@@ -31,6 +33,7 @@ namespace Taggl.CodeGeneration.Generators.Entity
             IAuditDeclarationFactory auditDeclarationFactory,
             ITypeNameShortcutMapper typeNameShortcutMapper,
             IEntityReflector entityReflector,
+            IDtoGenerateIgnoreAttributeFactory dtoGenerateIgnoreAttributeFactory,
             EntityCommandLineModel model)
         {
             _scaffoldingService = scaffoldingService;
@@ -41,6 +44,7 @@ namespace Taggl.CodeGeneration.Generators.Entity
             _auditDeclarationFactory = auditDeclarationFactory;
             _typeNameShortcutMapper = typeNameShortcutMapper;
             _entityReflector = entityReflector;
+            _dtoGenerateIgnoreAttributeFactory = dtoGenerateIgnoreAttributeFactory;
             _model = model;
         }
 
@@ -51,6 +55,29 @@ namespace Taggl.CodeGeneration.Generators.Entity
 
             string areaName = _model.Area;
             string entityName = _model.Entity;
+
+            string identityTypeName;
+            switch (_model.IdentityTypeName)
+            {
+                case "g":
+                    identityTypeName = "Guid";
+                    break;
+                case "i":
+                    identityTypeName = "int";
+                    break;
+                default:
+                    throw new InvalidOperationException("Invalid value for -i");
+            }
+            properties.Add(_propertyDeclarationFactory.CreateProperty(
+                "Id",
+                identityTypeName,
+                new PropertyDeclarationModelOptions()
+                {
+                    Attributes = new List<string>()
+                    {
+                        _dtoGenerateIgnoreAttributeFactory.CreateAttributeString(DtoType.Create)
+                    }
+                }));
 
             if (!string.IsNullOrWhiteSpace(_model.Properties))
             {

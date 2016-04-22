@@ -4,14 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Taggl.CodeGeneration.Core;
 using Taggl.CodeGeneration.Exceptions;
+using Taggl.CodeGeneration.Generators.ReadDto;
 using Taggl.CodeGeneration.Services;
 using Taggl.CodeGeneration.Services.Properties;
 using Taggl.CodeGeneration.Services.Service;
 using Taggl.CodeGeneration.Utility;
 
-namespace Taggl.CodeGeneration.Generators.ReadDto
+namespace Taggl.CodeGeneration.Generators.Dto
 {
-    public class ReadDtoGenerator : IGenerator
+    public class DtoGenerator : IGenerator
     {
         private readonly IEntityReflector _entityReflector;
         private readonly IEntityAliasResolver _entityAliasResolver;
@@ -21,9 +22,9 @@ namespace Taggl.CodeGeneration.Generators.ReadDto
         private readonly IAreaNameResolver _areaNameResolver;
         private readonly OutputPathResolver _outputPathResolver;
         private readonly ScaffoldingService _scaffoldingService;
-        private readonly EntityGenerateCommandLineModel _model;
+        private readonly DtoCommandLineModel _model;
 
-        public ReadDtoGenerator(
+        public DtoGenerator(
             IEntityReflector entityReflector,
             IEntityAliasResolver entityAliasResolver,
             IDtoAliasResolver dtoAliasResolver,
@@ -32,7 +33,7 @@ namespace Taggl.CodeGeneration.Generators.ReadDto
             IAreaNameResolver areaNameResolver,
             OutputPathResolver outputPathResolver,
             ScaffoldingService scaffoldingService,
-            EntityGenerateCommandLineModel model)
+            DtoCommandLineModel model)
         {
             _entityReflector = entityReflector;
             _entityAliasResolver = entityAliasResolver;
@@ -47,18 +48,51 @@ namespace Taggl.CodeGeneration.Generators.ReadDto
 
         public async Task Generate()
         {
+            bool generateReadDto = false;
+            bool generateCreateDto = false;
+            bool generateUpdateDto = false;
+
+            if (!_model.Read && !_model.Create && !_model.Update)
+            {
+                generateReadDto = generateCreateDto = generateUpdateDto = true;
+            }
+            else
+            {
+                generateReadDto = _model.Read;
+                generateCreateDto = _model.Create;
+                generateUpdateDto = _model.Update;
+            }
+
+            var generateTasks = new List<Task>();
+            if (generateReadDto)
+            {
+                generateTasks.Add(Generate(DtoType.Read, _model.Force));
+            }
+            if (generateCreateDto)
+            {
+                generateTasks.Add(Generate(DtoType.Create, _model.Force));
+            }
+            if (generateUpdateDto)
+            {
+                //generateTasks.Add(Generate(DtoType.Update, _model.Force));
+            }
+            await Task.WhenAll(generateTasks);
+        }
+
+        private async Task Generate(DtoType dtoType, bool force)
+        {
             string entityName = _model.Entity;
             string areaName = _areaNameResolver.Resolve(entityName);
-            string readDtoName = _dtoAliasResolver.Resolve(entityName, DtoType.Read);
+            string dtoName = _dtoAliasResolver.Resolve(entityName, dtoType);
             string namespaceName = _namespaceService.GetServiceModelsNamespace(areaName);
 
             var properties = new List<PropertyDeclarationModel>();
-            var readDtoProperties = new List<DtoPropertyDeclarationModel>();
-            var readDtoNamespaceNames = new List<string>();
+            var dtoProperties = new List<DtoPropertyDeclarationModel>();
+            var dtoNamespaceNames = new List<string>();
 
             var entityType = _entityReflector.GetEntityType(entityName);
             var propertiesToGenerate = entityType.GetProperties()
-                .Where(pi => !pi.ShouldIgnoreForDto(DtoType.Read));
+                .Where(pi => !pi.ShouldIgnoreForDto(dtoType));
 
             foreach (var property in propertiesToGenerate)
             {
@@ -70,18 +104,18 @@ namespace Taggl.CodeGeneration.Generators.ReadDto
                     var propertyDeclarationModel = new DtoPropertyDeclarationModel()
                     {
                         BasePropertyTypeName = basePropertyTypeName,
-                        PropertyTypeName = _dtoAliasResolver.Resolve(basePropertyTypeName, DtoType.Read),
+                        PropertyTypeName = _dtoAliasResolver.Resolve(basePropertyTypeName, dtoType),
                         PropertyName = property.Name
                     };
-                    readDtoProperties.Add(propertyDeclarationModel);
+                    dtoProperties.Add(propertyDeclarationModel);
                     properties.Add(propertyDeclarationModel);
 
                     string foreignKeyAreaName = _areaNameResolver.Resolve(propertyTypeName);
-                    string readDtoNamespaceName = _namespaceService.GetServiceNamespace(foreignKeyAreaName);
-                    if (readDtoNamespaceName != namespaceName && 
-                        !readDtoNamespaceNames.Contains(readDtoNamespaceName))
+                    string dtoNamespaceName = _namespaceService.GetServiceNamespace(foreignKeyAreaName);
+                    if (dtoNamespaceName != namespaceName &&
+                        !dtoNamespaceNames.Contains(dtoNamespaceName))
                     {
-                        readDtoNamespaceNames.Add(readDtoNamespaceName);
+                        dtoNamespaceNames.Add(dtoNamespaceName);
                     }
                 }
                 else
@@ -98,19 +132,39 @@ namespace Taggl.CodeGeneration.Generators.ReadDto
             {
                 EntityName = entityName,
                 EntityNamespaceName = _namespaceService.GetFrameworkEntityNamespace(areaName),
-                DtoName = readDtoName,
+                DtoName = dtoName,
                 NamespaceName = namespaceName,
-                DtoNamespaceNames = readDtoNamespaceNames,
-                DtoProperties = readDtoProperties,
+                DtoNamespaceNames = dtoNamespaceNames,
+                DtoProperties = dtoProperties,
                 Properties = properties
             };
+
+            string dtoTemplate;
+            string dtoGeneratedTemplate;
+            switch (dtoType)
+            {
+                case DtoType.Read:
+                    dtoTemplate = "ReadDtoTemplate";
+                    dtoGeneratedTemplate = "ReadDtoGeneratedTemplate";
+                    break;
+                case DtoType.Create:
+                    dtoTemplate = "CreateDtoTemplate";
+                    dtoGeneratedTemplate = "CreateDtoGeneratedTemplate";
+                    break;
+                case DtoType.Update:
+                    dtoTemplate = "UpdateDtoTemplate";
+                    dtoGeneratedTemplate = "UpdateDtoGeneratedTemplate";
+                    break;
+                default:
+                    throw new InvalidOperationException();
+            }
 
             try
             {
                 await _scaffoldingService.ScaffoldAsync(
                     _outputPathResolver.GetServiceModelsPath(areaName),
-                    readDtoName,
-                    "ReadDtoTemplate",
+                    dtoName + "_",
+                    dtoTemplate,
                     templateModel,
                     _model.Force);
             }
@@ -120,8 +174,8 @@ namespace Taggl.CodeGeneration.Generators.ReadDto
 
             await _scaffoldingService.ScaffoldAsync(
                 _outputPathResolver.GetServiceModelsPath(areaName),
-                $"{readDtoName}.Generated",
-                "ReadDtoGeneratedTemplate",
+                $"{dtoName}.Generated" + "_",
+                dtoGeneratedTemplate,
                 templateModel,
                 force: true);
         }
