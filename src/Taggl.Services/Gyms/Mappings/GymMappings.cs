@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +23,7 @@ namespace Taggl.Services.Gyms.Mappings
                 ));
         }
 
-        public static IMappingExpression<TSource, TDestination> ToGymEntity<TSource, TDestination>(
+        public static IMappingExpression<TSource, TDestination> ToGym<TSource, TDestination>(
             this IMappingExpression<TSource, TDestination> self,
             Expression<Func<TDestination, object>> destinationMember,
             Func<TSource, GymCreate> source)

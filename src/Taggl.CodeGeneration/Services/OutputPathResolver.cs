@@ -40,6 +40,11 @@ namespace Taggl.CodeGeneration.Services
             return GetPath(_namespaceService.GetServiceModelsNamespace(areaName));
         }
 
+        public string GetServiceMappingsPath(string areaName)
+        {
+            return GetPath(_namespaceService.GetServiceMappingsNamespace(areaName));
+        }
+
         #region Helpers
 
         private string GetSrcPath()
