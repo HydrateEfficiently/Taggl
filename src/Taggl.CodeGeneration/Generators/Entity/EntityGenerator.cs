@@ -16,7 +16,6 @@ namespace Taggl.CodeGeneration.Generators.Entity
         private readonly ScaffoldingService _scaffoldingService;
         private readonly OutputPathResolver _outputPathResolver;
         private readonly NamespaceService _namespaceService;
-        private readonly IIdentityTypeNameResolver _identityTypeNameResolver;
         private readonly IPropertyDeclarationFactory _propertyDeclarationFactory;
         private readonly IAuditDeclarationFactory _auditDeclarationFactory;
         private readonly ITypeNameShortcutMapper _typeNameShortcutMapper;
@@ -28,7 +27,6 @@ namespace Taggl.CodeGeneration.Generators.Entity
             ScaffoldingService scaffoldingService,
             OutputPathResolver outputPathResolver,
             NamespaceService namespaceService,
-            IIdentityTypeNameResolver identityTypeNameResolver,
             IPropertyDeclarationFactory propertyDeclarationFactory,
             IAuditDeclarationFactory auditDeclarationFactory,
             ITypeNameShortcutMapper typeNameShortcutMapper,
@@ -39,7 +37,6 @@ namespace Taggl.CodeGeneration.Generators.Entity
             _scaffoldingService = scaffoldingService;
             _outputPathResolver = outputPathResolver;
             _namespaceService = namespaceService;
-            _identityTypeNameResolver = identityTypeNameResolver;
             _propertyDeclarationFactory = propertyDeclarationFactory;
             _auditDeclarationFactory = auditDeclarationFactory;
             _typeNameShortcutMapper = typeNameShortcutMapper;
@@ -139,7 +136,6 @@ namespace Taggl.CodeGeneration.Generators.Entity
                 AreaName = areaName,
                 FrameworkEntityNamespace = _namespaceService.GetFrameworkEntityNamespace(areaName),
                 FrameworkEntitiesNamespace = _namespaceService.GetFrameworkEntitiesNamespace(),
-                IdentityTypeName = _identityTypeNameResolver.Resolve(_model),
                 Interfaces = interfaces,
                 Properties = properties,
                 Audits = audits,

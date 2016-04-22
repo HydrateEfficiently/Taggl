@@ -39,7 +39,6 @@ namespace Taggl.CodeGeneration.Commands
             AddService<ITypeNameShortcutMapper, TypeNameShortcutMapper>();
             AddService<IAuditDeclarationFactory, AuditDeclarationFactory>();
             AddService<IDtoGenerateIgnoreAttributeFactory, DtoGenerateIgnoreAttributeFactory>(); // Not used
-            AddService<IIdentityTypeNameResolver, IdentityTypeNameResolver>();
 
             // With dependencies
             AddServiceWithDependency<NamespaceService, NamespaceService>();
