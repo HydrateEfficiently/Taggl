@@ -30,7 +30,7 @@ namespace @Model.ServicesNamespace
             @:builder.Entity@($"<{e.TypeName}>")().HasTableName(nameof(@(e.TableName)));
             }
 
-            CustomOnModelCreating(builder);
+            OnModelCreatingHook(builder);
         }
     }
 }

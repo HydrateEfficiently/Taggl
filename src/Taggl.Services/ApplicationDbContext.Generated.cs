@@ -41,7 +41,7 @@ namespace Taggl.Services
             builder.Entity<ShiftSchedule>().HasTableName(nameof(ShiftSchedules));
             builder.Entity<ShiftType>().HasTableName(nameof(ShiftTypes));
 
-            CustomOnModelCreating(builder);
+            OnModelCreatingHook(builder);
         }
     }
 }

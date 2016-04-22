@@ -15,6 +15,7 @@ namespace Taggl.CodeGeneration.Generators.Dto
     {
         private readonly IEntityReflector _entityReflector;
         private readonly IEntityAliasResolver _entityAliasResolver;
+        private readonly IEntityOperationsResolver _entityOperationsResolver;
         private readonly IDtoAliasResolver _dtoAliasResolver;
         private readonly IPropertyTypeNameResolver _propertyNameResolver;
         private readonly NamespaceService _namespaceService;
@@ -26,6 +27,7 @@ namespace Taggl.CodeGeneration.Generators.Dto
         public DtoGenerator(
             IEntityReflector entityReflector,
             IEntityAliasResolver entityAliasResolver,
+            IEntityOperationsResolver entityOperationsResolver,
             IDtoAliasResolver dtoAliasResolver,
             IPropertyTypeNameResolver propertyNameResolver,
             NamespaceService namespaceService,
@@ -36,6 +38,7 @@ namespace Taggl.CodeGeneration.Generators.Dto
         {
             _entityReflector = entityReflector;
             _entityAliasResolver = entityAliasResolver;
+            _entityOperationsResolver = entityOperationsResolver;
             _dtoAliasResolver = dtoAliasResolver;
             _propertyNameResolver = propertyNameResolver;
             _namespaceService = namespaceService;
@@ -53,7 +56,10 @@ namespace Taggl.CodeGeneration.Generators.Dto
 
             if (!_model.Read && !_model.Create && !_model.Update)
             {
-                generateReadDto = generateCreateDto = generateUpdateDto = true;
+                var entityOperations = _entityOperationsResolver.Resolve(_model.Entity);
+                generateReadDto = entityOperations.Read;
+                generateCreateDto = entityOperations.Create;
+                generateUpdateDto = entityOperations.Update;
             }
             else
             {

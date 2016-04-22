@@ -14,7 +14,7 @@ namespace Taggl.Services
 {
     public partial class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        private void CustomOnModelCreating(ModelBuilder builder)
+        private void OnModelCreatingHook(ModelBuilder builder)
         {
         }
     }
