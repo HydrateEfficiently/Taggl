@@ -52,6 +52,7 @@ namespace Taggl.CodeGeneration.Generators.Service
                 EntityName = entityName,
                 AreaName = areaName,
                 ServiceName = serviceName,
+                ServiceModelsNamespaceName = _namespaceService.GetServiceModelsNamespace(areaName),
                 ServiceNamespaceName = _namespaceService.GetServiceNamespace(areaName),
                 ServicesNamespaceName = _namespaceService.GetServicesNamespace(),
                 FrameworkServicesNamespaceName = _namespaceService.GetFrameworkServicesNamespace(),

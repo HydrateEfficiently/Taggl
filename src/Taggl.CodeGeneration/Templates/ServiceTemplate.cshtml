@@ -12,10 +12,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using @(Model.EntitiesNamespaceName);
 using @(Model.EntityNamespaceName);
+using @(Model.EntitiesNamespaceName);
 using @(Model.FrameworkServicesNamespaceName);
 using @(Model.ServicesNamespaceName).Identity;
+using @(Model.ServiceModelsNamespaceName);
 
 namespace @Model.ServiceNamespaceName
 {
@@ -78,7 +79,7 @@ namespace @Model.ServiceNamespaceName
         {
             var @entityVariableAlias = create.Map();
             var audit = _auditFactory.CreateAudit();
-            @(entityVariableAlias).Create(audit).Update(audit);
+            @(entityVariableAlias).AuditCreated(audit).AuditUpdated(audit);
             _dbContext.@(Model.DbSetPropertyName).Add(@entityVariableAlias);
             await _dbContext.SaveChangesAsync();
             return new @(Model.ReadEntityDtoName)(@entityVariableAlias);
@@ -88,7 +89,7 @@ namespace @Model.ServiceNamespaceName
         @:
         @:public async Task@(readDtoAsTypeArg) UpdateAsync(@(@Model.UpdateEntityDtoName) update)
         @:{
-            @:var @entityVariableAlias = update.Map().Update(_auditFactory.CreateAudit());
+            @:var @entityVariableAlias = update.Map().AuditUpdated(_auditFactory.CreateAudit());
             @:await _dbContext.SaveChangesAsync();
             @:return new @(Model.ReadEntityDtoName)(@entityVariableAlias);
         @:}
@@ -101,7 +102,7 @@ namespace @Model.ServiceNamespaceName
             @:var result = await _dbContext.@(Model.DbSetPropertyName)
                 @:.Where(@entityLamdbaAlias => @(entityLamdbaAlias).Id == id)
                 @:.FirstOrDefaultAsync();
-            @:_dbContext.@(Model.DbSetPropertyName).Remove(result);
+            @:result.AuditDeleted(_auditFactory.CreateAudit());
             @:await _dbContext.SaveChangesAsync();
         @:}
         }

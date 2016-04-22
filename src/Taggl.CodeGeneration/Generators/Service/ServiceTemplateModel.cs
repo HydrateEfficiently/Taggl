@@ -19,6 +19,7 @@ namespace Taggl.CodeGeneration.Generators.Service
         public string EntityNamespaceName { get; internal set; }
         public string FrameworkServicesNamespaceName { get; internal set; }
         public string ReadEntityDtoName { get; internal set; }
+        public string ServiceModelsNamespaceName { get; internal set; }
         public string ServiceName { get; internal set; }
         public string ServiceNamespaceName { get; internal set; }
         public string ServicesNamespaceName { get; internal set; }

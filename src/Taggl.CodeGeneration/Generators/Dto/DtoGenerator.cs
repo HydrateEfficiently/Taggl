@@ -79,7 +79,7 @@ namespace Taggl.CodeGeneration.Generators.Dto
             }
             if (generateUpdateDto)
             {
-                //generateTasks.Add(Generate(DtoType.Update, _model.Force));
+                generateTasks.Add(Generate(DtoType.Update, _model.Force));
             }
             await Task.WhenAll(generateTasks);
         }
