@@ -163,7 +163,7 @@ namespace Taggl.CodeGeneration.Generators.Dto
             {
                 await _scaffoldingService.ScaffoldAsync(
                     _outputPathResolver.GetServiceModelsPath(areaName),
-                    dtoName + "_",
+                    dtoName,
                     dtoTemplate,
                     templateModel,
                     _model.Force);
@@ -174,7 +174,7 @@ namespace Taggl.CodeGeneration.Generators.Dto
 
             await _scaffoldingService.ScaffoldAsync(
                 _outputPathResolver.GetServiceModelsPath(areaName),
-                $"{dtoName}.Generated" + "_",
+                $"{dtoName}.Generated",
                 dtoGeneratedTemplate,
                 templateModel,
                 force: true);

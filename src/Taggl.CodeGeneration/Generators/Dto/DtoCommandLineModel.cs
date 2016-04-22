@@ -9,7 +9,7 @@ namespace Taggl.CodeGeneration.Generators.Dto
 {
     public class DtoCommandLineModel : FromEntityCommandLineModel
     {
-        [Option(Name = "auditDelete", ShortName = "d", Description = "A flag which determines if the read DTO should be generated")]
+        [Option(Name = "read", ShortName = "r", Description = "A flag which determines if the read DTO should be generated")]
         public bool Read { get; set; }
 
         [Option(Name = "create", ShortName = "c", Description = "A flag which determines if the create DTO should be generated")]

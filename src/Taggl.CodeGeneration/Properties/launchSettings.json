@@ -23,7 +23,7 @@
     },
     "gen": {
       "commandName": "gen",
-      "commandLineArgs": "entity -e Car -a Vehicles"
+      "commandLineArgs": "dto -e Gym -r -f"
     }
   }
 }
