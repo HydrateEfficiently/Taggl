@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Taggl.CodeGeneration.Services.Properties;
 
-namespace Taggl.CodeGeneration.Generators.ReadDto
+namespace Taggl.CodeGeneration.Generators.Dto
 {
     public class DtoPropertyDeclarationModel : PropertyDeclarationModel
     {

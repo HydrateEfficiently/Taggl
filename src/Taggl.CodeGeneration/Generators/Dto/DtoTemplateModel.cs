@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Taggl.CodeGeneration.Services.Properties;
 using Taggl.CodeGeneration.Utility;
 
-namespace Taggl.CodeGeneration.Generators.ReadDto
+namespace Taggl.CodeGeneration.Generators.Dto
 {
     public class DtoTemplateModel
     {

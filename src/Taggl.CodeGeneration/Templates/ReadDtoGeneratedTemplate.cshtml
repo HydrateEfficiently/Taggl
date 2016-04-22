@@ -1,6 +1,6 @@
 ﻿@inherits Microsoft.Extensions.CodeGeneration.Templating.RazorTemplateBase
 @{ 
-    var mappingTypeArgs = $"<{Model.EntityName}, {Model.ReadEntityDtoName}>";
+    var mappingTypeArgs = $"<{Model.EntityName}, {Model.DtoName}>";
     var entityVariableAlias = Model.EntityName.ToLower()[0].ToString() + Model.EntityName.Substring(1);
 }
 using AutoMapper;
@@ -10,23 +10,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using @(Model.EntityNamespaceName);
-@foreach (string namespaceName in Model.ReadDtoNamespaceNames)
+@foreach (string namespaceName in Model.DtoNamespaceNames)
 {
 @:using @(namespaceName).Models;
 @:using @(namespaceName).Mappings;
 }
 
 namespace @Model.NamespaceName {
-    public partial class @Model.ReadEntityDtoName
+    public partial class @Model.DtoName
     {
         private static MappingEngine __mappingEngine;
 
-        static @(Model.ReadEntityDtoName)()
+        static @(Model.DtoName)()
         {
             var configuration = new ConfigurationStore(new TypeMapFactory(), MapperRegistry.Mappers);
             var mappingEngine = new MappingEngine(configuration);
             var mappingExpression = configuration.CreateMap@(mappingTypeArgs)();
-            @foreach (Taggl.CodeGeneration.Generators.ReadDto.DtoPropertyDeclarationModel property in Model.ReadDtoProperties)
+            @foreach (Taggl.CodeGeneration.Generators.Dto.DtoPropertyDeclarationModel property in Model.DtoProperties)
             {
             @:mappingExpression.For@(property.BasePropertyTypeName)(dest => dest.@(property.PropertyName), src => src.@(property.PropertyName));
             }
@@ -39,7 +39,7 @@ namespace @Model.NamespaceName {
         @:public @property.PropertyTypeName @property.PropertyName { get; set; }
         }
 
-        public @(Model.ReadEntityDtoName)(@Model.EntityName @entityVariableAlias)
+        public @(Model.DtoName)(@Model.EntityName @entityVariableAlias)
         {
             __mappingEngine.Map(@entityVariableAlias, this);
         }

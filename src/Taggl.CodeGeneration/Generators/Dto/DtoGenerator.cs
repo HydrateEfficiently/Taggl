@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Taggl.CodeGeneration.Core;
 using Taggl.CodeGeneration.Exceptions;
-using Taggl.CodeGeneration.Generators.ReadDto;
 using Taggl.CodeGeneration.Services;
 using Taggl.CodeGeneration.Services.Properties;
 using Taggl.CodeGeneration.Services.Service;
