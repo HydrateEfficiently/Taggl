@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Taggl.CodeGeneration.Commands.Models;
 using Taggl.CodeGeneration.Services;
-using Taggl.CodeGeneration.Services.Service;
 
 namespace Taggl.CodeGeneration.Commands
 {
@@ -16,7 +15,6 @@ namespace Taggl.CodeGeneration.Commands
         {
             AddServiceWithDependency<IEntityReflector, EntityReflector>();
             AddServiceWithDependency<IEntityPropertyResolver, EntityPropertyResolver>();
-            AddServiceWithDependency<IAreaNameResolver, AreaNameResolver>();
             AddServiceWithDependency<IEntityOperationsResolver, EntityOperationsResolver>();
         }
 

@@ -5,15 +5,14 @@ using System.Threading.Tasks;
 using Taggl.CodeGeneration.Commands.Models;
 using Taggl.CodeGeneration.Core;
 using Taggl.CodeGeneration.Services;
-using Taggl.CodeGeneration.Services.Service;
 
 namespace Taggl.CodeGeneration.Generators.DtoMappings
 {
     public class DtoMappingsGenerator : IGenerator
     {
         private readonly IEntityAliasResolver _entityAliasResolver;
+        private readonly IEntityReflector _entityReflector;
         private readonly IDtoAliasResolver _dtoAliasResolver;
-        private readonly IAreaNameResolver _areaNameResolver;
         private readonly NamespaceService _namespaceService;
         private readonly OutputPathResolver _outputPathResolver;
         private readonly ScaffoldingService _scaffoldingService;
@@ -21,16 +20,16 @@ namespace Taggl.CodeGeneration.Generators.DtoMappings
 
         public DtoMappingsGenerator(
             IEntityAliasResolver entityAliasResolver,
+            IEntityReflector entityReflector,
             IDtoAliasResolver dtoAliasResolver,
-            IAreaNameResolver areaNameResolver,
             NamespaceService namespaceService,
             OutputPathResolver outputPathResolver,
             ScaffoldingService scaffoldingService,
             FromEntityCommandLineModel model)
         {
             _entityAliasResolver = entityAliasResolver;
+            _entityReflector = entityReflector;
             _dtoAliasResolver = dtoAliasResolver;
-            _areaNameResolver = areaNameResolver;
             _namespaceService = namespaceService;
             _outputPathResolver = outputPathResolver;
             _scaffoldingService = scaffoldingService;
@@ -40,7 +39,7 @@ namespace Taggl.CodeGeneration.Generators.DtoMappings
         public async Task Generate()
         {
             var entityName = _model.Entity;
-            var areaName = _areaNameResolver.Resolve(entityName);
+            var areaName = _entityReflector.GetAreaName(entityName);
             var aliasedEntityName = _entityAliasResolver.Resolve(entityName);
             var className = $"{aliasedEntityName}Mappings";
 

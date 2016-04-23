@@ -6,7 +6,6 @@ using Taggl.CodeGeneration.Core;
 using Taggl.CodeGeneration.Exceptions;
 using Taggl.CodeGeneration.Services;
 using Taggl.CodeGeneration.Services.Properties;
-using Taggl.CodeGeneration.Services.Service;
 using Taggl.CodeGeneration.Utility;
 
 namespace Taggl.CodeGeneration.Generators.Dto
@@ -19,7 +18,6 @@ namespace Taggl.CodeGeneration.Generators.Dto
         private readonly IDtoAliasResolver _dtoAliasResolver;
         private readonly IPropertyTypeNameResolver _propertyNameResolver;
         private readonly NamespaceService _namespaceService;
-        private readonly IAreaNameResolver _areaNameResolver;
         private readonly OutputPathResolver _outputPathResolver;
         private readonly ScaffoldingService _scaffoldingService;
         private readonly DtoCommandLineModel _model;
@@ -31,7 +29,6 @@ namespace Taggl.CodeGeneration.Generators.Dto
             IDtoAliasResolver dtoAliasResolver,
             IPropertyTypeNameResolver propertyNameResolver,
             NamespaceService namespaceService,
-            IAreaNameResolver areaNameResolver,
             OutputPathResolver outputPathResolver,
             ScaffoldingService scaffoldingService,
             DtoCommandLineModel model)
@@ -42,7 +39,6 @@ namespace Taggl.CodeGeneration.Generators.Dto
             _dtoAliasResolver = dtoAliasResolver;
             _propertyNameResolver = propertyNameResolver;
             _namespaceService = namespaceService;
-            _areaNameResolver = areaNameResolver;
             _outputPathResolver = outputPathResolver;
             _scaffoldingService = scaffoldingService;
             _model = model;
@@ -87,7 +83,7 @@ namespace Taggl.CodeGeneration.Generators.Dto
         private async Task Generate(DtoType dtoType, bool force)
         {
             string entityName = _model.Entity;
-            string areaName = _areaNameResolver.Resolve(entityName);
+            string areaName = _entityReflector.GetAreaName(entityName);
             string dtoName = _dtoAliasResolver.Resolve(entityName, dtoType);
             string namespaceName = _namespaceService.GetServiceModelsNamespace(areaName);
 
@@ -115,7 +111,7 @@ namespace Taggl.CodeGeneration.Generators.Dto
                     dtoProperties.Add(propertyDeclarationModel);
                     properties.Add(propertyDeclarationModel);
 
-                    string foreignKeyAreaName = _areaNameResolver.Resolve(propertyTypeName);
+                    string foreignKeyAreaName = _entityReflector.GetAreaName(propertyTypeName);
                     string dtoNamespaceName = _namespaceService.GetServiceNamespace(foreignKeyAreaName);
                     if (dtoNamespaceName != namespaceName &&
                         !dtoNamespaceNames.Contains(dtoNamespaceName))

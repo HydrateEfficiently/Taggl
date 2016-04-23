@@ -10,6 +10,8 @@ using Taggl.CodeGeneration.Commands.Models;
 using Taggl.CodeGeneration.Generators;
 using Taggl.CodeGeneration.Services;
 using Taggl.CodeGeneration.Services.Audits;
+using Taggl.CodeGeneration.Services.CodeDeclarations;
+using Taggl.CodeGeneration.Services.Environment;
 using Taggl.CodeGeneration.Services.Properties;
 using Taggl.CodeGeneration.Utility;
 
@@ -38,7 +40,9 @@ namespace Taggl.CodeGeneration.Commands
             AddService<IDtoAliasResolver, DtoAliasResolver>();
             AddService<ITypeNameShortcutMapper, TypeNameShortcutMapper>();
             AddService<IAuditDeclarationFactory, AuditDeclarationFactory>();
-            AddService<IDtoGenerateIgnoreAttributeFactory, DtoGenerateIgnoreAttributeFactory>(); // Not used
+            AddService<IDtoGenerateIgnoreAttributeFactory, DtoGenerateIgnoreAttributeFactory>();
+            AddService<IMemberDeclarationModelFactory, MemberDeclarationModelFactory>();
+            AddService<ILocalProjectTypeResolver, LocalProjectTypeResolver>();
 
             // With dependencies
             AddServiceWithDependency<NamespaceService, NamespaceService>();
@@ -46,6 +50,7 @@ namespace Taggl.CodeGeneration.Commands
             AddServiceWithDependency<OutputPathResolver, OutputPathResolver>();
             AddServiceWithDependency<IAssemblyProvider, AssemblyProvider>();
             AddServiceWithDependency<IPropertyDeclarationFactory, PropertyDeclarationFactory>();
+            AddServiceWithDependency<IServiceReflector, ServiceReflector>();
         }
 
         protected TGenerator GetGenerator<TGenerator>(CommandLineModel commandLineModel) where TGenerator : IGenerator

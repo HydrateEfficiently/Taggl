@@ -45,6 +45,11 @@ namespace Taggl.CodeGeneration.Services
             return GetPath(_namespaceService.GetServiceMappingsNamespace(areaName));
         }
 
+        public string GetWebApiControllerPath(string areaName)
+        {
+            return GetPath(_namespaceService.GetWebApiControllerNamespace(areaName));
+        }
+
         #region Helpers
 
         private string GetSrcPath()

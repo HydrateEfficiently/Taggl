@@ -73,6 +73,21 @@ namespace Taggl.CodeGeneration.Services
             return $"{GetRootNamespace()}.Web";
         }
 
+        public string GetWebControllersNamespace()
+        {
+            return $"{GetWebNamespace()}.Controllers";
+        }
+
+        public string GetWebApiControllersNamespace()
+        {
+            return $"{GetWebControllersNamespace()}.Api";
+        }
+
+        public string GetWebApiControllerNamespace(string areaName)
+        {
+            return $"{GetWebApiControllersNamespace()}.{areaName}";
+        }
+
         public string GetGenerationCoreNamespace()
         {
             return $"{GetRootNamespace()}.CodeGeneration.Core";

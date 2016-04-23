@@ -19,6 +19,8 @@ namespace Taggl.CodeGeneration.Services
         Type GetDataContextType();
 
         string GetDataSetPropertyName(string entityName);
+
+        string GetAreaName(string entityName);
     }
 
     public class EntityReflector : IEntityReflector
@@ -27,9 +29,10 @@ namespace Taggl.CodeGeneration.Services
         private readonly IAssemblyProvider _assemblyProvider;
 
         private Type _dbContextType;
-        private Dictionary<string, Type> _entityTypesByEntityName = new Dictionary<string, Type>();
+        private Dictionary<string, Type> _entityTypesByName = new Dictionary<string, Type>();
         private Dictionary<string, string> _entityIdTypeNamesByEntityName = new Dictionary<string, string>();
         private Dictionary<string, string> _dbSetPropertyNamesByEntityName = new Dictionary<string, string>();
+        private Dictionary<string, string> _areaNamesByEntityName = new Dictionary<string, string>();
 
         public EntityReflector(
             NamespaceService namespaceService,
@@ -42,22 +45,11 @@ namespace Taggl.CodeGeneration.Services
         public Type GetEntityType(string entityName)
         {
             Type entityType;
-            if (!_entityTypesByEntityName.TryGetValue(entityName, out entityType))
+            if (!_entityTypesByName.TryGetValue(entityName, out entityType))
             {
                 var frameworkAssembly = _assemblyProvider.GetFrameworkAssembly();
-                var entityTypes = frameworkAssembly.GetTypes().Where(t => t.Name == entityName);
-                if (entityTypes.Count() == 0)
-                {
-                    throw new InvalidOperationException(
-                        $"Could not find entity of type {entityName}");
-                }
-                else if (entityTypes.Count() > 1)
-                {
-                    throw new InvalidOperationException(
-                        $"Found multiple entities: ${string.Join(", ", entityTypes.Select(e => e.FullName))}");
-                }
-                entityType = entityTypes.Single();
-                _entityTypesByEntityName.Add(entityName, entityType);
+                entityType = frameworkAssembly.GetTypeAndValidate(entityName);
+                _entityTypesByName.Add(entityName, entityType);
             }
             return entityType;
         }
@@ -132,6 +124,27 @@ namespace Taggl.CodeGeneration.Services
                 _dbSetPropertyNamesByEntityName.Add(entityName, dbSetPropertyName);
             }
             return dbSetPropertyName;
+        }
+
+        public string GetAreaName(string entityName)
+        {
+            string areaName;
+            if (!_areaNamesByEntityName.TryGetValue(entityName, out areaName))
+            {
+                string entitiesNamespaceName = _namespaceService.GetFrameworkEntitiesNamespace();
+                string entityFullName = GetEntityType(entityName).FullName;
+                string entityRelativeFullName = entityFullName.Replace(entitiesNamespaceName, string.Empty);
+                var entityNameParts = entityRelativeFullName.Split('.');
+
+                if (entityNameParts.Count() != 2)
+                {
+                    throw new InvalidOperationException($"Entity namespace must be one below {entitiesNamespaceName}");
+                }
+
+                areaName = entityNameParts.First();
+                _areaNamesByEntityName.Add(entityName, areaName);
+            }
+            return areaName;
         }
     }
 }

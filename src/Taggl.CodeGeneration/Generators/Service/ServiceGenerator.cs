@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Taggl.CodeGeneration.Services;
-using Taggl.CodeGeneration.Services.Service;
 
 namespace Taggl.CodeGeneration.Generators.Service
 {
@@ -12,7 +11,6 @@ namespace Taggl.CodeGeneration.Generators.Service
         private const string ServiceSuffix = "Service";
 
         private readonly NamespaceService _namespaceService;
-        private readonly IAreaNameResolver _areaNameResolver;
         private readonly IEntityReflector _entityReflector;
         private readonly IEntityOperationsResolver _entityOperationsResolver;
         private readonly OutputClassNameResolver _outputClassNameResolver;
@@ -22,7 +20,6 @@ namespace Taggl.CodeGeneration.Generators.Service
 
         public ServiceGenerator(
             NamespaceService namespaceService,
-            IAreaNameResolver areaNameResolver,
             IEntityReflector entityReflector,
             IEntityOperationsResolver entityOperationsResolver,
             OutputClassNameResolver outputClassNameResolver,
@@ -31,7 +28,6 @@ namespace Taggl.CodeGeneration.Generators.Service
             ServiceCommandLineModel model)
         {
             _namespaceService = namespaceService;
-            _areaNameResolver = areaNameResolver;
             _entityReflector = entityReflector;
             _entityOperationsResolver = entityOperationsResolver;
             _outputClassNameResolver = outputClassNameResolver;
@@ -43,7 +39,7 @@ namespace Taggl.CodeGeneration.Generators.Service
         public async Task Generate()
         {
             string entityName = _model.Entity;
-            string areaName = _areaNameResolver.Resolve(entityName);
+            string areaName = _entityReflector.GetAreaName(entityName);
             string serviceName = serviceName = $"{entityName}{ServiceSuffix}";
             var entityOperations = _entityOperationsResolver.Resolve(entityName);
 

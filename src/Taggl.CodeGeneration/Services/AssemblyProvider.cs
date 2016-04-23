@@ -8,6 +8,8 @@ namespace Taggl.CodeGeneration.Services
 {
     public interface IAssemblyProvider
     {
+        Assembly GetAssembly(LocalProjectType project);
+
         Assembly GetFrameworkAssembly();
 
         Assembly GetServicesAssembly();
@@ -23,6 +25,21 @@ namespace Taggl.CodeGeneration.Services
             NamespaceService namespaceService)
         {
             _namespaceService = namespaceService;
+        }
+
+        public Assembly GetAssembly(LocalProjectType project)
+        {
+            switch (project)
+            {
+                case LocalProjectType.Framework:
+                    return GetFrameworkAssembly();
+                case LocalProjectType.Services:
+                    return GetServicesAssembly();
+                case LocalProjectType.Web:
+                    return GetWebAssembly();
+                default:
+                    throw new InvalidOperationException("Unrecognised local project type");
+            }
         }
 
         public Assembly GetFrameworkAssembly()
