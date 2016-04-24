@@ -12,5 +12,18 @@ namespace Taggl.Framework.Models.Identity
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+
+        public string DisplayName
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(FirstName) &&
+                !string.IsNullOrEmpty(LastName))
+                {
+                    return $"{FirstName} {LastName}";
+                }
+                return Email;
+            }
+        }
     }
 }
