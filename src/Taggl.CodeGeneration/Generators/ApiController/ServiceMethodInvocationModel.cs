@@ -8,7 +8,7 @@ namespace Taggl.CodeGeneration.Generators.ApiController
     public class ServiceMethodInvocationModel
     {
         public string BaseName { get; internal set; }
-        public string ReturnTypeName { get; internal set; }
+        public bool ReturnsValue { get; internal set; }
         public bool IsAsync { get; internal set; }
 
         public string Name {

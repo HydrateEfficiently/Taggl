@@ -23,7 +23,7 @@
     },
     "gen": {
       "commandName": "gen",
-      "commandLineArgs": "dto -e Gym -r -f"
+      "commandLineArgs": "api -s ICarService"
     }
   }
 }

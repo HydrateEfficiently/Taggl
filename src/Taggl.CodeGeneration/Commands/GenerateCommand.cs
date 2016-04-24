@@ -5,6 +5,7 @@ using Microsoft.Extensions.PlatformAbstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Taggl.CodeGeneration.Commands.Models;
 using Taggl.CodeGeneration.Generators;
@@ -14,6 +15,7 @@ using Taggl.CodeGeneration.Services.CodeDeclarations;
 using Taggl.CodeGeneration.Services.Environment;
 using Taggl.CodeGeneration.Services.Properties;
 using Taggl.CodeGeneration.Utility;
+using Taggl.Services;
 
 namespace Taggl.CodeGeneration.Commands
 {

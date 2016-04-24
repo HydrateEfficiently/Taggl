@@ -17,7 +17,8 @@
     "System.Linq": "4.0.1-beta-23516",
     "Taggl.CodeGeneration.Core": "1.0.0-*",
     "Taggl.Framework": "1.0.0-*",
-    "Taggl.Services": "1.0.0-*"
+    "Taggl.Services": "1.0.0-*",
+    "Taggl.Web": "1.0.0-*"
   },
 
   "commands": {

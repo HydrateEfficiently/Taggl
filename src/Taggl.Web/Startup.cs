@@ -17,6 +17,7 @@ using Taggl.Framework.Services;
 using Taggl.Web.Services.Framework;
 using Azn.RiskApp.Web.Services.Framework._Dev;
 using Taggl.Web.Services;
+using Microsoft.AspNet.StaticFiles;
 
 namespace Taggl.Web
 {
@@ -105,7 +106,10 @@ namespace Taggl.Web
 
             app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
 
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                ServeUnknownFileTypes = true
+            });
             
 
             app.UseIdentity();

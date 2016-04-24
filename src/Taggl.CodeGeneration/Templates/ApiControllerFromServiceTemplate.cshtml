@@ -14,13 +14,13 @@ using System.Threading.Tasks;
 @:using @(namespaceName);
 }
 
-
 namespace @typedModel.NamespaceName
 {
-    public class @typedModel.ClassName : Controller {
+    public class @typedModel.ClassName : Controller
+    {
         @foreach (var serviceDeclarationModel in typedModel.InjectedServices)
         {
-            @:private readonly @serviceDeclarationModel.TypeName @serviceDeclarationModel.LocalName;
+        @:private readonly @serviceDeclarationModel.TypeName @serviceDeclarationModel.LocalName;
         }
 
         public @(typedModel.ClassName)(
@@ -49,34 +49,34 @@ namespace @typedModel.NamespaceName
             bool isAsync = action.ServiceMethod.IsAsync;
 
             string baseMethodSignature = action.Method.AccessModifier;
-            if (isAsync) {
+            if (isAsync)
+            {
                 baseMethodSignature += " async";
             }
             baseMethodSignature += $" {action.Method.ReturnTypeName} {action.ServiceMethod.BaseName}";
 
-            bool seviceReturnsValue = !string.IsNullOrEmpty(action.ServiceMethod.ReturnTypeName);
             string serviceMethodInvocationLine = string.Empty;
-            if (seviceReturnsValue)
+            if (action.ServiceMethod.ReturnsValue)
             {
-                serviceMethodInvocationLine += "var result =";
+                serviceMethodInvocationLine += "var result = ";
             }
             if (isAsync)
             {
-                serviceMethodInvocationLine += " await";
+                serviceMethodInvocationLine += "await";
             }
             serviceMethodInvocationLine +=
-                $"{typedModel.Service.LocalName}.{action.ServiceMethod.Name}" + 
+                $" {typedModel.Service.LocalName}.{action.ServiceMethod.Name}" +
                 $"({string.Join(", ", action.Method.ParameterNames)});";
 
+        @:
         @foreach (string attribute in action.Attributes)
         {
         @:@attribute
         }
-        @:
         @:@(baseMethodSignature)(@string.Join(", ", action.Method.Parameters))
         @:{
             @:@serviceMethodInvocationLine
-            @if (seviceReturnsValue)
+            @if (action.ServiceMethod.ReturnsValue)
             {
             @:if (result == null)
             @:{

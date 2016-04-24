@@ -25,6 +25,11 @@ namespace Taggl.CodeGeneration.Services
             NamespaceService namespaceService)
         {
             _namespaceService = namespaceService;
+
+            // Force load of projects
+            Taggl.Services.Startup loadServices;
+            Taggl.Framework.Models.Identity.ApplicationUser loadFramework;
+            Taggl.Web.Startup loadWeb;
         }
 
         public Assembly GetAssembly(LocalProjectType project)
