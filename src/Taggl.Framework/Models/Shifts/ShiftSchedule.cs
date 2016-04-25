@@ -9,7 +9,7 @@ using Taggl.Framework.Models.Identity;
 namespace Taggl.Framework.Models.Shifts
 {
     [GeneratedEntity(TableName = "ShiftSchedules")]
-    public class ShiftSchedule : ICreateAuditable, IUpdateAuditable, IDeleteAuditable
+    public class ShiftSchedule : HasKey<Guid>, ICreateAuditable, IUpdateAuditable, IDeleteAuditable
     {
         [DtoGenerateIgnore(DtoType.Create)]
         public Guid Id { get; set; }

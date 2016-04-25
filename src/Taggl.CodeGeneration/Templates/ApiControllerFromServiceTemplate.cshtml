@@ -14,9 +14,9 @@ using System.Threading.Tasks;
 @:using @(namespaceName);
 }
 
-[Route("@(typedModel.ControllerRouteTemplate)")]
 namespace @typedModel.NamespaceName
 {
+    [Route("@(typedModel.ControllerRouteTemplate)")]
     public class @typedModel.ClassName : Controller
     {
         @foreach (var serviceDeclarationModel in typedModel.InjectedServices)

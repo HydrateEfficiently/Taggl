@@ -16,7 +16,7 @@ using Taggl.Services.Shifts.Queries;
 namespace Taggl.Services.Shifts
 {
     public interface IShiftScheduleService {
-        Task<IEnumerable<ShiftScheduleResult>> ListAsync(string userId);
+        Task<IEnumerable<ShiftScheduleResult>> ListAsync(string userId, DateTime date);
 
         Task<ShiftScheduleResult> GetAsync(Guid id);
 
@@ -46,17 +46,20 @@ namespace Taggl.Services.Shifts
             _auditFactory = auditFactory;
         }
         
-        public async Task<IEnumerable<ShiftScheduleResult>> ListAsync(string userId)
+        public async Task<IEnumerable<ShiftScheduleResult>> ListAsync(string userId, DateTime date)
         {
             return (await _dbContext.ShiftSchedules
-                .Where(s => s.CreatedById == userId)
+                .WhereCreatedByUser(userId)
+                .WhereIsOnDate(date)
+                .IncludeForResult()
                 .ToListAsync()).Select(s => new ShiftScheduleResult(s));
         }
 
         public async Task<ShiftScheduleResult> GetAsync(Guid id)
         {
             var result = await _dbContext.ShiftSchedules
-                .Where(s => s.Id == id)
+                .Find(id)
+                .IncludeForResult()
                 .FirstOrDefaultAsync();
             return new ShiftScheduleResult(result);
         }
@@ -98,7 +101,7 @@ namespace Taggl.Services.Shifts
             _dbContext.ShiftSchedules.Add(shiftSchedule);
             await _dbContext.SaveChangesAsync();
 
-            return new ShiftScheduleResult(shiftSchedule);
+            return await GetAsync(shiftSchedule.Id);
         }
         
         //public async Task<ShiftScheduleResult> UpdateAsync(UpdateShiftSchedule update)

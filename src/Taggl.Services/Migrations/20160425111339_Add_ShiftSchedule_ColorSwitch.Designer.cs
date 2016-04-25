@@ -8,9 +8,10 @@ using Taggl.Services;
 namespace Taggl.Services.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160425111339_Add_ShiftSchedule_ColorSwitch")]
+    partial class Add_ShiftSchedule_ColorSwitch
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
@@ -245,6 +246,8 @@ namespace Taggl.Services.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("ColorSwitch");
+
                     b.Property<DateTime>("Created");
 
                     b.Property<string>("CreatedById");
@@ -274,8 +277,6 @@ namespace Taggl.Services.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<int>("ColorSwitch");
 
                     b.Property<DateTime>("Created");
 

@@ -11,26 +11,27 @@ using Taggl.Services.Utility;
 
 namespace Taggl.Services.Shifts.Models
 {
-    public class ShiftTypeCreate
+    public partial class ShiftTypeCreate
     {
-        private static MappingEngine __mappingEngine;
+        private const int NumberOfColors = 10;
+        private static readonly Random RandomColorPicker = new Random();
 
-        static ShiftTypeCreate()
+        private static void MappingsHook(IMappingExpression<ShiftTypeCreate, ShiftType> mappingExpression)
         {
             var shiftTypeFormatter = ServiceLocator.Current.GetRequiredService<ISearchableNameFormatter>();
-            var configuration = new ConfigurationStore(new TypeMapFactory(), MapperRegistry.Mappers);
-            var mappingEngine = new MappingEngine(configuration);
-            configuration.CreateMap<ShiftTypeCreate, ShiftType>()
+            mappingExpression
                 .ForMemberResolveUsing(dest => dest.Name, src => shiftTypeFormatter.FormatName(src.Name))
-                .ForMemberResolveUsing(dest => dest.NameNormalized, src => shiftTypeFormatter.NormalizeName(src.Name));
-            __mappingEngine = mappingEngine;
+                .ForMemberResolveUsing(dest => dest.NameNormalized, src => shiftTypeFormatter.NormalizeName(src.Name))
+                .ForMemberResolveUsing(dest => dest.ColorSwitch, src => GetColor(src));
         }
 
-        public string Name { get; set; }
-
-        public ShiftType Map()
+        private static int GetColor(ShiftTypeCreate create)
         {
-            return __mappingEngine.Map<ShiftTypeCreate, ShiftType>(this);
+            if (create.ColorSwitch > 0 && create.ColorSwitch <= NumberOfColors)
+            {
+                return create.ColorSwitch;
+            }
+            return RandomColorPicker.Next(NumberOfColors);
         }
     }
 }

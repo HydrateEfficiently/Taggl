@@ -15,14 +15,21 @@ namespace Taggl.Framework.Models.Shifts
 
         public string Name { get; set; }
 
+        [DtoGenerateIgnore(DtoType.Create, DtoType.Update)]
         public string NameNormalized { get; set; }
 
+        [DtoGenerateIgnore(DtoType.Create, DtoType.Update)]
         public bool IsSearchable { get; set; }
 
+        public int ColorSwitch { get; set; }
+
+        [DtoGenerateIgnore(DtoType.Create, DtoType.Update)]
         public DateTime Created { get; set; }
 
+        [DtoGenerateIgnore(DtoType.Create, DtoType.Update)]
         public string CreatedById { get; set; }
 
+        [DtoGenerateIgnore(DtoType.Create, DtoType.Update)]
         public virtual ApplicationUser CreatedBy { get; set; }
     }
 }

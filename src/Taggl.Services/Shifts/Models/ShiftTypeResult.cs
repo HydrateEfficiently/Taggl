@@ -8,27 +8,10 @@ using Taggl.Framework.Models.Shifts;
 
 namespace Taggl.Services.Shifts.Models
 {
-    public class ShiftTypeResult
+    public partial class ShiftTypeResult
     {
-        private static MappingEngine __mappingEngine;
-
-        static ShiftTypeResult()
+        private static void MappingsHook(IMappingExpression<ShiftType, ShiftTypeResult> mappingExpression)
         {
-            var configuration = new ConfigurationStore(new TypeMapFactory(), MapperRegistry.Mappers);
-            var mappingEngine = new MappingEngine(configuration);
-            configuration.CreateMap<ShiftType, ShiftTypeResult>();
-            __mappingEngine = mappingEngine;
-        }
-
-        public Guid Id { get; set; }
-
-        public string Name { get; set; }
-
-        public string NameNormalized { get; set; }
-
-        public ShiftTypeResult(ShiftType shiftType)
-        {
-            __mappingEngine.Map(shiftType, this);
         }
     }
 }

@@ -5,16 +5,19 @@ import { AddShiftController } from './add-shift-controller';
 
 export class DayScheduleController extends Injectable {
     static get $inject() {
-        return ['$uibModal', 'TglLoggingService'];
+        return ['$uibModal', 'TglLoggingService', 'TglApiInterfaceFactory'];
     }
 
     constructor(...deps) {
         super(...deps);
 
         this.logger = this.TglLoggingService.createLogger(this.constructor.name);
+        this.shiftScheduleApi = this.TglApiInterfaceFactory.createApiInterface('shiftSchedule');
 
         this.startOfDay = moment(parseInt(this.timestamp, 10))
             .startOf('day').toDate().getTime();
+        this.startOfDayDate = moment(parseInt(this.timestamp, 10))
+            .startOf('day').toDate();
 
         this.shifts =  [
             {
@@ -27,9 +30,14 @@ export class DayScheduleController extends Injectable {
                 durationMinutes: 1
             }
         ];
+
+        this.shiftScheduleApi.list(this.startOfDayDate, {
+            model: this.shifts
+        });
     }
 
     addShift() {
+        let shifts = this.shifts;
         this.$uibModal.open({
             controller: AddShiftController,
             controllerAs: 'ctrl',
@@ -37,11 +45,7 @@ export class DayScheduleController extends Injectable {
             resolve: {
                 day: this.startOfDay
             }
-        });
-    }
-
-    getShiftEndTime(shift) {
-        return moment(shift.date).add(shift.durationMinutes, 'minutes');
+        }).result.then(shift => shifts.push(shift));
     }
 }
 

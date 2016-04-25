@@ -44,9 +44,12 @@ export class AddShiftController extends Injectable {
         data.fromDate = fromDateMoment.toDate();
         delete data.fromTime;
 
+        let $uibModalInstance = this.$uibModalInstance;
         this.shiftScheduleApi.create(data, { 
             model: this.shiftSchedule
-        }).then(this.close.bind(this));
+        }).then(result => {
+            $uibModalInstance.close(result);
+        });
     }
 
     close() {
