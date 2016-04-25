@@ -115,6 +115,9 @@ namespace Taggl.CodeGeneration.Generators.ApiController
             }
             string apiControllerName = $"{serviceBaseName}ApiController";
 
+            string controllerRouteTemplate = string.Join("/",
+                "api", areaName.ToFirstCharacterLower(), serviceBaseName.ToFirstCharacterLower());
+
             var templateModel = new ApiControllerTemplateModel()
             {
                 ClassName = apiControllerName,
@@ -122,7 +125,8 @@ namespace Taggl.CodeGeneration.Generators.ApiController
                 NamespaceName = _namespaceService.GetWebApiControllerNamespace(areaName),
                 UsingNamespaceNames = usingNamespaceNames.AsEnumerable().OrderBy(s => s),
                 InjectedServices = injectedServices,
-                Actions = actionDeclarationModels
+                Actions = actionDeclarationModels,
+                ControllerRouteTemplate = controllerRouteTemplate
             };
 
             await _scaffoldingService.ScaffoldAsync(

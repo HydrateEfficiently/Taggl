@@ -12,34 +12,18 @@ using Taggl.Services.Utility;
 
 namespace Taggl.Services.Shifts.Models
 {
-    public class ShiftScheduleCreate
+    public partial class ShiftScheduleCreate
     {
-        private static MappingEngine __mappingEngine;
-
-        static ShiftScheduleCreate()
+        private static void MappingsHook(IMappingExpression<ShiftScheduleCreate, ShiftSchedule> mappingExpression)
         {
-            var configuration = new ConfigurationStore(new TypeMapFactory(), MapperRegistry.Mappers);
-            var mappingEngine = new MappingEngine(configuration);
-            configuration.CreateMap<ShiftScheduleCreate, ShiftSchedule>()
+            mappingExpression
                 .ForMemberResolveUsing(dest => dest.Duration, src => new TimeSpan(0, src.DurationMinutes, 0));
-            __mappingEngine = mappingEngine;
         }
-
-        public Guid ShiftTypeId { get; set; }
-        
-        public string ShiftTypeName { get; set; }
-
-        public Guid GymId { get; set; }
 
         public string GymName { get; set; }
 
-        public DateTime FromDate { get; set; }
+        public string ShiftTypeName { get; set; }
 
         public int DurationMinutes { get; set; }
-
-        public ShiftSchedule Map()
-        {
-            return __mappingEngine.Map<ShiftScheduleCreate, ShiftSchedule>(this);
-        }
     }
 }

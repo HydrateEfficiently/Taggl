@@ -14,5 +14,6 @@ namespace Taggl.CodeGeneration.Generators.ApiController
         public string NamespaceName { get; internal set; }
         public MemberDeclarationModel Service { get; internal set; }
         public IEnumerable<string> UsingNamespaceNames { get; internal set; }
+        public string ControllerRouteTemplate { get; set; }
     }
 }
