@@ -1,6 +1,9 @@
 import { groupBy } from 'lodash';
-import { Injectable } from './../../utility/injectable';
+
 import { paths } from '/src/paths';
+import { Injectable } from './../../utility/injectable';
+import { LoadStatus, createLoadStatusContainer } from './../../utility/load-status';
+
 import { AddShiftController } from './add-shift-controller';
 
 export class DayScheduleController extends Injectable {
@@ -14,25 +17,13 @@ export class DayScheduleController extends Injectable {
         this.logger = this.TglLoggingService.createLogger(this.constructor.name);
         this.shiftScheduleApi = this.TglApiInterfaceFactory.createApiInterface('shiftSchedule');
 
-        this.startOfDay = moment(parseInt(this.timestamp, 10))
-            .startOf('day').toDate().getTime();
-        this.startOfDayDate = moment(parseInt(this.timestamp, 10))
-            .startOf('day').toDate();
+        this.date = moment(parseInt(this.timestamp, 10)).startOf('day');
 
-        this.shifts =  [
-            {
-                shiftType: {
-                    id: 1,
-                    name: 'Box Fit'
-                },
-                location: 'LA Fitness Marlyebone',
-                date: parseInt(this.timestamp),
-                durationMinutes: 1
-            }
-        ];
-
-        this.shiftScheduleApi.list(this.startOfDayDate, {
-            model: this.shifts
+        this.shifts = [];
+        this.shiftDataLoadStatus = createLoadStatusContainer(LoadStatus.Loading);
+        this.shiftScheduleApi.list(this.date.toDate(), {
+            model: this.shifts,
+            loadStatusContainer: this.shiftDataLoadStatus
         });
     }
 
@@ -43,10 +34,12 @@ export class DayScheduleController extends Injectable {
             controllerAs: 'ctrl',
             templateUrl: `${paths.components}day-schedule/add-shift.html`,
             resolve: {
-                day: this.startOfDay
+                day: this.date
             }
-        }).result.then(shift => shifts.push(shift));
+        }).result.then(shift => {
+            if (shift) {
+                shifts.push(shift);
+            }
+        });
     }
 }
-
-export { DayScheduleController };

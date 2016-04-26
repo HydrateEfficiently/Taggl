@@ -25,6 +25,7 @@ SystemJS.config({
     "angular-ui-bootstrap": "npm:angular-ui-bootstrap@1.3.1",
     "angular-ui-router": "github:angular-ui/ui-router@0.2.18",
     "bootstrap": "github:twbs/bootstrap@3.3.6",
+    "bootstrap-sass": "github:twbs/bootstrap-sass@3.3.6",
     "bootswatch": "npm:bootswatch@3.3.6",
     "buffer": "github:jspm/nodelibs-buffer@0.2.0-alpha",
     "css": "github:systemjs/plugin-css@0.1.20",

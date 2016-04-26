@@ -1,6 +1,8 @@
 import * as angular from 'angular';
 import 'angular-ui-router';
 
+import '/assets/scss/css/common.css!';
+
 import { MainController } from './main-controller';
 import { config } from './config';
 

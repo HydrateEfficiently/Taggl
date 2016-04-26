@@ -1,6 +1,7 @@
 import * as angular from 'angular';
 
 import { Injectable } from './../../utility/injectable';
+import { LoadStatus } from './../../utility/load-status';
 
 export class HttpService extends Injectable {
     static get $inject() {
@@ -47,6 +48,10 @@ export class HttpService extends Injectable {
             options.models.forEach(m => {
                 this._updateModel(m, data);
             });
+        }
+
+        if (options.loadStatusContainer) {
+            options.loadStatusContainer.value = LoadStatus.Loaded;
         }
 
         return data;

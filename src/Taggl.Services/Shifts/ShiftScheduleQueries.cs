@@ -20,7 +20,9 @@ namespace Taggl.Services.Shifts
             this IQueryable<ShiftSchedule> queryable,
             DateTime dateTime)
         {
-            return queryable.Where(s => s.FromDate.Date == dateTime.Date);
+            return queryable.Where(s =>
+                s.FromDate >= dateTime &&
+                s.FromDate < dateTime.AddHours(24));
         }
 
         public static IQueryable<ShiftSchedule> IncludeForResult(

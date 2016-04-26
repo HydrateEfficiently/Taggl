@@ -1,0 +1,34 @@
+﻿@import "../../jspm_packages/github/twbs/bootstrap-sass@3.3.6/assets/stylesheets/bootstrap/mixins/_clearfix.scss";
+
+@import "_mixins.scss";
+@import "_variables.scss";
+
+$actionItemContentMarginX: 3px;
+
+@mixin action-item-component() {
+    margin-left: $actionItemContentMarginX;
+    margin-right: $actionItemContentMarginX;
+    color: $fontColorMuted;
+}
+
+.actions-bar {
+    @include clearfix;
+
+    .action-item {
+        @include clearfix;
+        @include clickable;
+        float: right !important;
+        display: inline-block;
+        margin-left: $marginSm;
+
+        .action-item-icon {
+            @include action-item-component;
+            vertical-align: middle;
+        }
+
+        .action-item-text {
+            @include action-item-component;
+            font-size: $fontSizeSm;
+        }
+    }
+}

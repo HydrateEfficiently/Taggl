@@ -1,0 +1,76 @@
+﻿$tagglLightBlue: #4BB5CF;
+$baseFontSize: 16px;
+
+$smallerFontSize: 12px;
+$tglTextMargin: 2px;
+
+.tgl-text {
+    margin-top: $tglTextMargin;
+    margin-bottom: $tglTextMargin;
+
+    &.shift-type {
+        font-weight: 700;
+
+        &.shift-type-1 {
+            color: #e47070;
+        }
+        &.shift-type-2 {
+            color: #fcd764;
+        }
+        &.shift-type-3 {
+            color: #a1e104;
+        }
+        &.shift-type-4 {
+            color: #a1e104;
+        }
+        &.shift-type-5 {
+            color: #a1e104;
+        }
+        &.shift-type-6 {
+            color: #a1e104;
+        }
+        &.shift-type-7 {
+            color: #a1e104;
+        }
+        &.shift-type-8 {
+            color: #a1e104;
+        }
+        &.shift-type-9 {
+            color: #a1e104;
+        }
+        &.shift-type-10 {
+            color: #a1e104;
+        }
+    }
+
+    &.shift-location-name {
+        font-weight: 500;
+    }
+
+    &.shift-time {
+        color: #bbb;
+        text-transform: uppercase;
+        font-size: $smallerFontSize;
+    }
+
+    &.shift-details {
+        color: #4BB5CF;
+        text-transform: uppercase;
+        font-size: $smallerFontSize;
+    }
+}
+
+.tgl-text-placeholder {
+    margin-top: $tglTextMargin;
+    margin-bottom: $tglTextMargin;
+    height: $baseFontSize;
+    background-color: #efefef;
+
+    &.shift-time {
+        height: $smallerFontSize;
+    }
+}
+
+.shift-description-text {
+    font-size: 0.75em;
+}

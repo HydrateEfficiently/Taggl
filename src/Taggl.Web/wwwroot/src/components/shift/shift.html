@@ -1,8 +1,0 @@
-<div>
-    <div class="tgl-text shift-type shift-type-{{ ctrl.shift.shiftType.colorSwitch }}">{{ ctrl.shift.shiftType.name }}</div>
-    <div class="gym-name tgl-text shift-location-name">{{ ctrl.shift.gym.name }}</div>
-    <div class="clearfix">
-        <div class="pull-left tgl-text shift-time">{{ ctrl.shift.date | tglMomentCommonDateFormat }} | {{ ctrl.shift.date | tglMomentFormat:'HH:mm' }} - {{ ctrl.getShiftEndTime(ctrl.shift) | tglMomentFormat:'HH:mm' }}</div>
-        <div class="pull-right tgl-text shift-details">See Details</div>
-    </div>
-</div>
