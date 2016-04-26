@@ -4,7 +4,7 @@ import { paths } from '/src/paths';
 import { Injectable } from './../../utility/injectable';
 import { LoadStatus, createLoadStatusContainer } from './../../utility/load-status';
 
-import { AddShiftController } from './add-shift-controller';
+import { CreateShiftController } from './create-shift-controller';
 
 export class DayScheduleController extends Injectable {
     static get $inject() {
@@ -30,11 +30,11 @@ export class DayScheduleController extends Injectable {
     addShift() {
         let shifts = this.shifts;
         this.$uibModal.open({
-            controller: AddShiftController,
+            controller: CreateShiftController,
             controllerAs: 'ctrl',
-            templateUrl: `${paths.components}day-schedule/add-shift.html`,
+            templateUrl: `${paths.components}day-schedule/create-shift.html`,
             resolve: {
-                day: this.date
+                date: this.date
             }
         }).result.then(shift => {
             if (shift) {

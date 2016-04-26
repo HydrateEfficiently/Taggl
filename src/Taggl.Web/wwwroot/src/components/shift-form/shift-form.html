@@ -1,0 +1,44 @@
+<form name="ctrl.form" class="form-horizontal" role="form" novalidate>
+    <div class="row">
+        <div class="col-sm-12 mb-md">
+            <label>Class</label>
+            <div>
+                <tgl-search search-source="ctrl.SearchSource.ShiftTypes"
+                            on-item-selected="ctrl.selectShiftType(item)"
+                            on-item-created="ctrl.createShiftType(label)"
+                            create-results="true"></tgl-search>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 mb-md">
+            <label>Gym</label>
+            <div>
+                <tgl-search search-source="ctrl.SearchSource.Gyms"
+                            on-item-selected="ctrl.selectGym(item)"
+                            on-item-created="ctrl.createGym(label)"
+                            create-results="true"></tgl-search>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 mb-md">
+            <label>Time</label>
+            <div>
+                <input type="time" ng-model="ctrl.shiftSchedule.fromTime" class="form-control" required />
+            </div>
+        </div>
+        <div class="col-sm-6 mb-md">
+            <label>Duration</label>
+            <div>
+                <input type="text" ng-model="ctrl.shiftSchedule.durationMinutes" class="form-control" required />
+            </div>
+        </div>
+    </div>
+    <div class="clearfix">
+        <div class="pull-right">
+            <a href="javascript:void(0)" ng-click="ctrl.cancel()">Cancel</a>
+            <button class="btn btn-success ml-sm" ng-click="ctrl.save()">Add</button>
+        </div>
+    </div>
+</form>

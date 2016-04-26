@@ -1,9 +1,10 @@
 import { Injectable } from './../../utility/injectable';
+import * as GuidUtility from './../../utility/guid-utility';
 import { SearchSource } from './../search/search';
 
-export class AddShiftController extends Injectable {
+export class ShiftFormController extends Injectable {
     static get $inject() {
-        return ['$uibModalInstance', 'day', 'TglLoggingService', 'TglApiInterfaceFactory'];
+        return ['TglLoggingService', 'TglApiInterfaceFactory'];
     }
 
     constructor(...deps) {
@@ -12,9 +13,12 @@ export class AddShiftController extends Injectable {
         this.logger = this.TglLoggingService.createLogger(this.constructor.name);
         this.shiftScheduleApi = this.TglApiInterfaceFactory.createApiInterface('shiftSchedule');
 
+        this.SearchSource = SearchSource;
+
         this.shiftSchedule = {};
-        this.shiftTypeSearchSource = SearchSource.ShiftTypes;
-        this.gymSearchSource = SearchSource.Gyms;
+        if (!GuidUtility.isEmpty(this.shiftScheduleId)) {
+            // Get shift from server
+        }
     }
 
     selectShiftType(shiftType) {
@@ -35,7 +39,24 @@ export class AddShiftController extends Injectable {
         this.shiftSchedule.gymName = gymName;
     }
 
+    cancel() {
+        if (this.onCancel) {
+            this.onCancel();
+        }
+    }
+
     save() {
+        let self= this;
+        let apiAction = GuidUtility.isEmpty(this.shiftScheduleId) ? 'create' : 'update';
+        this.shiftScheduleApi[apiAction](this._getPostData())
+            .then(result => {
+                if (self.onSave) {
+                    self.onSave({ result });
+                }
+            });
+    }
+
+    _getPostData() {
         let data = angular.copy(this.shiftSchedule);
         let fromTimeMoment = moment(data.fromTime);
         let fromDateMoment = moment(this.day);
@@ -43,16 +64,6 @@ export class AddShiftController extends Injectable {
         fromDateMoment.add(fromTimeMoment.get('minutes'), 'minutes');
         data.fromDate = fromDateMoment.toDate();
         delete data.fromTime;
-
-        let $uibModalInstance = this.$uibModalInstance;
-        this.shiftScheduleApi.create(data, { 
-            model: this.shiftSchedule
-        }).then(result => {
-            $uibModalInstance.close(result);
-        });
-    }
-
-    close() {
-        this.$uibModalInstance.close();
+        return data;
     }
 }
