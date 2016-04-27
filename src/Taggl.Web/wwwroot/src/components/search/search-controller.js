@@ -18,9 +18,7 @@ class SearchController extends Injectable {
         this.searchApi = this.TglApiInterfaceFactory.createApiInterface('search');
 
         this.searchResults = [];
-        if (this.initialModelJson) {
-            this.selectedResult = JSON.parse(this.initialModelJson);
-        }
+        this.selectedResult = this.ngModel;
     }
 
     getResults(pattern) {

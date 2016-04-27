@@ -23,15 +23,15 @@ export class ShiftDetailsController extends Injectable {
         this.$timeout(() => this.showLoadingCompleted = true, MINIMUM_LOAD_TIME);
     }
 
-    isContentReady() {
+    isLoaded() {
         return this.shiftDataLoadStatus.value === 3 && this.showLoadingCompleted;
     }
 
-    getShiftEndTime(shift) {
-        return moment(shift.fromDate).add(shift.durationMinutes, 'minutes');
+    getShiftEndTime() {
+        return moment(this.shift.fromDate).add(this.shift.durationMinutes, 'minutes');
     }
 
-    editShift(shift) {
+    editShift() {
         this.$uibModal.open({
             controller: ($uibModalInstance) => ({
                 closeModal: () => {
@@ -41,8 +41,7 @@ export class ShiftDetailsController extends Injectable {
             controllerAs: 'ctrl',
             template: `
                 <tgl-modal-base-directive modal-title="Edit Shift">
-                    div class="mb-md">Add a new shift on {{ ctrl.date | tglMomentCommonDateFormat }}.</div>
-                    <tgl-shift-form shift-schedule-id="${shift.id}" on-save="ctrl.closeModal()" on-cancel="ctrl.closeModal()"></tgl-shift-form>
+                    <tgl-shift-form shift-schedule-id="${this.shift.id}" on-save="ctrl.closeModal()" on-cancel="ctrl.closeModal()"></tgl-shift-form>
                 </tgl-modal-base-directive>
             `
         }).result.then();

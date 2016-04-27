@@ -5,7 +5,7 @@ import { SearchSource } from './../search/search';
 
 export class ShiftFormController extends Injectable {
     static get $inject() {
-        return ['TglLoggingService', 'TglApiInterfaceFactory'];
+        return ['TglLoggingService', 'TglApiInterfaceFactory', '$scope'];
     }
 
     constructor(...deps) {
@@ -18,14 +18,21 @@ export class ShiftFormController extends Injectable {
 
         this.shiftSchedule = {};
         this.shiftDataLoadStatus = createLoadStatusContainer(LoadStatus.Loaded);
+
+        let self = this;
         if (!GuidUtility.isEmpty(this.shiftScheduleId)) {
             this.shiftDataLoadStatus.value = LoadStatus.Loading;
-            // Get shift from server
+            this.shiftScheduleApi.get(this.shiftScheduleId, {
+                model: this.shiftSchedule,
+                loadStatusContainer: this.shiftDataLoadStatus
+            }).then(shift => {
+                self.shiftSchedule.fromTime = new Date(shift.fromDate);
+            });
         }
     }
 
     isLoaded() {
-
+        return this.shiftDataLoadStatus.value === LoadStatus.Loaded;
     }
 
     selectShiftType(shiftType) {

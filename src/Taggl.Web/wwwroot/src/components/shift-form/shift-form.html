@@ -1,9 +1,10 @@
-<form name="ctrl.form" class="form-horizontal" role="form" novalidate>
+<form name="ctrl.form" class="form-horizontal" role="form">
     <div class="row">
         <div class="col-sm-12 mb-md">
             <label>Class</label>
             <div>
-                <tgl-search search-source="ctrl.SearchSource.ShiftTypes"
+                <tgl-search ng-model="ctrl.shiftSchedule.shiftType"
+                            search-source="ctrl.SearchSource.ShiftTypes"
                             on-item-selected="ctrl.selectShiftType(item)"
                             on-item-created="ctrl.createShiftType(label)"
                             create-results="true"></tgl-search>
@@ -14,7 +15,8 @@
         <div class="col-sm-12 mb-md">
             <label>Gym</label>
             <div>
-                <tgl-search search-source="ctrl.SearchSource.Gyms"
+                <tgl-search ng-model="ctrl.shiftSchedule.gym"
+                            search-source="ctrl.SearchSource.Gyms"
                             on-item-selected="ctrl.selectGym(item)"
                             on-item-created="ctrl.createGym(label)"
                             create-results="true"></tgl-search>

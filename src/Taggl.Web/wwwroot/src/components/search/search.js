@@ -12,6 +12,7 @@ let search = componentFactory(
     SearchController,
     [commonServices, commonDirectives, typeahead],
     {
+        'ngModel': '=',
         'searchSource': '=',
         'initialModelJson': '@',
         'onItemSelected': '&',
