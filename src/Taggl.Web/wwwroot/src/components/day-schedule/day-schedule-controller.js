@@ -1,10 +1,5 @@
-import { groupBy } from 'lodash';
-
-import { paths } from '/src/paths';
 import { Injectable } from './../../utility/injectable';
 import { LoadStatus, createLoadStatusContainer } from './../../utility/load-status';
-
-import { CreateShiftController } from './create-shift-controller';
 
 export class DayScheduleController extends Injectable {
     static get $inject() {

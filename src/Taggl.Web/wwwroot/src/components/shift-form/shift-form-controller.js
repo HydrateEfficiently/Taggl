@@ -1,5 +1,6 @@
 import { Injectable } from './../../utility/injectable';
 import * as GuidUtility from './../../utility/guid-utility';
+import { LoadStatus, createLoadStatusContainer } from './../../utility/load-status';
 import { SearchSource } from './../search/search';
 
 export class ShiftFormController extends Injectable {
@@ -16,9 +17,15 @@ export class ShiftFormController extends Injectable {
         this.SearchSource = SearchSource;
 
         this.shiftSchedule = {};
+        this.shiftDataLoadStatus = createLoadStatusContainer(LoadStatus.Loaded);
         if (!GuidUtility.isEmpty(this.shiftScheduleId)) {
+            this.shiftDataLoadStatus.value = LoadStatus.Loading;
             // Get shift from server
         }
+    }
+
+    isLoaded() {
+
     }
 
     selectShiftType(shiftType) {
