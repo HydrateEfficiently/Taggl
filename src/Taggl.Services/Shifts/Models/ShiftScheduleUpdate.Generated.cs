@@ -34,9 +34,9 @@ namespace Taggl.Services.Shifts.Models {
         
         public TimeSpan Duration { get; set; }
 
-        public ShiftSchedule Map()
+        public ShiftSchedule Map(ShiftSchedule entity)
         {
-            return __mappingEngine.Map<ShiftScheduleUpdate, ShiftSchedule>(this);
+            return __mappingEngine.Map(this, entity);
         }
     }
 }

@@ -9,6 +9,7 @@ namespace Taggl.Framework.Models.Gyms
 {
     [GeneratedEntity(TableName = "Gyms")]
     public class Gym : 
+        HasKey<Guid>,
         ICreateAuditable,
         IUpdateAuditable,
         IDeleteAuditable,

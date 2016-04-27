@@ -61,7 +61,19 @@ namespace Taggl.Web.Controllers.Api.Shifts
             }
             return new ObjectResult(result);
         }
-        
+
+        [HttpPost]
+        [Route("update")]
+        public async Task<IActionResult> Update([FromBody] ShiftScheduleUpdate update)
+        {
+            var result = await _shiftScheduleService.UpdateAsync(update);
+            if (result == null)
+            {
+                HttpNotFound();
+            }
+            return new ObjectResult(result);
+        }
+
         [HttpGet]
         [Route("delete/{id}")]
         public async Task<IActionResult> Delete(Guid id)

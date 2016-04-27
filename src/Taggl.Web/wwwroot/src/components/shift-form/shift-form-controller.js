@@ -14,13 +14,16 @@ export class ShiftFormController extends Injectable {
         this.logger = this.TglLoggingService.createLogger(this.constructor.name);
         this.shiftScheduleApi = this.TglApiInterfaceFactory.createApiInterface('shiftSchedule');
 
+        let shiftExists = !GuidUtility.isEmpty(this.shiftScheduleId);
+        let self = this;
+        
         this.SearchSource = SearchSource;
 
         this.shiftSchedule = {};
         this.shiftDataLoadStatus = createLoadStatusContainer(LoadStatus.Loaded);
+        this.saveButtonText = shiftExists ? 'Edit' : 'Add';
 
-        let self = this;
-        if (!GuidUtility.isEmpty(this.shiftScheduleId)) {
+        if (shiftExists) {
             this.shiftDataLoadStatus.value = LoadStatus.Loading;
             this.shiftScheduleApi.get(this.shiftScheduleId, {
                 model: this.shiftSchedule,

@@ -8,7 +8,7 @@ const SearchSource = {
 
 class SearchController extends Injectable {
     static get $inject() {
-        return ['TglLoggingService', 'TglApiInterfaceFactory'];
+        return ['$scope', 'TglLoggingService', 'TglApiInterfaceFactory'];
     }
 
     constructor(...deps) {
@@ -18,21 +18,25 @@ class SearchController extends Injectable {
         this.searchApi = this.TglApiInterfaceFactory.createApiInterface('search');
 
         this.searchResults = [];
-        this.selectedResult = this.ngModel;
+
+        this.$scope.$watch(() => this.initialId, (id) => {
+            let self = this;
+            this._searchByPattern(id).then(result => {
+                self.selectedResult = result;
+            });
+        });
     }
 
     getResults(pattern) {
-        if (pattern) {
-            let sourceAction = this._getSourceAction();
-            return this.searchApi[sourceAction](pattern, { maxAge: 10000 })
-                .then(results => {
-                    if (this.onResultsRetrieved && results.length) {
-                        let resultsOverride = this.onResultsRetrieved({ results });
-                        results = resultsOverride || results;
-                    }
-                    return results;
-                });
-        }
+        var self = this;
+        return this._searchByPattern(pattern)
+            .then(results => {
+                if (self.onResultsRetrieved && results.length) {
+                    let resultsOverride = self.onResultsRetrieved({ results });
+                    results = resultsOverride || results;
+                }
+                return results;
+            });
     }
 
     selectResult(item, model, event) {
@@ -65,6 +69,14 @@ class SearchController extends Injectable {
 
     onChange() {
         this.selectedItem = null;
+    }
+
+    _searchByPattern(pattern) {
+        if (pattern) {
+            let sourceAction = this._getSourceAction();
+            return this.searchApi[sourceAction](pattern, { maxAge: 10000 });
+        }
+        return new Promise(() => {});
     }
 
     _getSourceAction() {

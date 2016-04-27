@@ -13,7 +13,7 @@ namespace Taggl.Services
         public static IQueryable<TResult> WherePatternMatched<TResult>(
             this IQueryable<ISearchableName> queryable,
             ISearchableNameFormatter shiftTypeFormatter,
-            string pattern) where TResult : ISearchable
+            string pattern) where TResult : ISearchableName
         {
             string patternNormalized = shiftTypeFormatter.NormalizeName(pattern);
             return queryable

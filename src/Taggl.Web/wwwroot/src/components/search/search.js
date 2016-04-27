@@ -12,6 +12,7 @@ let search = componentFactory(
     SearchController,
     [commonServices, commonDirectives, typeahead],
     {
+        'initialId': '=',
         'ngModel': '=',
         'searchSource': '=',
         'initialModelJson': '@',

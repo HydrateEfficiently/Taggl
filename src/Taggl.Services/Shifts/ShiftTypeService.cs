@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace Taggl.Services.Shifts
 {
     public interface IShiftTypeService
     {
+        Task<ShiftType> GetAsync(Guid id);
+
         Task<ShiftType> CreateAsync(ShiftTypeCreate create);
     }
 
@@ -35,6 +38,11 @@ namespace Taggl.Services.Shifts
             _identityResolver = identityResolver;
             _roleResolver = roleResolver;
             _auditFactory = auditFactory;
+        }
+
+        public async Task<ShiftType> GetAsync(Guid id)
+        {
+            return await _dbContext.ShiftTypes.FirstOrDefaultAsync(s => s.Id == id);
         }
 
         public async Task<ShiftType> CreateAsync(ShiftTypeCreate create)

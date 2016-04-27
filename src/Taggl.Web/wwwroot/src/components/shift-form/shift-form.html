@@ -1,9 +1,9 @@
-<form name="ctrl.form" class="form-horizontal" role="form">
+<form name="ctrl.form" class="form-horizontal" role="form" novalidate>
     <div class="row">
         <div class="col-sm-12 mb-md">
             <label>Class</label>
             <div>
-                <tgl-search ng-model="ctrl.shiftSchedule.shiftType"
+                <tgl-search initial-id="ctrl.shiftSchedule.shiftTypeId"
                             search-source="ctrl.SearchSource.ShiftTypes"
                             on-item-selected="ctrl.selectShiftType(item)"
                             on-item-created="ctrl.createShiftType(label)"
@@ -15,7 +15,7 @@
         <div class="col-sm-12 mb-md">
             <label>Gym</label>
             <div>
-                <tgl-search ng-model="ctrl.shiftSchedule.gym"
+                <tgl-search initial-id="ctrl.shiftSchedule.gymId"
                             search-source="ctrl.SearchSource.Gyms"
                             on-item-selected="ctrl.selectGym(item)"
                             on-item-created="ctrl.createGym(label)"
@@ -40,7 +40,7 @@
     <div class="clearfix">
         <div class="pull-right">
             <a href="javascript:void(0)" ng-click="ctrl.cancel()">Cancel</a>
-            <button class="btn btn-success ml-sm" ng-click="ctrl.save()">Add</button>
+            <button class="btn btn-success ml-sm" ng-click="ctrl.save()">{{ ctrl.saveButtonText }}</button>
         </div>
     </div>
 </form>
