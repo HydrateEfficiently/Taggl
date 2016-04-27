@@ -22,7 +22,7 @@ namespace Taggl.Services.Shifts
 
         Task<ShiftScheduleResult> CreateAsync(ShiftScheduleCreate create);
         
-        //Task<ShiftScheduleResult> UpdateAsync(UpdateShiftSchedule update);
+        Task<ShiftScheduleResult> UpdateAsync(ShiftScheduleUpdate update);
                 
         Task DeleteAsync(Guid id);
     }
@@ -97,20 +97,19 @@ namespace Taggl.Services.Shifts
             {
                 throw new Exception(); // TODO: Validation
             }
-
-            _dbContext.ShiftSchedules.Add(shiftSchedule);
+            
             await _dbContext.SaveChangesAsync();
-
             return await GetAsync(shiftSchedule.Id);
         }
-        
-        //public async Task<ShiftScheduleResult> UpdateAsync(UpdateShiftSchedule update)
-        //{
-        //    var shiftSchedule = update.Map().Update(_auditFactory.CreateAudit());
-        //    await _dbContext.SaveChangesAsync();
-        //    return new ShiftScheduleResult(shiftSchedule);
-        //}
-                
+
+        public async Task<ShiftScheduleResult> UpdateAsync(ShiftScheduleUpdate update)
+        {
+            var shiftSchedule = await _dbContext.ShiftSchedules.Find(update.Id).FirstOrDefaultAsync();
+            update.Map(shiftSchedule).AuditUpdated(_auditFactory.CreateAudit());
+            await _dbContext.SaveChangesAsync();
+            return await GetAsync(shiftSchedule.Id);
+        }
+
         public async Task DeleteAsync(Guid id)
         {
             var result = await _dbContext.ShiftSchedules
