@@ -31,6 +31,8 @@ export class ShiftFormController extends Injectable {
             }).then(shift => {
                 self.shiftSchedule.fromTime = new Date(shift.fromDate);
             });
+        } else {
+            this.shiftSchedule.fromDate = this.date;
         }
     }
 
@@ -65,7 +67,7 @@ export class ShiftFormController extends Injectable {
     save() {
         let self= this;
         let apiAction = GuidUtility.isEmpty(this.shiftScheduleId) ? 'create' : 'update';
-        this.shiftScheduleApi[apiAction](this._getPostData())
+        this.shiftScheduleApi[apiAction](this.shiftSchedule)
             .then(result => {
                 if (self.onSave) {
                     self.onSave({ result });

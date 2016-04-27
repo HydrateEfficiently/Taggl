@@ -38,7 +38,7 @@ export class DayScheduleController extends Injectable {
             template: `
                 <tgl-modal-base-directive modal-title="Add Shift">
                     <div class="mb-md">Add a new shift on {{ ctrl.date | tglMomentCommonDateFormat }}.</div>
-                    <tgl-shift-form date="ctrl.date" on-save="ctrl.closeModal(result)" on-cancel="ctrl.closeModal()"></tgl-shift-form>
+                    <tgl-shift-form date="ctrl.date.toDate()" on-save="ctrl.closeModal(result)" on-cancel="ctrl.closeModal()"></tgl-shift-form>
                 </tgl-modal-base-directive>
             `
         }).result.then(shift => {

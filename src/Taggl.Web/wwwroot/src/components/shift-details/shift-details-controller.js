@@ -1,3 +1,7 @@
+'use strict';
+
+import * as angular from 'angular';
+
 import { Injectable } from './../../utility/injectable';
 import { LoadStatus, createLoadStatusContainer } from './../../utility/load-status';
 
@@ -31,7 +35,8 @@ export class ShiftDetailsController extends Injectable {
         return moment(this.shift.fromDate).add(this.shift.durationMinutes, 'minutes');
     }
 
-    editShift() {
+    openEditShift() {
+        let self = this;
         this.$uibModal.open({
             controller: ($uibModalInstance) => ({
                 closeModal: () => {
@@ -44,6 +49,32 @@ export class ShiftDetailsController extends Injectable {
                     <tgl-shift-form shift-schedule-id="${this.shift.id}" on-save="ctrl.closeModal()" on-cancel="ctrl.closeModal()"></tgl-shift-form>
                 </tgl-modal-base-directive>
             `
-        }).result.then();
+        }).result.then(shift => {
+            angular.merge(self.shift, shift);
+        });
+    }
+
+    openComments() {
+        let self = this;
+        this.$uibModal.open({
+            controller: ($uibModalInstance) => ({
+                closeModal: () => {
+                    $uibModalInstance.close();
+                }
+            }),
+            controllerAs: 'ctrl',
+            template: `
+                <tgl-modal-base-directive modal-title="Comments">
+                    <tgl-shift-comments shift-id="${this.shift.id}"></gl-shift-comments>
+                    <div>
+                        <div class="pull-right">
+                            <a href="javascript:void(0)" ng-click="ctrl.closeModal()">Close</a>
+                        </div>
+                    </div>
+                </tgl-modal-base-directive>
+            `
+        }).result.then(shift => {
+            angular.merge(self.shift, shift);
+        });
     }
 }

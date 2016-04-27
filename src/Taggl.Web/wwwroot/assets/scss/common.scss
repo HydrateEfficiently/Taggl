@@ -1,5 +1,7 @@
-﻿body {
-    font-size: 16px;
+﻿@import "_variables.scss";
+
+body {
+    font-size: $fontSizeBase;
 }
 
 .clickable {

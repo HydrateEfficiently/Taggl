@@ -1,11 +1,11 @@
 <div>
     <div class="container-fluid">
-        <div class="row" ng-repeat="comment in ctrl.comments">
-            <div class="col-md-3">
+        <div ng-repeat="comment in ctrl.comments">
+            <div>
                 <h3>MF</h3>
             </div>
-            <div class="col-md-9">
-                {{ comment.commentText }}
+            <div class="tgl-text shift-comment-text">
+                {{ comment.text }}
             </div>
         </div>
     </div>

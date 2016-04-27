@@ -1,3 +1,5 @@
+'use strict';
+
 import { Injectable } from './../../utility/injectable';
 
 export class ShiftCommentsController extends Injectable {

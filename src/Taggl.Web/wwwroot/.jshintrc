@@ -1,3 +1,7 @@
 {
-    "esversion": 6
+    "esversion": 6,
+    "strict": "global",
+    "globals": {
+        "moment": true
+    }
 }

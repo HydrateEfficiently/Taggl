@@ -12,6 +12,7 @@ export let shiftForm = componentFactory(
     [commonServices, commonFilters, search],
     {
         shiftScheduleId: '@',
+        date: '=',
         onSave: '&',
         onCancel: '&'
     });

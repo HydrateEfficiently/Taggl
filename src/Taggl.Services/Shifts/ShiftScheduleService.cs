@@ -97,7 +97,8 @@ namespace Taggl.Services.Shifts
             {
                 throw new Exception(); // TODO: Validation
             }
-            
+
+            _dbContext.ShiftSchedules.Add(shiftSchedule);
             await _dbContext.SaveChangesAsync();
             return await GetAsync(shiftSchedule.Id);
         }

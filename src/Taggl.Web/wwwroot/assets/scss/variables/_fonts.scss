@@ -1,6 +1,14 @@
-﻿$fontSizeXs: 0.5em;
-$fontSizeSm: 0.75em;
-$fontSizeMd: 1em;
-$fontSizeLg: 1.25em;
+﻿$fontSizeBaseRaw: 16;
+$fontSizeBase: 16px;
+
+$fontSizeXsRaw: 0.5;
+$fontSizeSmRaw: 0.75;
+$fontSizeMdRaw: 1;
+$fontSizeLgRaw: 1.25;
+
+$fontSizeXs: $fontSizeXsRaw + em;
+$fontSizeSm: $fontSizeSmRaw + em;
+$fontSizeMd: $fontSizeMdRaw + em;
+$fontSizeLg: $fontSizeLgRaw + em;
 
 $fontColorMuted: #bbb;

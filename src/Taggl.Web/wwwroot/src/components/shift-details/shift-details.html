@@ -1,39 +1,39 @@
 <div>
     <div ng-if="!ctrl.isLoaded()" class="container-fluid">
-        <div class="row">
-            <div class="col-md-3 tgl-text-placeholder"></div>
-        </div>
-        <div class="row">
-            <div class="col-md-7 tgl-text-placeholder"></div>
-        </div>
-        <div class="row">
-            <div class="col-md-5 tgl-text-placeholder shift-time"></div>
+        <div class="shift-loading-ph">
+            <div class="row">
+                <div class="col-md-3 shift-key-detail-ph"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-7 shift-key-detail-ph"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 shift-key-detail-ph shift-time"></div>
+            </div>
         </div>
     </div>
     <div ng-if="ctrl.isLoaded()">
-        <div class="tgl-text shift-type shift-type-{{ ctrl.shift.shiftType.colorSwitch }}">{{ ctrl.shift.shiftType.name }}</div>
-        <div class="gym-name tgl-text shift-location-name">{{ ctrl.shift.gym.name }}</div>
-        <div class="clearfix">
-            <div class="pull-left tgl-text shift-time">{{ ctrl.shift.fromDate | tglMomentCommonDateFormat }} | {{ ctrl.shift.fromDate | tglMomentFormat:'HH:mm' }} - {{ ctrl.getShiftEndTime() | tglMomentFormat:'HH:mm' }}</div>
-            <div class="pull-right tgl-text shift-details clickable" ng-if="!ctrl.showDetails" ng-click="ctrl.showDetails = true">See Details</div>
+        <div class="shift-key-details">
+            <div class="shift-type shift-type-{{ ctrl.shift.shiftType.colorSwitch }}">{{ ctrl.shift.shiftType.name }}</div>
+            <div class="shift-location-name">{{ ctrl.shift.gym.name }}</div>
+            <div class="shift-time">{{ ctrl.shift.fromDate | tglMomentCommonDateFormat }} | {{ ctrl.shift.fromDate | tglMomentFormat:'HH:mm' }} - {{ ctrl.getShiftEndTime() | tglMomentFormat:'HH:mm' }}</div>
         </div>
-        <div class="mt-sm" ng-if="ctrl.showDetails">
+        <div class="clearfix" ng-if="!ctrl.showDetails">
+            <div class="pull-right">
+                <div class="shift-toggle-details" ng-click="ctrl.showDetails = true">See Details</div>
+            </div>
+        </div>
+        <div class="shift-details mt-xs" ng-if="ctrl.showDetails">
             <span class="shift-description-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
 
             <div class="actions-bar mt-xs">
-                <div class="action-item">
+                <div class="action-item" ng-click="ctrl.openComments()">
                     <span class="action-item-icon fa fa-comment"></span>
                     <span class="action-item-text">
-                        Comments
+                        Comments (1)
                     </span>
                 </div>
-                <div class="action-item">
-                    <span class="action-item-icon fa fa-plus-circle"></span>
-                    <span class="action-item-text">
-                        Post
-                    </span>
-                </div>
-                <div class="action-item" ng-click="ctrl.editShift()">
+                <div class="action-item" ng-click="ctrl.openEditShift()">
                     <span class="action-item-icon fa fa-pencil"></span>
                     <span class="action-item-text">
                         Edit
@@ -42,9 +42,10 @@
             </div>
 
             <div class="clearfix mt-xs">
-                <div class="pull-right tgl-text shift-details clickable" ng-click="ctrl.showDetails = false">Close</div>
+                <div class="pull-right">
+                    <div class="shift-toggle-details" ng-click="ctrl.showDetails = false">Close</div>
+                </div>
             </div>
-            
         </div>
     </div>
 </div>

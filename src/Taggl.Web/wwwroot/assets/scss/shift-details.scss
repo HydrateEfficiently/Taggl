@@ -1,14 +1,15 @@
-﻿$tagglLightBlue: #4BB5CF;
-$baseFontSize: 16px;
+﻿@import "_variables.scss";
+@import "_mixins.scss";
 
-$smallerFontSize: 12px;
-$tglTextMargin: 2px;
+$tagglLightBlue: #4BB5CF;
 
-.tgl-text {
-    margin-top: $tglTextMargin;
-    margin-bottom: $tglTextMargin;
+$shiftKeyDetailsMargin: 2px;
 
-    &.shift-type {
+.shift-key-details {
+    margin-top: $shiftKeyDetailsMargin;
+    margin-bottom: $shiftKeyDetailsMargin;
+
+    .shift-type {
         font-weight: 700;
 
         &.shift-type-1 {
@@ -43,34 +44,40 @@ $tglTextMargin: 2px;
         }
     }
 
-    &.shift-location-name {
+    .shift-location-name {
         font-weight: 500;
     }
 
-    &.shift-time {
+    .shift-time {
         color: #bbb;
         text-transform: uppercase;
-        font-size: $smallerFontSize;
-    }
-
-    &.shift-details {
-        color: #4BB5CF;
-        text-transform: uppercase;
-        font-size: $smallerFontSize;
+        font-size: $fontSizeSm;
     }
 }
 
-.tgl-text-placeholder {
-    margin-top: $tglTextMargin;
-    margin-bottom: $tglTextMargin;
-    height: $baseFontSize;
-    background-color: #efefef;
+.shift-toggle-details {
+    @include clickable;
+    color: #4BB5CF;
+    text-transform: uppercase;
+    font-size: $fontSizeSm;
+}
 
-    &.shift-time {
-        height: $smallerFontSize;
+.shift-details {
+    .shift-description-text {
+        font-size: $fontSizeSm;
     }
 }
 
-.shift-description-text {
-    font-size: 0.75em;
+.shift-loading-ph {
+
+    .shift-key-detail-ph {
+        margin-top: $shiftKeyDetailsMargin;
+        margin-bottom: $shiftKeyDetailsMargin;
+        height: $fontSizeBaseRaw + px;
+        background-color: #efefef;
+
+        &.shift-time {
+            height: ($fontSizeBaseRaw * $fontSizeSmRaw) + px;
+        }
+    }
 }
