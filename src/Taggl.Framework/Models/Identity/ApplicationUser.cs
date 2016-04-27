@@ -15,16 +15,37 @@ namespace Taggl.Framework.Models.Identity
         public string LastName { get; set; }
 
         [NotMapped]
+        public string Initials
+        {
+            get
+            {
+                var initials = HasFullName ?
+                    $"{FirstName[0]}{LastName[0]}" :
+                    Email[0].ToString();
+                return initials.ToUpperInvariant();
+            }
+        }
+
+        [NotMapped]
         public string DisplayName
         {
             get
             {
-                if (!string.IsNullOrEmpty(FirstName) &&
-                !string.IsNullOrEmpty(LastName))
+                if (HasFullName)
                 {
                     return $"{FirstName} {LastName}";
                 }
                 return Email;
+            }
+        }
+
+        [NotMapped]
+        public bool HasFullName
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(FirstName) && 
+                    !string.IsNullOrEmpty(LastName);
             }
         }
     }

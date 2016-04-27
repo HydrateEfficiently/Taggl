@@ -1,4 +1,13 @@
 ﻿@import "../_variables.scss";
+@import "../_mixins.scss";
+
+.shift-comment {
+    @include clearfix;
+
+    .comment-text {
+        font-size: $fontSizeSm;
+    }
+}
 
 .tgl-text {
     &.shift-comment-text {

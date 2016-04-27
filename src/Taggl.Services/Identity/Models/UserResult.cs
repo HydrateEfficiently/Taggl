@@ -31,6 +31,10 @@ namespace Taggl.Services.Identity.Models
 
         public string LastName { get; set; }
 
+        public string DisplayName { get; set; }
+
+        public string Initials { get; set; }
+
         public UserResult(ApplicationUser user)
         {
             __mappingEngine.Map(user, this);

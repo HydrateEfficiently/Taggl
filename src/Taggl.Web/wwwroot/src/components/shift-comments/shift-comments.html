@@ -1,11 +1,15 @@
 <div>
     <div class="container-fluid">
-        <div ng-repeat="comment in ctrl.comments">
-            <div>
-                <h3>MF</h3>
-            </div>
-            <div class="tgl-text shift-comment-text">
-                {{ comment.text }}
+        <div ng-repeat="comment in ctrl.comments" class="row">
+            <div class="col-md-12">
+                <div class="clearfix shift-comment">
+                    <div class="pull-left">
+                        <tgl-user-avatar user-id="b186767d-c8d2-49dc-868a-3c831a342245"></tgl-user-avatar>
+                    </div>
+                    <div class="comment-text">
+                        {{ comment.text }}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

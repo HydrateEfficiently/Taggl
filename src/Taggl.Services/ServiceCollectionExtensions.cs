@@ -45,6 +45,7 @@ namespace Taggl.Services
             services.AddScoped<SignInManager<ApplicationUser>, ApplicationSignInManager>();
             services.AddTransient<IRegistrationService, RegistrationService>();
             services.AddTransient<ISessionService, SessionService>();
+            services.AddTransient<IUserService, UserService>();
             services.AddTransient<ICurrentUserProvider, CurrentUserProvider>();
             services.AddTransient<IUserStatusResolver, UserStatusResolver>();
             services.AddTransient<IUserSearchService, UserSearchService>();

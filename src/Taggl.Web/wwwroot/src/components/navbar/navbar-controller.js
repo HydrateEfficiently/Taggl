@@ -1,3 +1,5 @@
+'use strict';
+
 import { Injectable } from './../../utility/injectable';
 
 export class NavbarController extends Injectable {
@@ -9,7 +11,7 @@ export class NavbarController extends Injectable {
         super(...deps);
 
         this.logger = this.TglLoggingService.createLogger(this.constructor.name);
-        this.userName = this.TglSessionService.getUser().email;
+        this.userInitials = this.TglSessionService.getUser().initials;
 
         this.items = [1, 2, 3];
     }
